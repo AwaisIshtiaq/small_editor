@@ -96,3 +96,28 @@ Work Log:
 Stage Summary:
 - Engine 44/44 green at both engine and HTTP level
 - App renders: home 200 with 44 tools, health API ok
+
+---
+Task ID: 9
+Agent: main (Z.ai)
+Task: Replicate uploaded "Small Editor" landing page 1:1 and wire every feature on it to the real 44-tool engine.
+
+Work Log:
+- Extracted upload/small-editor.zip (landing: index.html 360L, dark-grey+orange theme, Plus Jakarta Sans + Instrument Serif, glass navbar, hero frame-engine demo, 45 tool cards, rating, Web/Desktop Remotion webp cards, 9 how-to guides, footer)
+- Copied assets to public/assets/: logo.svg, web.webp, desktop.webp (Remotion renders shipped pre-rendered — no remotion install needed)
+- src/styles/landing.css: original CSS verbatim, fonts -> next/font vars, bare element selectors scoped (.se-nav, .se-home h1/h2/section/footer), unused .gd/.gl/.gs legacy blocks dropped; added .mg-search style
+- globals.css rewritten: Small Editor palette as shadcn tokens (dark default #232323/#2e2e2e/#FF5A09; light #f6f2ee warm) -> whole app incl. workspace rethemed; light follows prefers-color-scheme per DESIGN.md
+- layout.tsx: Plus_Jakarta_Sans + Instrument_Serif via next/font, new metadata
+- components/landing/data.ts: 45 landing tools mapped to 44 slugs (Visual Combine & Reorder + Organize -> organize), icons IT/IC, 9 guides, languages, footer tools
+- landing-nav.tsx (client): glass pill nav, All Tools mega menu with live search (React controlled-input fix verified), 29-language dropdown, mobile overlay, quick links -> real tool routes
+- hero-demo.tsx (client): frame engine port (FPS 30, interpolate/spring/seq, scenes Text/Highlight/Sign, rAF gated by IntersectionObserver + reduced-motion)
+- landing-effects.tsx (client): .rv scroll reveals + guide band frame animation
+- landing-footer.tsx: 3 columns, tool links -> real slugs
+- page.tsx: full assembly, every card/CTA/guide link -> /workspace?tool=slug (or /desktop for Mac guide)
+- New pages: /desktop (electron-builder instructions per platform), /pricing (Web/Desktop/API), /api-docs (real REST lifecycle + all slugs)
+- Removed all emerald remnants in workspace components -> text/border/bg-primary (orange)
+- Verified: hero typing+signature+toast animation, dark & light themes, mega search 45->5, merge UI e2e (alpha+beta -> merged 8p PDF download), smoke-test 55/55, http-matrix 44/44, mobile iPhone 15 layout
+
+Stage Summary:
+- Landing replicated 1:1 with every visible feature functional; 45/45 cards wired; engine untouched and green (55/55 + 44/44)
+- Screenshots: download/landing-{hero,hero-dark,cards,apps,guides,mega,ws-done,landing-mobile}.png

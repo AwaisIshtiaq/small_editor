@@ -255,7 +255,7 @@ export function WorkspaceClient({ tool }: { tool: ToolDef }) {
     return (
       <div className="space-y-4">
         <div className="flex items-start gap-3">
-          <ToolIcon slug={tool.slug} className="mt-0.5 size-8 shrink-0 text-emerald-600" />
+          <ToolIcon slug={tool.slug} className="mt-0.5 size-8 shrink-0 text-primary" />
           <div>
             <h1 className="text-xl font-semibold tracking-tight">{tool.name}</h1>
             <p className="text-sm text-muted-foreground">{tool.description}</p>
@@ -284,10 +284,10 @@ export function WorkspaceClient({ tool }: { tool: ToolDef }) {
             }
           }}
           className={`flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed p-10 text-center transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none ${
-            dragOver ? 'border-emerald-500 bg-emerald-500/5' : 'border-border hover:border-emerald-500/50'
+            dragOver ? 'bg-primary bg-primary/5' : 'border-border hover:bg-primary/50'
           }`}
         >
-          <UploadCloud className="size-10 text-emerald-600" aria-hidden="true" />
+          <UploadCloud className="size-10 text-primary" aria-hidden="true" />
           <p className="font-medium">
             Drop {tool.multiple ? 'files' : 'a file'} here or click to browse
           </p>
@@ -363,7 +363,7 @@ export function WorkspaceClient({ tool }: { tool: ToolDef }) {
           <Button type="button" variant="ghost" size="icon" aria-label="Back to files" onClick={() => setPhase('files')}>
             <ArrowLeft className="size-4" aria-hidden="true" />
           </Button>
-          <ToolIcon slug={tool.slug} className="mt-0.5 size-8 shrink-0 text-emerald-600" />
+          <ToolIcon slug={tool.slug} className="mt-0.5 size-8 shrink-0 text-primary" />
           <div>
             <h1 className="text-xl font-semibold tracking-tight">{tool.name}</h1>
             <p className="text-sm text-muted-foreground">{tool.description}</p>
@@ -422,7 +422,7 @@ export function WorkspaceClient({ tool }: { tool: ToolDef }) {
     return (
       <div className="space-y-6 py-10">
         <div className="flex items-center justify-center gap-2">
-          <Loader2 className="size-5 animate-spin text-emerald-600" aria-hidden="true" />
+          <Loader2 className="size-5 animate-spin text-primary" aria-hidden="true" />
           <h1 className="text-lg font-semibold">
             {tool.name} — {progress > 0 ? `processing… ${progress}%` : 'starting…'}
           </h1>
@@ -457,7 +457,7 @@ export function WorkspaceClient({ tool }: { tool: ToolDef }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
-        <CheckCircle2 className="size-8 text-emerald-600" aria-hidden="true" />
+        <CheckCircle2 className="size-8 text-primary" aria-hidden="true" />
         <h1 className="text-xl font-semibold tracking-tight">Done!</h1>
       </div>
 

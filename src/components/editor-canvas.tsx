@@ -322,7 +322,7 @@ export function EditorCanvas({
               {/* sign: cursor preview + placed signature */}
               {slug === 'sign' && sigUrl && cursor && !place ? (
                 <div
-                  className="pointer-events-none absolute rounded-sm border-2 border-dashed border-emerald-500 bg-emerald-500/10"
+                  className="pointer-events-none absolute rounded-sm border-2 border-dashed bg-primary bg-primary/10"
                   style={{
                     left: pct(cursor.x, img.width),
                     top: pct(cursor.y, img.height),
@@ -336,7 +336,7 @@ export function EditorCanvas({
                 <img
                   src={sigUrl}
                   alt="Signature placement preview"
-                  className="pointer-events-none absolute rounded-sm border-2 border-emerald-500/70"
+                  className="pointer-events-none absolute rounded-sm border-2 bg-primary/70"
                   style={{ left: pct(place.x, img.width), top: pct(place.y, img.height), width: pct(SIGN_WIDTH_PT, img.width) }}
                 />
               ) : null}
@@ -348,7 +348,7 @@ export function EditorCanvas({
                   value={draft.value}
                   aria-label="Text to place on page"
                   placeholder="Type text, press Enter"
-                  className="absolute rounded-sm border-emerald-500 bg-white/95 text-sm"
+                  className="absolute rounded-sm bg-primary bg-white/95 text-sm"
                   style={{
                     left: pct(draft.x, img.width),
                     top: pct(draft.y, img.height),
@@ -381,7 +381,7 @@ export function EditorCanvas({
               {/* forms: field preview at cursor */}
               {slug === 'pdf-forms' && cursor ? (
                 <div
-                  className="pointer-events-none absolute rounded-sm border-2 border-dashed border-emerald-500 bg-emerald-500/10"
+                  className="pointer-events-none absolute rounded-sm border-2 border-dashed bg-primary bg-primary/10"
                   style={{
                     left: pct(cursor.x, img.width),
                     top: pct(cursor.y, img.height),

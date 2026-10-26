@@ -120,7 +120,7 @@ export function PageGrid({
             className={cn(
               'relative overflow-hidden rounded-md border bg-white',
               mode === 'select' && 'cursor-pointer transition-shadow',
-              mode === 'select' && isSelected && 'ring-2 ring-emerald-500 ring-offset-1',
+              mode === 'select' && isSelected && 'ring-2 ring-primary ring-offset-1',
             )}
             {...(mode === 'select'
               ? {
@@ -154,7 +154,7 @@ export function PageGrid({
               {pageIndex + 1}
             </span>
             {mode === 'select' && isSelected ? (
-              <span className="absolute inset-0 bg-emerald-500/10" aria-hidden="true" />
+              <span className="absolute inset-0 bg-primary/10" aria-hidden="true" />
             ) : null}
             {mode === 'order' ? (
               <span className="absolute top-1 right-1 flex flex-col gap-0.5">

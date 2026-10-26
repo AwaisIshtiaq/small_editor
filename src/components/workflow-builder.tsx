@@ -56,7 +56,7 @@ export function WorkflowBuilder({
       {steps.map((step, idx) => (
         <div key={step.id} className="space-y-3 rounded-md border p-3">
           <div className="flex items-center gap-2">
-            <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:text-emerald-400">
+            <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary text-primary-foreground/70">
               Step {idx + 1}
             </span>
             <div className="flex-1">

@@ -6,8 +6,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-jakarta);
+  --font-serif: var(--font-instrument);
+  --font-mono: var(--font-jakarta);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -33,8 +34,6 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
   --radius-sm: calc(var(--radius) - 4px);
@@ -43,73 +42,152 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* ---------------------------------------------------------------
+   Small Editor theme — Dark Grey + Orange (default) with a warm
+   light variant that follows the system setting, per docs/DESIGN.md.
+   Shadcn tokens are mapped onto the same palette so the workspace
+   inherits the brand look automatically.
+   --------------------------------------------------------------- */
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.596 0.145 163.225);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.696 0.17 162.48);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* Small Editor raw palette (used by the landing styles too) */
+  --bg: #232323;
+  --bg2: #393939;
+  --card: #2e2e2e;
+  --tx: #f1ede9;
+  --mu: #a69f98;
+  --hair: rgba(241, 237, 233, 0.12);
+  --v: #ff5a09;
+  --a: #ec7f37;
+  --bgi: linear-gradient(180deg, rgba(57, 57, 57, 0.9), transparent 1100px);
+  --g: rgba(255, 255, 255, 0.04);
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  color-scheme: dark;
+
+  /* shadcn tokens mapped to the palette (--card/--bg2 double as raw palette) */
+  --background: var(--bg);
+  --foreground: var(--tx);
+  --card-foreground: var(--tx);
+  --popover: #343434;
+  --popover-foreground: var(--tx);
+  --primary: #ff5a09;
+  --primary-foreground: #ffffff;
+  --secondary: var(--bg2);
+  --secondary-foreground: var(--tx);
+  --muted: var(--bg2);
+  --muted-foreground: var(--mu);
+  --accent: var(--bg2);
+  --accent-foreground: var(--tx);
+  --destructive: #e5484d;
+  --border: rgba(241, 237, 233, 0.14);
+  --input: rgba(241, 237, 233, 0.18);
+  --ring: #ff5a09;
+  --chart-1: #ff5a09;
+  --chart-2: #ec7f37;
+  --chart-3: #be4f0c;
+  --chart-4: #a69f98;
+  --chart-5: #f1ede9;
+  --sidebar: #2e2e2e;
+  --sidebar-foreground: var(--tx);
+  --sidebar-primary: #ff5a09;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--bg2);
+  --sidebar-accent-foreground: var(--tx);
+  --sidebar-border: rgba(241, 237, 233, 0.14);
+  --sidebar-ring: #ff5a09;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f6f2ee;
+    --bg2: #ebe4de;
+    --card: #ffffff;
+    --tx: #393939;
+    --mu: #6b645e;
+    --hair: rgba(57, 57, 57, 0.13);
+    --v: #be4f0c;
+    --a: #d2661f;
+    --bgi: none;
+    --g: rgba(57, 57, 57, 0.04);
+    color-scheme: light;
+
+    --background: var(--bg);
+    --foreground: var(--tx);
+    --popover: #ffffff;
+    --primary: #be4f0c;
+    --primary-foreground: #ffffff;
+    --secondary: var(--bg2);
+    --muted: var(--bg2);
+    --muted-foreground: var(--mu);
+    --accent: var(--bg2);
+    --border: rgba(57, 57, 57, 0.15);
+    --input: rgba(57, 57, 57, 0.22);
+    --ring: #be4f0c;
+    --chart-1: #be4f0c;
+    --chart-2: #d2661f;
+    --chart-3: #6b645e;
+    --chart-4: #a69f98;
+    --chart-5: #393939;
+    --sidebar: #ffffff;
+    --sidebar-border: rgba(57, 57, 57, 0.15);
+    --sidebar-ring: #be4f0c;
+  }
+}
+
+:root[data-theme="light"] {
+  --bg: #f6f2ee;
+  --bg2: #ebe4de;
+  --card: #ffffff;
+  --tx: #393939;
+  --mu: #6b645e;
+  --hair: rgba(57, 57, 57, 0.13);
+  --v: #be4f0c;
+  --a: #d2661f;
+  --bgi: none;
+  --g: rgba(57, 57, 57, 0.04);
+  color-scheme: light;
+
+  --background: var(--bg);
+  --foreground: var(--tx);
+  --popover: #ffffff;
+  --primary: #be4f0c;
+  --primary-foreground: #ffffff;
+  --secondary: var(--bg2);
+  --muted: var(--bg2);
+  --muted-foreground: var(--mu);
+  --accent: var(--bg2);
+  --border: rgba(57, 57, 57, 0.15);
+  --input: rgba(57, 57, 57, 0.22);
+  --ring: #be4f0c;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.696 0.17 162.48);
-  --primary-foreground: oklch(0.145 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.696 0.17 162.48);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: var(--bg);
+  --foreground: var(--tx);
+  --card: var(--card);
+  --card-foreground: var(--tx);
+  --popover: #343434;
+  --popover-foreground: var(--tx);
+  --primary: #ff5a09;
+  --primary-foreground: #ffffff;
+  --secondary: var(--bg2);
+  --secondary-foreground: var(--tx);
+  --muted: var(--bg2);
+  --muted-foreground: var(--mu);
+  --accent: var(--bg2);
+  --accent-foreground: var(--tx);
+  --destructive: #e5484d;
+  --border: rgba(241, 237, 233, 0.14);
+  --input: rgba(241, 237, 233, 0.18);
+  --ring: #ff5a09;
+  --sidebar: #2e2e2e;
+  --sidebar-foreground: var(--tx);
+  --sidebar-primary: #ff5a09;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--bg2);
+  --sidebar-accent-foreground: var(--tx);
+  --sidebar-border: rgba(241, 237, 233, 0.14);
+  --sidebar-ring: #ff5a09;
 }
 
 @layer base {
@@ -124,14 +202,14 @@
 /* Slim scrollbars for long lists (search results, file chips, downloads) */
 .slim-scroll {
   scrollbar-width: thin;
-  scrollbar-color: oklch(0.72 0.03 163) transparent;
+  scrollbar-color: var(--a) transparent;
 }
 .slim-scroll::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 .slim-scroll::-webkit-scrollbar-thumb {
-  background: oklch(0.72 0.03 163);
+  background: var(--a);
   border-radius: 8px;
 }
 .slim-scroll::-webkit-scrollbar-track {
