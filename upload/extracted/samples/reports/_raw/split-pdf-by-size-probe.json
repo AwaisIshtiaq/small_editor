@@ -1,0 +1,509 @@
+{
+  "capturedAt": "2026-10-25T08:53:14.445Z",
+  "route": "split-pdf-by-size",
+  "target": {
+    "id": "2334345BC4BF2D800BB6DC30A05BA653",
+    "title": "Rotate PDF - Rotate Pages, Online, for Free",
+    "url": "https://www.sejda.com/rotate-pdf-pages"
+  },
+  "inputBefore": {
+    "id": "fileupload_39957fca-fda1-4c47-a808-d3bea1d55a58",
+    "accept": ".pdf",
+    "multiple": true
+  },
+  "api": [
+    {
+      "method": "POST",
+      "url": "https://a.sejda.com/api/event",
+      "status": 202,
+      "mime": "text/plain",
+      "postData": "{\"n\":\"pageview\",\"v\":33,\"u\":\"https://www.sejda.com/split-pdf-by-size\",\"d\":\"sejda.com\",\"r\":null}"
+    },
+    {
+      "method": "POST",
+      "url": "https://www.sejda.com/api/files/upload-check",
+      "status": 200,
+      "mime": "application/json",
+      "postData": "uplid=3TFLZ10250953"
+    },
+    {
+      "method": "POST",
+      "url": "https://www.sejda.com/api/files/upload?_s=61&uplid=3TFLZ10250953",
+      "status": 200,
+      "mime": "application/json",
+      "postData": null
+    }
+  ],
+  "dump": {
+    "url": "https://www.sejda.com/split-pdf-by-size",
+    "title": "Split PDF by file size",
+    "step2": null,
+    "files": [
+      {
+        "name": "files[]",
+        "value": "651bcd9e-991f-4d8a-be03-5d3661eb3776-VWAHKGCWPSUEG240_2",
+        "id": ""
+      }
+    ],
+    "fileInputs": [
+      {
+        "id": "fileupload_39957fca-fda1-4c47-a808-d3bea1d55a58",
+        "name": "file",
+        "accept": ".pdf",
+        "multiple": true
+      },
+      {
+        "id": "supportScreenshotFile",
+        "name": "",
+        "accept": ".png,.jpg,.jpeg,.bmp",
+        "multiple": false
+      }
+    ],
+    "buttons": [
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "a",
+        "type": "",
+        "id": "",
+        "class": "btn btn-default btn-medium upgrade-btn",
+        "text": "Upgrade",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "a",
+        "type": "",
+        "id": "",
+        "class": "btn btn-secondary btn-medium already-customer-btn login-btn",
+        "text": "Log in",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-lg dropdown-toggle",
+        "text": "Toggle Dropdown",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-primary btn-xs",
+        "text": "Continue",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "",
+        "id": "",
+        "class": "btn blue-btn btn-xs enter-owner-pwd-btn",
+        "text": "Enter password",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-primary btn-xs",
+        "text": "Continue",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-light btn-xs",
+        "text": "Cancel",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-primary btn-xs",
+        "text": "Continue",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-yes btn-xs",
+        "text": "Ok, retry upload",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-yes btn-xs",
+        "text": "Re-upload files",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-default dropdown-toggle",
+        "text": "Sort by",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-xs btn-secondary",
+        "text": "Close",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "submit",
+        "id": "",
+        "class": "btn btn-default btn-lg",
+        "text": "Split PDF by size",
+        "visible": true,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "completeStep1Btn",
+        "class": "btn btn-default",
+        "text": "Next",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "completeStep3Btn",
+        "class": "btn btn-link btn-xs",
+        "text": "This does not answer my question",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "submit",
+        "id": "sendMessageBtn",
+        "class": "btn btn-default",
+        "text": "Send message",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-no btn-light btn-xs",
+        "text": "No, cancel",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-yes btn-xs",
+        "text": "Yes, continue",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-yes btn-xs",
+        "text": "Reload page",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-secondary btn-no btn-xs",
+        "text": "Cancel",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-yes btn-xs",
+        "text": "Continue",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "a",
+        "type": "",
+        "id": "",
+        "class": "btn btn-secondary btn-xs",
+        "text": "Learn more",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-yes btn-xs",
+        "text": "Move page",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      }
+    ],
+    "taskForm": {
+      "id": "",
+      "class": "form-inline task-form",
+      "html": "<form autocomplete=\"off\" class=\"form-inline task-form\">\n          <input value=\"splitBySize\" name=\"type\" type=\"hidden\">\n\n          <div class=\"container\">\n            <div class=\"row\">\n              <label>Maximum size for the largest split document</label>\n            </div>\n            <div class=\"row\">\n              <input style=\"width: 100px;\" name=\"size\" type=\"text\" required=\"required\" class=\"form-control input-lg\" data-validator=\"positive-number\" min=\"1\" value=\"1.5\">\n\n              <div style=\"margin-left: 0; display: inline-block\" class=\"btn-group\" data-toggle=\"buttons\">\n                <label class=\"btn btn-default btn-xs active\">\n                  <input type=\"radio\" name=\"sizeUnit\" value=\"MB\">\n                  MB\n                </label>\n                <label class=\"btn btn-default btn-xs\">\n                  <input type=\"radio\" name=\"sizeUnit\" value=\"KB\">\n                  KB\n                </label>\n              </div>\n\n              <span class=\"input-help\">\n                <i class=\"fal fa-question-circle\" data-toggle=\"tooltip\" data-placement=\"top\" data-html=\"true\" title=\"\" data-original-title=\"A 23 MB document could be split into 3 smaller documents of max 10 MB.\"></i>\n              </span>\n            </div>\n            <div style=\"margin-top: 30px\" class=\"row\">\n              <button class=\"btn btn-default btn-lg\" type=\"submit\">Split PDF by size</button>\n            </div>\n          </div>\n        <input type=\"hidden\" name=\"files[]\" value=\"651bcd9e-991f-4d8a-be03-5d3661eb3776-VWAHKGCWPSUEG240_2\"></form>",
+      "fields": [
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "type",
+          "id": "",
+          "value": "splitBySize",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "text",
+          "name": "size",
+          "id": "",
+          "value": "1.5",
+          "placeholder": "",
+          "text": "",
+          "visible": true,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "radio",
+          "name": "sizeUnit",
+          "id": "",
+          "value": "MB",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "radio",
+          "name": "sizeUnit",
+          "id": "",
+          "value": "KB",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "button",
+          "type": "submit",
+          "name": "",
+          "id": "",
+          "value": "",
+          "placeholder": "",
+          "text": "Split PDF by size",
+          "visible": true,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "files[]",
+          "id": "",
+          "value": "651bcd9e-991f-4d8a-be03-5d3661eb3776-VWAHKGCWPSUEG240_2",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        }
+      ]
+    },
+    "bodyText": " Sejda All Tools Compress Edit Fill & Sign Merge Delete Pages Crop\nPricing Desktop Log in \nSplit PDF by file size\nGet multiple smaller documents with specific file sizes\nSelected: sample.pdf\nMaximum size for the largest split document\n \nMB\nKB\n \nSplit PDF by size"
+  }
+}

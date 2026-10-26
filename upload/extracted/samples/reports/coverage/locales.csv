@@ -1,0 +1,30 @@
+locale_code,hreflang,prefix,homepage,sitemap_route_count,captured_tool_pages,captured_non_tool_pages,sample_status,notes
+en,en,,https://www.sejda.com/,52,44,7,baseline,"English source pages; 44/44 tool pages structured, 7 non-tool pages previously captured."
+ar,ar,ar,https://www.sejda.com/ar/,48,0,0,not_sampled,No localized page captured in this phase.
+cs,cs,cs,https://www.sejda.com/cs/,48,0,0,not_sampled,No localized page captured in this phase.
+da,da,da,https://www.sejda.com/da/,48,0,0,not_sampled,No localized page captured in this phase.
+de,de,de,https://www.sejda.com/de/,48,0,0,not_sampled,No localized page captured in this phase.
+el,el,el,https://www.sejda.com/el/,48,0,0,not_sampled,No localized page captured in this phase.
+es,es,es,https://www.sejda.com/es/,48,0,0,not_sampled,No localized page captured in this phase.
+fi,fi,fi,https://www.sejda.com/fi/,48,0,0,not_sampled,No localized page captured in this phase.
+fr,fr,fr,https://www.sejda.com/fr/,48,0,0,not_sampled,No localized page captured in this phase.
+he,he,he,https://www.sejda.com/he/,48,0,0,not_sampled,No localized page captured in this phase.
+hi,hi,hi,https://www.sejda.com/hi/,48,0,0,not_sampled,No localized page captured in this phase.
+hu,hu,hu,https://www.sejda.com/hu/,48,0,0,not_sampled,No localized page captured in this phase.
+id,id,id,https://www.sejda.com/id/,48,0,0,not_sampled,No localized page captured in this phase.
+it,it,it,https://www.sejda.com/it/,48,0,0,not_sampled,No localized page captured in this phase.
+ja,ja,ja,https://www.sejda.com/ja/,48,0,0,not_sampled,No localized page captured in this phase.
+ko,ko,ko,https://www.sejda.com/ko/,48,0,0,not_sampled,No localized page captured in this phase.
+nl,nl,nl,https://www.sejda.com/nl/,48,0,0,not_sampled,No localized page captured in this phase.
+no,no,no,https://www.sejda.com/no/,48,0,0,not_sampled,No localized page captured in this phase.
+pl,pl,pl,https://www.sejda.com/pl/,48,0,0,not_sampled,No localized page captured in this phase.
+pt,pt,pt,https://www.sejda.com/pt/,48,0,0,not_sampled,No localized page captured in this phase.
+ro,ro,ro,https://www.sejda.com/ro/,48,0,0,not_sampled,No localized page captured in this phase.
+ru,ru,ru,https://www.sejda.com/ru/,48,0,0,not_sampled,No localized page captured in this phase.
+sv,sv,sv,https://www.sejda.com/sv/,48,0,0,not_sampled,No localized page captured in this phase.
+th,th,th,https://www.sejda.com/th/,48,0,0,not_sampled,No localized page captured in this phase.
+tr,tr,tr,https://www.sejda.com/tr/,48,0,0,not_sampled,No localized page captured in this phase.
+tw,zh-Hant,tw,https://www.sejda.com/tw/,48,0,0,not_sampled,No localized page captured in this phase.
+uk,uk,uk,https://www.sejda.com/uk/,48,0,0,not_sampled,No localized page captured in this phase.
+vi,vi,vi,https://www.sejda.com/vi/,48,0,0,not_sampled,No localized page captured in this phase.
+zh,zh-Hans,zh,https://www.sejda.com/zh/,48,0,0,not_sampled,No localized page captured in this phase.

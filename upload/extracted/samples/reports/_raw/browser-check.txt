@@ -1,0 +1,16 @@
+PASS  sample PDF loads — {"doc":"sample.pdf","pages":4,"indexed":4,"errors":0}
+PASS  find counts occurrences — 1 / 9
+PASS  find paints all hits — 9
+PASS  exactly one current hit — 1
+PASS  matches span pages 1,2,4 — 1,2,4
+PASS  navigation wraps after the last match — 1 / 9
+PASS  match case narrows the set — {"count":"1 / 7","matches":7,"pressed":"true"}
+PASS  whole word + phrase search — {"before":{"count":"1 / 2","matches":2},"phrase":"1 / 2","phraseMatches":2}
+PASS  palette keeps every row and dims non-matches — {"rows":20,"dim":17,"dimOpacity":"0.1","firstVisible":true,"first":"Zoom in"}
+PASS  dim opacity is Sejda's 0.1 — 0.1
+PASS  palette scrolls the first live result into view — Zoom in
+PASS  pinning writes localStorage and moves the chip — {"stored":"zoom-in","chip":"Zoom in","pressed":"true"}
+PASS  Escape closes palette then find — {"paletteHidden":true,"findHidden":true}
+PASS  no console errors or exceptions
+
+14/14 checks passed

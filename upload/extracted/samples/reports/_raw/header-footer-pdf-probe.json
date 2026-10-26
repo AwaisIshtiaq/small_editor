@@ -1,0 +1,827 @@
+{
+  "capturedAt": "2026-10-24T22:03:32.461Z",
+  "route": "header-footer-pdf",
+  "target": {
+    "id": "A30CFBBB6BAFF05AC4209366EB5F7521",
+    "title": "about:blank",
+    "url": "about:blank"
+  },
+  "inputBefore": {
+    "id": "fileupload_4d99484b-a944-49a1-b568-8d3849bd89e6",
+    "accept": ".pdf",
+    "multiple": true
+  },
+  "api": [
+    {
+      "method": "POST",
+      "url": "https://a.sejda.com/api/event",
+      "status": 202,
+      "mime": "text/plain",
+      "postData": "{\"n\":\"pageview\",\"v\":33,\"u\":\"https://www.sejda.com/header-footer-pdf\",\"d\":\"sejda.com\",\"r\":null}"
+    },
+    {
+      "method": "POST",
+      "url": "https://www.sejda.com/api/files/upload-check",
+      "status": 200,
+      "mime": "application/json",
+      "postData": "uplid=111MR10250003"
+    },
+    {
+      "method": "POST",
+      "url": "https://www.sejda.com/api/files/upload?_s=&uplid=111MR10250003",
+      "status": 200,
+      "mime": "application/json",
+      "postData": null
+    }
+  ],
+  "dump": {
+    "url": "https://www.sejda.com/header-footer-pdf",
+    "title": "Add Header and Footer to PDF files online",
+    "step2": null,
+    "files": [
+      {
+        "name": "files[]",
+        "value": "139c4610-b235-44b4-a984-9dc82c5dcb16-HNRVATMYV1H3IEX5_2",
+        "id": ""
+      }
+    ],
+    "fileInputs": [
+      {
+        "id": "fileupload_4d99484b-a944-49a1-b568-8d3849bd89e6",
+        "name": "file",
+        "accept": ".pdf",
+        "multiple": true
+      },
+      {
+        "id": "supportScreenshotFile",
+        "name": "",
+        "accept": ".png,.jpg,.jpeg,.bmp",
+        "multiple": false
+      }
+    ],
+    "buttons": [
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "a",
+        "type": "",
+        "id": "",
+        "class": "btn btn-default btn-medium upgrade-btn",
+        "text": "Upgrade",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "a",
+        "type": "",
+        "id": "",
+        "class": "btn btn-secondary btn-medium already-customer-btn login-btn",
+        "text": "Log in",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-lg dropdown-toggle",
+        "text": "Toggle Dropdown",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-primary btn-xs",
+        "text": "Continue",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "",
+        "id": "",
+        "class": "btn blue-btn btn-xs enter-owner-pwd-btn",
+        "text": "Enter password",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-primary btn-xs",
+        "text": "Continue",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-light btn-xs",
+        "text": "Cancel",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-primary btn-xs",
+        "text": "Continue",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-yes btn-xs",
+        "text": "Ok, retry upload",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-yes btn-xs",
+        "text": "Re-upload files",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-default dropdown-toggle",
+        "text": "Sort by",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-xs btn-secondary",
+        "text": "Close",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "submit",
+        "id": "",
+        "class": "btn btn-default btn-medium",
+        "text": "Add header/footer",
+        "visible": true,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "a",
+        "type": "",
+        "id": "",
+        "class": "btn btn-link btn-medium btn-more-options",
+        "text": "More options",
+        "visible": true,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "completeStep1Btn",
+        "class": "btn btn-default",
+        "text": "Next",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "completeStep3Btn",
+        "class": "btn btn-link btn-xs",
+        "text": "This does not answer my question",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "submit",
+        "id": "sendMessageBtn",
+        "class": "btn btn-default",
+        "text": "Send message",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-no btn-light btn-xs",
+        "text": "No, cancel",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-yes btn-xs",
+        "text": "Yes, continue",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-yes btn-xs",
+        "text": "Reload page",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-secondary btn-no btn-xs",
+        "text": "Cancel",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-yes btn-xs",
+        "text": "Continue",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "a",
+        "type": "",
+        "id": "",
+        "class": "btn btn-secondary btn-xs",
+        "text": "Learn more",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-yes btn-xs",
+        "text": "Move page",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      }
+    ],
+    "taskForm": {
+      "id": "",
+      "class": "form-inline task-form",
+      "html": "<form autocomplete=\"off\" class=\"form-inline task-form\">\n          <input value=\"headerFooter\" name=\"type\" type=\"hidden\">\n          <input value=\"\" name=\"outputFilenamePattern\" type=\"hidden\">\n          <input type=\"hidden\" value=\"Page [PAGE_ARABIC]\" name=\"pattern\">\n          \n\n          <div class=\"container\">\n            <div style=\"max-width: 500px; margin: auto\" class=\"row head-space-xl\">\n              <div class=\"dropdown\">\n                <label>Customize Style</label>\n                <div data-id=\"hf-pages-arabic\" class=\"hf-format-customize\" style=\"\">\n                  <div class=\"input-group\">\n                    <input value=\"Page\" name=\"hf-format-customize[]\" class=\"form-control input-lg\" type=\"text\">\n                    <div style=\"min-width: 150px\" class=\"input-group-addon input-lg\">1</div>\n                    <input value=\"[PAGE_ARABIC]\" name=\"hf-format-customize[]\" type=\"hidden\">\n                  </div>\n                </div>\n                <div style=\"display: none\" data-id=\"hf-pages-roman\" class=\"hf-format-customize\">\n                  <div class=\"input-group\">\n                    <input name=\"hf-format-customize[]\" value=\"Page\" class=\"form-control input-lg\" type=\"text\">\n                    <div style=\"min-width: 150px\" class=\"input-group-addon input-lg\">VII</div>\n                    <input value=\"[PAGE_ROMAN]\" name=\"hf-format-customize[]\" type=\"hidden\">\n                  </div>\n                </div>\n                <div style=\"display: none\" id=\"hf-page-of-total\" data-id=\"hf-page-of-total\" class=\"hf-format-customize\">\n                  <div class=\"input-group\">\n                    <input name=\"hf-format-customize[]\" value=\"Page\" class=\"form-control input-lg\" type=\"text\">\n                    <div class=\"input-group-addon input-lg\">2</div>\n                    <input value=\"[PAGE_ARABIC]\" name=\"hf-format-customize[]\" type=\"hidden\">\n                    <input name=\"hf-format-customize[]\" value=\"of\" class=\"form-control input-lg\" type=\"text\">\n                    <div class=\"input-group-addon input-lg\">45</div>\n                    <input value=\"[TOTAL_PAGES_ARABIC]\" name=\"hf-format-customize[]\" type=\"hidden\">\n                  </div>\n                </div>\n                <div style=\"display: none\" id=\"hf-filename\" data-id=\"hf-filename\" class=\"hf-format-customize\">\n                  <div class=\"input-group\">\n                    <div style=\"border-left: 1px #CCC solid;\" class=\"input-group-addon input-lg\">Filename on each page</div>\n                    <input value=\"[BASE_NAME]\" name=\"hf-format-customize[]\" type=\"hidden\">\n                  </div>\n                </div>\n                <div style=\"display: none\" id=\"hf-text-only\" data-id=\"hf-text-only\" class=\"hf-format-customize\">\n                  <input style=\"border-top-right-radius: 0; border-bottom-right-radius: 0;\" value=\"Draft version\" class=\"form-control input-lg\" name=\"hf-format-customize[]\" type=\"text\">\n                </div>\n                <button aria-expanded=\"true\" data-toggle=\"dropdown\" type=\"button\" class=\"btn btn-default btn-xs btn-link dropdown-toggle style-toggle style-toggle-no-round-left\">\n                  <span class=\"caret\"></span>\n                </button>\n                <ul role=\"menu\" class=\"dropdown-menu pull-right dropdown-menu-right style-dropdown-menu\">\n                  <li role=\"presentation\"><a data-value=\"hf-pages-arabic\" href=\"javascript:///\" tabindex=\"-1\" role=\"menuitem\">Page 1, Page 2, Page 3</a></li>\n                  <li role=\"presentation\"><a data-value=\"hf-pages-roman\" href=\"javascript:///\" tabindex=\"-1\" role=\"menuitem\">Page I, Page II, Page III</a></li>\n                  <li role=\"presentation\"><a data-value=\"hf-page-of-total\" href=\"javascript:///\" tabindex=\"-1\" role=\"menuitem\">Page 2 of 45</a></li>\n                  <li role=\"presentation\"><a data-value=\"hf-filename\" href=\"javascript:///\" tabindex=\"-1\" role=\"menuitem\">Filename on each page</a></li>\n                  <li role=\"presentation\"><a data-value=\"hf-text-only\" href=\"javascript:///\" tabindex=\"-1\" role=\"menuitem\">Text label on each page</a></li>\n                </ul>\n              </div>\n            </div>\n            <div style=\"margin-bottom: 10px;\" class=\"row\">\n              <div id=\"hf-preview\">Preview: Page 1, Page 2, Page 3</div>\n            </div>\n\n            <div class=\"row\">\n              <label>Location on page</label>\n              <select style=\"width: 100%; max-width: 400px; display: block; margin: auto;\" name=\"pageLocation\" class=\"form-control input-lg\">\n                <option value=\"top-left\">Header left</option>\n                <option selected=\"\" value=\"top-center\">Header center</option>\n                <option value=\"top-right\">Header right</option>\n                <option value=\"bottom-left\">Footer left</option>\n                <option value=\"bottom-center\">Footer center</option>\n                <option value=\"bottom-right\">Footer right</option>\n              </select>\n            </div>\n\n            <div class=\"row head-space-xl\">\n              <label>Font</label><br>\n              <div class=\"btn-group\" data-toggle=\"buttons\">\n                <label class=\"btn btn-default btn-xs active times-new-roman\">\n                  <input type=\"radio\" name=\"font\" value=\"times_roman\" checked=\"\"> Times New Roman\n                </label>\n                <label class=\"btn btn-default btn-xs helvetica\">\n                  <input type=\"radio\" name=\"font\" value=\"helvetica\"> Helvetica\n                </label>\n                <label class=\"btn btn-default btn-xs courier\">\n                  <input type=\"radio\" name=\"font\" value=\"courier\"> Courier\n                </label>\n              </div>\n              <select name=\"fontSize\" class=\"input-lg\" style=\"vertical-align: middle\">\n                <option value=\"6\">6</option>\n                <option value=\"7\">7</option>\n                <option value=\"8\">8</option>\n                <option value=\"9\">9</option>\n                <option value=\"10\" selected=\"selected\">10</option>\n                <option value=\"11\">11</option>\n                <option value=\"12\">12</option>\n                <option value=\"13\">13</option>\n                <option value=\"14\">14</option>\n                <option value=\"18\">18</option>\n                <option value=\"20\">20</option>\n                <option value=\"22\">22</option>\n                <option value=\"24\">24</option>\n                <option value=\"26\">26</option>\n                <option value=\"28\">28</option>\n              </select>\n              <div class=\"minicolors minicolors-theme-bootstrap minicolors-position-bottom minicolors-position-left\"><input size=\"7\" value=\"#000000\" class=\"minicolors-input\" name=\"color\" type=\"hidden\"><span class=\"minicolors-swatch\"><span class=\"minicolors-swatch-color\" style=\"background-color: rgb(0, 0, 0);\"></span></span><div class=\"minicolors-panel minicolors-slider-hue\"><div class=\"minicolors-slider\"><div class=\"minicolors-picker\" style=\"top: 0px;\"></div></div><div class=\"minicolors-opacity-slider\"><div class=\"minicolors-picker\"></div></div><div class=\"minicolors-grid\" style=\"background-color: rgb(255, 0, 0);\"><div class=\"minicolors-grid-inner\"></div><div class=\"minicolors-picker\" style=\"top: 150px; left: 0px;\"><div></div></div></div></div></div>\n            </div>\n\n            <div class=\"row head-space-xl\">\n              <label>Document Margins</label><br>\n              <div class=\"btn-group\" data-toggle=\"buttons\">\n                <label class=\"btn btn-default btn-xs active\">\n                  <input type=\"radio\" name=\"addMargins\" value=\"false\" checked=\"\"> Leave unchanged\n                </label>\n                <label class=\"btn btn-default btn-xs\">\n                  <input type=\"radio\" name=\"addMargins\" value=\"true\"> Increase margins\n                  <span class=\"input-help\">\n                        <i class=\"fal fa-question-circle\" data-toggle=\"tooltip\" data-placement=\"top\" data-html=\"true\" title=\"\" data-original-title=\"Increase document margins to avoid overlapping existing text.\"></i>\n                      </span>\n                </label>\n              </div>\n            </div>\n\n            <div class=\"head-space more-options\" style=\"display: none\" id=\"hf-more-options\">\n              <div class=\"row head-space-xl\">\n                <label>Apply only to pages</label><br>\n                <input data-validator=\"page-ranges-or-predefined\" id=\"specificPages\" name=\"pages\" type=\"text\" class=\"form-control input-lg thumbs-multiple-select\" placeholder=\"Example: 1-10 or 12- or odd or even or 2,4,6,10\" min=\"1\" value=\"\" style=\"width: 400px\">\n\n                <span class=\"input-help\">\n              <i class=\"fal fa-question-circle\" data-toggle=\"tooltip\" data-placement=\"top\" data-html=\"true\" title=\"\" data-original-title=\"Don't want to apply the header to the whole document? Enter page ranges like 1-10,13,15- or even, odd. Header or footer will only be applied to these specific pages.\"></i>\n            </span>\n              </div>\n              <div class=\"row head-space-xl\">\n                <label>Start numbering from</label><br>\n                <input type=\"text\" name=\"pageCountStartFrom\" class=\"form-control input-lg\" placeholder=\"1\" value=\"\" style=\"width: 75px\">\n                <span class=\"input-help\">\n                  <i class=\"fal fa-question-circle\" data-toggle=\"tooltip\" data-placement=\"top\" data-html=\"true\" title=\"\" data-original-title=\"Helpful, for example, when skipping over a 3 pages Introduction that's already numbered with romans.\"></i>\n                </span>\n              </div>\n            </div>\n\n            <div style=\"margin-bottom: 30px; margin-top: 30px;\" class=\"row center-due-to-more-options\">\n              <button class=\"btn btn-default btn-medium\" type=\"submit\">Add header/footer <i class=\"fal fa-chevron-right\"></i></button>\n              <a href=\"javascript://\" class=\"btn btn-link btn-medium btn-more-options\">More options</a>\n            </div>\n          </div>\n        <input type=\"hidden\" name=\"files[]\" value=\"139c4610-b235-44b4-a984-9dc82c5dcb16-HNRVATMYV1H3IEX5_2\"></form>",
+      "fields": [
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "type",
+          "id": "",
+          "value": "headerFooter",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "outputFilenamePattern",
+          "id": "",
+          "value": "",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "pattern",
+          "id": "",
+          "value": "Page [PAGE_ARABIC]",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "text",
+          "name": "hf-format-customize[]",
+          "id": "",
+          "value": "Page",
+          "placeholder": "",
+          "text": "",
+          "visible": true,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "hf-format-customize[]",
+          "id": "",
+          "value": "[PAGE_ARABIC]",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "text",
+          "name": "hf-format-customize[]",
+          "id": "",
+          "value": "Page",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "hf-format-customize[]",
+          "id": "",
+          "value": "[PAGE_ROMAN]",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "text",
+          "name": "hf-format-customize[]",
+          "id": "",
+          "value": "Page",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "hf-format-customize[]",
+          "id": "",
+          "value": "[PAGE_ARABIC]",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "text",
+          "name": "hf-format-customize[]",
+          "id": "",
+          "value": "of",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "hf-format-customize[]",
+          "id": "",
+          "value": "[TOTAL_PAGES_ARABIC]",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "hf-format-customize[]",
+          "id": "",
+          "value": "[BASE_NAME]",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "text",
+          "name": "hf-format-customize[]",
+          "id": "",
+          "value": "Draft version",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "button",
+          "type": "button",
+          "name": "",
+          "id": "",
+          "value": "",
+          "placeholder": "",
+          "text": "",
+          "visible": true,
+          "checked": false
+        },
+        {
+          "tag": "select",
+          "type": "",
+          "name": "pageLocation",
+          "id": "",
+          "value": "top-center",
+          "placeholder": "",
+          "text": "Header left\nHeader center\nHeader right\nFooter left\nFooter center\nFooter right",
+          "visible": true,
+          "checked": false,
+          "options": [
+            {
+              "value": "top-left",
+              "text": "Header left"
+            },
+            {
+              "value": "top-center",
+              "text": "Header center"
+            },
+            {
+              "value": "top-right",
+              "text": "Header right"
+            },
+            {
+              "value": "bottom-left",
+              "text": "Footer left"
+            },
+            {
+              "value": "bottom-center",
+              "text": "Footer center"
+            },
+            {
+              "value": "bottom-right",
+              "text": "Footer right"
+            }
+          ]
+        },
+        {
+          "tag": "input",
+          "type": "radio",
+          "name": "font",
+          "id": "",
+          "value": "times_roman",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": true
+        },
+        {
+          "tag": "input",
+          "type": "radio",
+          "name": "font",
+          "id": "",
+          "value": "helvetica",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "radio",
+          "name": "font",
+          "id": "",
+          "value": "courier",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "select",
+          "type": "",
+          "name": "fontSize",
+          "id": "",
+          "value": "10",
+          "placeholder": "",
+          "text": "6\n7\n8\n9\n10\n11\n12\n13\n14\n18\n20\n22\n24\n26\n28",
+          "visible": true,
+          "checked": false,
+          "options": [
+            {
+              "value": "6",
+              "text": "6"
+            },
+            {
+              "value": "7",
+              "text": "7"
+            },
+            {
+              "value": "8",
+              "text": "8"
+            },
+            {
+              "value": "9",
+              "text": "9"
+            },
+            {
+              "value": "10",
+              "text": "10"
+            },
+            {
+              "value": "11",
+              "text": "11"
+            },
+            {
+              "value": "12",
+              "text": "12"
+            },
+            {
+              "value": "13",
+              "text": "13"
+            },
+            {
+              "value": "14",
+              "text": "14"
+            },
+            {
+              "value": "18",
+              "text": "18"
+            },
+            {
+              "value": "20",
+              "text": "20"
+            },
+            {
+              "value": "22",
+              "text": "22"
+            },
+            {
+              "value": "24",
+              "text": "24"
+            },
+            {
+              "value": "26",
+              "text": "26"
+            },
+            {
+              "value": "28",
+              "text": "28"
+            }
+          ]
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "color",
+          "id": "",
+          "value": "#000000",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "radio",
+          "name": "addMargins",
+          "id": "",
+          "value": "false",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": true
+        },
+        {
+          "tag": "input",
+          "type": "radio",
+          "name": "addMargins",
+          "id": "",
+          "value": "true",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "text",
+          "name": "pages",
+          "id": "specificPages",
+          "value": "",
+          "placeholder": "Example: 1-10 or 12- or odd or even or 2,4,6,10",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "text",
+          "name": "pageCountStartFrom",
+          "id": "",
+          "value": "",
+          "placeholder": "1",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "button",
+          "type": "submit",
+          "name": "",
+          "id": "",
+          "value": "",
+          "placeholder": "",
+          "text": "Add header/footer",
+          "visible": true,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "files[]",
+          "id": "",
+          "value": "139c4610-b235-44b4-a984-9dc82c5dcb16-HNRVATMYV1H3IEX5_2",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        }
+      ]
+    },
+    "bodyText": " Sejda All Tools Compress Edit Fill & Sign Merge Delete Pages Crop\nPricing Desktop Log in \nAdd PDF Header & Footer\nApply page numbers or text labels to PDF files\nSelected: sample.pdf\nCustomize Style \n1\n \nPreview: Page 1, Page 2, Page 3\nLocation on page\nHeader left\nHeader center\nHeader right\nFooter left\nFooter center\nFooter right\nFont\n\nTimes New Roman\nHelvetica\nCourier\n \n6\n7\n8\n9\n10\n11\n12\n13\n14\n18\n20\n22\n24\n26\n28\n \nDocument Margins\n\nLeave unchanged\nIncrease margins \nAdd header/footer  More options"
+  }
+}

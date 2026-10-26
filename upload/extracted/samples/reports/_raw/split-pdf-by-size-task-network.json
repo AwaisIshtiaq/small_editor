@@ -1,0 +1,635 @@
+{
+  "startedAt": "2026-10-25T08:54:30.638Z",
+  "finishedAt": "2026-10-25T08:54:43.184Z",
+  "clickedAt": "2026-10-25T08:54:40.238Z",
+  "route": "/split-pdf-by-size",
+  "cdpEndpoint": "http://127.0.0.1:9333",
+  "target": {
+    "id": "2334345BC4BF2D800BB6DC30A05BA653",
+    "title": "Extract pages from PDF online",
+    "url": "https://www.sejda.com/extract-pdf-pages"
+  },
+  "environment": {
+    "viewport": "1440x900@1",
+    "locale": "en-US",
+    "timezone": "UTC",
+    "colorScheme": "light",
+    "reducedMotion": "reduce",
+    "serviceWorkers": "bypass",
+    "cache": "disabled",
+    "loggedIn": false
+  },
+  "fixtures": [
+    {
+      "path": "samples/sample.pdf",
+      "bytes": 2924,
+      "sha256": "5ef833b674aa0e691eb7b9b6a063402876500553997215eff905d786cf76d319"
+    }
+  ],
+  "inputBefore": {
+    "id": "fileupload_bd505a0d-4724-4fbc-b94d-1acca8342ea6",
+    "accept": ".pdf",
+    "multiple": true
+  },
+  "step2": null,
+  "config": {
+    "radios": {
+      "sizeUnit": "KB"
+    },
+    "texts": [
+      "size"
+    ],
+    "clicks": null,
+    "fields": null,
+    "rotations": null
+  },
+  "rotationResult": null,
+  "before": {
+    "url": "https://www.sejda.com/split-pdf-by-size",
+    "title": "Split PDF by file size",
+    "files": [
+      "e9740fa2-d8d2-475a-843e-c101e1e3c48b-AV43SV44PSFGJWIQ_2"
+    ],
+    "submit": {
+      "text": "Split PDF by size",
+      "visible": true
+    },
+    "pages": [],
+    "fields": [
+      {
+        "type": "hidden",
+        "name": "type",
+        "id": "",
+        "value": "splitBySize",
+        "checked": false
+      },
+      {
+        "type": "text",
+        "name": "size",
+        "id": "",
+        "value": "1",
+        "checked": false
+      },
+      {
+        "type": "radio",
+        "name": "sizeUnit",
+        "id": "",
+        "value": "MB",
+        "checked": false
+      },
+      {
+        "type": "radio",
+        "name": "sizeUnit",
+        "id": "",
+        "value": "KB",
+        "checked": true
+      },
+      {
+        "type": "hidden",
+        "name": "files[]",
+        "id": "",
+        "value": "e9740fa2-d8d2-475a-843e-c101e1e3c48b-AV43SV44PSFGJWIQ_2",
+        "checked": false
+      }
+    ],
+    "bodyText": " Sejda All Tools Compress Edit Fill & Sign Merge Delete Pages Crop\nPricing Desktop Log in \nSplit PDF by file size\nGet multiple smaller documents with specific file sizes\nSelected: sample.pdf\nMaximum size for the largest split document\n \nMB\nKB\n \nSplit PDF by size"
+  },
+  "taskResponseSeen": true,
+  "rateLimit": {
+    "remaining": "2",
+    "wait": "3599"
+  },
+  "task": {
+    "status": 200,
+    "headers": {
+      "x-firefox-translate": "disable",
+      "cf-cache-status": "DYNAMIC",
+      "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=[redacted]\"}]}",
+      "expires": "Sun, 25 Oct 2026 08:54:35 GMT",
+      "server-timing": "cfExtPri",
+      "alt-svc": "h3=\":443\"; ma=86400",
+      "date": "Sun, 25 Oct 2026 08:54:36 GMT",
+      "content-type": "application/json;charset=utf-8",
+      "priority": "u=1,i",
+      "x-frame-options": "SAMEORIGIN",
+      "cache-control": "no-cache, private, no-store, no-transform",
+      "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+      "pragma": "no-cache",
+      "x-ratelimit-wait": "3599",
+      "x-ratelimit-remaining": "2",
+      "permissions-policy": "interest-cohort=()",
+      "cf-ray": "a4ffff59ea180ad8-SIN",
+      "content-length": "23",
+      "server": "cloudflare"
+    },
+    "body": "\"XFUCVTMC-202610250954\"",
+    "id": "XFUCVTMC-202610250954"
+  },
+  "change": {
+    "status": 200,
+    "headers": {
+      "alt-svc": "h3=\":443\"; ma=86400",
+      "cache-control": "no-cache, private, no-store, no-transform",
+      "cf-cache-status": "DYNAMIC",
+      "cf-ray": "a4ffff668fc30ad8-SIN",
+      "content-encoding": "gzip",
+      "content-type": "application/json;charset=utf-8",
+      "date": "Sun, 25 Oct 2026 08:54:38 GMT",
+      "expires": "Sun, 25 Oct 2026 08:54:37 GMT",
+      "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+      "permissions-policy": "interest-cohort=()",
+      "pragma": "no-cache",
+      "priority": "u=1,i",
+      "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=[redacted]\"}]}",
+      "server": "cloudflare",
+      "server-timing": "cfExtPri",
+      "vary": "accept-encoding",
+      "x-firefox-translate": "disable",
+      "x-frame-options": "SAMEORIGIN"
+    },
+    "body": "{\"status\":\"Completed\",\"type\":\"splitBySize\",\"resultFilename\":\"sejda-N3OY1O.zip\",\"resultFileSize\":10176,\"resultFullUrlPattern\":\"www.sejda.com/api/tasks/XFUCVTMC-202610250954/download/%7B%7Bfilename%7D%7D?s=[redacted]&d=true&_s=[redacted]\",\"warnings\":[],\"resultItems\":[\"1_sample.pdf\",\"2_sample.pdf\",\"3_sample.pdf\",\"4_sample.pdf\"],\"id\":\"XFUCVTMC-202610250954\"}",
+    "parsed": {
+      "status": "Completed",
+      "type": "splitBySize",
+      "resultFilename": "sejda-N3OY1O.zip",
+      "resultFileSize": 10176,
+      "resultFullUrlPattern": "www.sejda.com/api/tasks/XFUCVTMC-202610250954/download/%7B%7Bfilename%7D%7D?s=web-LK%3DIuoAOx8zT0fcvksLJlPvh7C5SXYFSDweJX&d=true&_s=61",
+      "warnings": [],
+      "resultItems": [
+        "1_sample.pdf",
+        "2_sample.pdf",
+        "3_sample.pdf",
+        "4_sample.pdf"
+      ],
+      "id": "XFUCVTMC-202610250954"
+    }
+  },
+  "result": {
+    "path": "D:/small_editor/reports/_raw/split-pdf-by-size-result.zip",
+    "url": "https://www.sejda.com/api/tasks/XFUCVTMC-202610250954/download/sejda-N3OY1O.zip?s=%5Bredacted%5D&d=true&_s=%5Bredacted%5D",
+    "status": 200,
+    "headers": {
+      "accept-ranges": "bytes",
+      "alt-svc": "h3=\":443\"; ma=86400",
+      "cache-control": "no-store, private",
+      "cf-cache-status": "DYNAMIC",
+      "cf-ray": "a4ffff6888f20ad8-SIN",
+      "content-disposition": "attachment",
+      "content-length": "10161",
+      "content-type": "application/zip",
+      "date": "Sun, 25 Oct 2026 08:54:38 GMT",
+      "expires": "Sun, 25 Oct 2026 08:54:38 GMT",
+      "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+      "permissions-policy": "interest-cohort=()",
+      "pragma": "no-cache",
+      "priority": "u=1,i",
+      "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=[redacted]\"}]}",
+      "server": "cloudflare",
+      "server-timing": "cfExtPri",
+      "x-firefox-translate": "disable",
+      "x-frame-options": "SAMEORIGIN",
+      "x-robots-tag": "noindex, nofollow, noarchive, nosnippet, notranslate"
+    },
+    "bytes": 10161,
+    "sha256": "4f79fc6798a74fcb25b33cf3f8746c1fcff4015d82d9e4428fa71adb435332c0",
+    "ext": "zip"
+  },
+  "screenshot": {
+    "path": "D:/small_editor/reports/_raw/split-pdf-by-size-result.png",
+    "bytes": 65108,
+    "sha256": "0b3a26e40a89a4029450f55dbde8670d5cd2019956d27d79129ddcd5f4ea39a5"
+  },
+  "html": {
+    "path": "D:/small_editor/reports/_raw/split-pdf-by-size-result.html",
+    "bytes": 101588,
+    "sha256": "60cb423a4e728ad87886ff5d49e767f3e628e06281078f0428c31ab1ff61af10"
+  },
+  "after": {
+    "url": "https://www.sejda.com/split-pdf-by-size#results-XFUCVTMC-202610250954",
+    "title": "Task results XFUCVTMC-202610250954 - Split PDF by file size",
+    "bodyText": " Sejda All Tools Compress Edit Fill & Sign Merge Delete Pages Crop\nPricing Desktop Log in \nSplit PDF by file size\nGet multiple smaller documents with specific file sizes\nSelected: sample.pdf\nMaximum size for the largest split document\n \nMB\nKB\n \nSplit PDF by size"
+  },
+  "apiTransactions": [
+    {
+      "requestId": "4480.266",
+      "url": "https://a.sejda.com/api/event",
+      "method": "POST",
+      "resourceType": "Fetch",
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "Referer": "https://www.sejda.com/",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+        "Content-Type": "text/plain",
+        "sec-ch-ua-mobile": "?0",
+        "Accept-Language": "en-US,en;q=0.9"
+      },
+      "postData": "{\"n\":\"pageview\",\"v\":33,\"u\":\"https://www.sejda.com/split-pdf-by-size\",\"d\":\"sejda.com\",\"r\":null}",
+      "response": {
+        "status": 202,
+        "statusText": "",
+        "mimeType": "text/plain",
+        "headers": {
+          "x-request-id": "GOG52P_XolW4AHQSML0E",
+          "access-control-expose-headers": "",
+          "cf-cache-status": "DYNAMIC",
+          "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=[redacted]\"}]}",
+          "server-timing": "cfExtPri",
+          "alt-svc": "h3=\":443\"; ma=86400",
+          "date": "Sun, 25 Oct 2026 08:54:28 GMT",
+          "content-type": "text/plain; charset=utf-8",
+          "priority": "u=1,i",
+          "cache-control": "max-age=0, private, must-revalidate",
+          "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+          "access-control-allow-credentials": "true",
+          "x-plausible-dropped": "1",
+          "cf-ray": "a4ffff298f91d1d8-MCT",
+          "access-control-allow-origin": "*",
+          "content-length": "2",
+          "server": "cloudflare"
+        },
+        "protocol": "h3",
+        "remoteIPAddress": "172.67.69.40"
+      },
+      "body": null,
+      "failed": null
+    },
+    {
+      "requestId": "4480.273",
+      "url": "https://www.sejda.com/api/files/upload-check",
+      "method": "POST",
+      "resourceType": "XHR",
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "Referer": "https://www.sejda.com/split-pdf-by-size",
+        "Accept-Language": "en-US,en;q=0.9",
+        "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "X-Requested-With": "XMLHttpRequest",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+        "Accept": "*/*",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+      },
+      "postData": "uplid=D30WJ10250954",
+      "response": {
+        "status": 200,
+        "statusText": "",
+        "mimeType": "application/json",
+        "headers": {
+          "x-firefox-translate": "disable",
+          "access-control-max-age": "600",
+          "access-control-expose-headers": "Cache-Control, Content-Type,Range, Accept-Ranges, Content-Range, Content-Encoding, Content-Length, Content-Disposition, Content-Description",
+          "cf-cache-status": "DYNAMIC",
+          "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=[redacted]\"}]}",
+          "access-control-allow-methods": "POST",
+          "expires": "Sun, 25 Oct 2026 08:54:31 GMT",
+          "server-timing": "cfExtPri",
+          "alt-svc": "h3=\":443\"; ma=86400",
+          "date": "Sun, 25 Oct 2026 08:54:31 GMT",
+          "content-type": "application/json;charset=utf-8",
+          "vary": "Origin",
+          "priority": "u=1,i",
+          "x-frame-options": "SAMEORIGIN",
+          "access-control-allow-headers": "Authorization, Proxy-Authorization, WWW-Authenticate, Keep-Alive, User-Agent, X-Requested-With, Cache-Control, Content-Type, Range, Accept-Ranges, Content-Range, Content-Length, Content-Disposition, Content-Description",
+          "cache-control": "no-cache, private, no-store, no-transform",
+          "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+          "pragma": "no-cache",
+          "access-control-allow-credentials": "true",
+          "cf-ray": "a4ffff3d4bea0ad8-SIN",
+          "permissions-policy": "interest-cohort=()",
+          "access-control-allow-origin": "https://www.sejda.com",
+          "content-length": "15",
+          "server": "cloudflare"
+        },
+        "protocol": "h3",
+        "remoteIPAddress": "104.26.1.190"
+      },
+      "body": {
+        "body": "{\"status\":\"ok\"}",
+        "base64Encoded": false
+      },
+      "failed": null
+    },
+    {
+      "requestId": "4480.277",
+      "url": "https://www.sejda.com/api/files/upload?_s=%5Bredacted%5D&uplid=%5Bredacted%5D",
+      "method": "POST",
+      "resourceType": "XHR",
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "X-FileLocalId": "6751abfebb5e4cc3b40bc1ec7b3ad421_1792918475644",
+        "Referer": "https://www.sejda.com/split-pdf-by-size",
+        "Accept-Language": "en-US,en;q=0.9",
+        "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "X-Requested-With": "XMLHttpRequest",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+        "Accept": "text/plain, */*; q=0.01",
+        "Content-Disposition": "attachment; filename=\"sample.pdf\"",
+        "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundaryNOAWNCkZHqqIXwp2"
+      },
+      "postData": null,
+      "response": {
+        "status": 200,
+        "statusText": "",
+        "mimeType": "application/json",
+        "headers": {
+          "x-firefox-translate": "disable",
+          "access-control-max-age": "600",
+          "access-control-expose-headers": "Cache-Control, Content-Type,Range, Accept-Ranges, Content-Range, Content-Encoding, Content-Length, Content-Disposition, Content-Description",
+          "cf-cache-status": "DYNAMIC",
+          "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=[redacted]\"}]}",
+          "access-control-allow-methods": "POST",
+          "expires": "Sun, 25 Oct 2026 08:54:31 GMT",
+          "server-timing": "cfExtPri",
+          "alt-svc": "h3=\":443\"; ma=86400",
+          "date": "Sun, 25 Oct 2026 08:54:32 GMT",
+          "content-type": "application/json;charset=utf-8",
+          "vary": "Origin",
+          "priority": "u=1,i",
+          "x-frame-options": "SAMEORIGIN",
+          "access-control-allow-headers": "Authorization, Proxy-Authorization, WWW-Authenticate, Keep-Alive, User-Agent, X-Requested-With, Cache-Control, Content-Type, Range, Accept-Ranges, Content-Range, Content-Length, Content-Disposition, Content-Description",
+          "cache-control": "no-cache, private, no-store, no-transform",
+          "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+          "pragma": "no-cache",
+          "access-control-allow-credentials": "true",
+          "cf-ray": "a4ffff410df90ad8-SIN",
+          "permissions-policy": "interest-cohort=()",
+          "access-control-allow-origin": "https://www.sejda.com",
+          "content-length": "64",
+          "server": "cloudflare"
+        },
+        "protocol": "h3",
+        "remoteIPAddress": "104.26.1.190"
+      },
+      "body": {
+        "body": "{\"id\":\"e9740fa2-d8d2-475a-843e-c101e1e3c48b-AV43SV44PSFGJWIQ_2\"}",
+        "base64Encoded": false
+      },
+      "failed": null
+    },
+    {
+      "requestId": "4480.278",
+      "url": "https://www.sejda.com/api/tasks",
+      "method": "POST",
+      "resourceType": "XHR",
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "Referer": "https://www.sejda.com/split-pdf-by-size",
+        "Accept-Language": "en-US,en;q=0.9",
+        "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "X-Requested-With": "XMLHttpRequest",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+        "Accept": "application/json, text/javascript, */*; q=0.01",
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      "postData": "{\"type\":\"splitBySize\",\"size\":1,\"sizeUnit\":\"KB\",\"files\":[\"e9740fa2-d8d2-475a-843e-c101e1e3c48b-AV43SV44PSFGJWIQ_2\"],\"uri\":\"/split-pdf-by-size\",\"userAgent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36\",\"cvts\":\"0.14\",\"pdfjs\":\"bebd506c3\",\"libsCache\":\"654\",\"consoleLogs\":[],\"traceId\":\"tr-c92dbad9-4f4d-4f93-bdff-36102d336554\",\"www\":\"www61.sejda.com\"}",
+      "response": {
+        "status": 200,
+        "statusText": "",
+        "mimeType": "application/json",
+        "headers": {
+          "x-firefox-translate": "disable",
+          "cf-cache-status": "DYNAMIC",
+          "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=[redacted]\"}]}",
+          "expires": "Sun, 25 Oct 2026 08:54:35 GMT",
+          "server-timing": "cfExtPri",
+          "alt-svc": "h3=\":443\"; ma=86400",
+          "date": "Sun, 25 Oct 2026 08:54:36 GMT",
+          "content-type": "application/json;charset=utf-8",
+          "priority": "u=1,i",
+          "x-frame-options": "SAMEORIGIN",
+          "cache-control": "no-cache, private, no-store, no-transform",
+          "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+          "pragma": "no-cache",
+          "x-ratelimit-wait": "3599",
+          "x-ratelimit-remaining": "2",
+          "permissions-policy": "interest-cohort=()",
+          "cf-ray": "a4ffff59ea180ad8-SIN",
+          "content-length": "23",
+          "server": "cloudflare"
+        },
+        "protocol": "h3",
+        "remoteIPAddress": "104.26.1.190"
+      },
+      "body": {
+        "body": "\"XFUCVTMC-202610250954\"",
+        "base64Encoded": false
+      },
+      "failed": null
+    },
+    {
+      "requestId": "4480.311",
+      "url": "https://www.sejda.com/api/tasks/XFUCVTMC-202610250954/change?_=1792918481180",
+      "method": "GET",
+      "resourceType": "XHR",
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "Referer": "https://www.sejda.com/result?id=XFUCVTMC-202610250954",
+        "Accept-Language": "en-US,en;q=0.9",
+        "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "X-Requested-With": "XMLHttpRequest",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+        "Accept": "application/json, text/javascript, */*; q=0.01"
+      },
+      "postData": null,
+      "response": {
+        "status": 200,
+        "statusText": "",
+        "mimeType": "application/json",
+        "headers": {
+          "x-firefox-translate": "disable",
+          "content-encoding": "gzip",
+          "cf-cache-status": "DYNAMIC",
+          "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=[redacted]\"}]}",
+          "expires": "Sun, 25 Oct 2026 08:54:37 GMT",
+          "alt-svc": "h3=\":443\"; ma=86400",
+          "server-timing": "cfExtPri",
+          "date": "Sun, 25 Oct 2026 08:54:37 GMT",
+          "content-type": "application/json;charset=utf-8",
+          "vary": "accept-encoding",
+          "priority": "u=1,i",
+          "x-frame-options": "SAMEORIGIN",
+          "cache-control": "no-cache, private, no-store, no-transform",
+          "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+          "pragma": "no-cache",
+          "cf-ray": "a4ffff604d360ad8-SIN",
+          "permissions-policy": "interest-cohort=()",
+          "server": "cloudflare"
+        },
+        "protocol": "h3",
+        "remoteIPAddress": "104.26.1.190"
+      },
+      "body": {
+        "body": "{\"status\":\"Completed\",\"type\":\"splitBySize\",\"resultFilename\":\"sejda-N3OY1O.zip\",\"resultFileSize\":10176,\"resultFullUrlPattern\":\"www.sejda.com/api/tasks/XFUCVTMC-202610250954/download/%7B%7Bfilename%7D%7D?s=[redacted]&d=true&_s=[redacted]\",\"warnings\":[],\"resultItems\":[\"1_sample.pdf\",\"2_sample.pdf\",\"3_sample.pdf\",\"4_sample.pdf\"],\"id\":\"XFUCVTMC-202610250954\"}",
+        "base64Encoded": false
+      },
+      "failed": null
+    },
+    {
+      "requestId": "4480.313",
+      "url": "https://a.sejda.com/api/event",
+      "method": "POST",
+      "resourceType": "Fetch",
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "Referer": "https://www.sejda.com/",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+        "Content-Type": "text/plain",
+        "sec-ch-ua-mobile": "?0",
+        "Accept-Language": "en-US,en;q=0.9"
+      },
+      "postData": "{\"n\":\"pageview\",\"v\":33,\"u\":\"https://www.sejda.com/result?id=XFUCVTMC-202610250954\",\"d\":\"sejda.com\",\"r\":\"https://www.sejda.com/split-pdf-by-size\"}",
+      "response": {
+        "status": 202,
+        "statusText": "",
+        "mimeType": "text/plain",
+        "headers": {
+          "x-request-id": "GOG52w98A6Gq8FIUZkvD",
+          "access-control-expose-headers": "",
+          "cf-cache-status": "DYNAMIC",
+          "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=[redacted]\"}]}",
+          "server-timing": "cfExtPri",
+          "alt-svc": "h3=\":443\"; ma=86400",
+          "date": "Sun, 25 Oct 2026 08:54:37 GMT",
+          "content-type": "text/plain; charset=utf-8",
+          "priority": "u=1,i",
+          "cache-control": "max-age=0, private, must-revalidate",
+          "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+          "access-control-allow-credentials": "true",
+          "x-plausible-dropped": "1",
+          "cf-ray": "a4ffff60de39d1d8-MCT",
+          "access-control-allow-origin": "*",
+          "content-length": "2",
+          "server": "cloudflare"
+        },
+        "protocol": "h3",
+        "remoteIPAddress": "172.67.69.40"
+      },
+      "body": null,
+      "failed": null
+    },
+    {
+      "requestId": "4480.314",
+      "url": "https://www.sejda.com/api/tasks/XFUCVTMC-202610250954/change?_=1792918482257",
+      "method": "GET",
+      "resourceType": "Fetch",
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "Referer": "https://www.sejda.com/split-pdf-by-size",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+        "Accept-Language": "en-US,en;q=0.9",
+        "sec-ch-ua-mobile": "?0"
+      },
+      "postData": null,
+      "response": {
+        "status": 200,
+        "statusText": "",
+        "mimeType": "application/json",
+        "headers": {
+          "x-firefox-translate": "disable",
+          "content-encoding": "gzip",
+          "cf-cache-status": "DYNAMIC",
+          "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=[redacted]\"}]}",
+          "expires": "Sun, 25 Oct 2026 08:54:37 GMT",
+          "alt-svc": "h3=\":443\"; ma=86400",
+          "server-timing": "cfExtPri",
+          "date": "Sun, 25 Oct 2026 08:54:38 GMT",
+          "content-type": "application/json;charset=utf-8",
+          "vary": "accept-encoding",
+          "priority": "u=1,i",
+          "x-frame-options": "SAMEORIGIN",
+          "cache-control": "no-cache, private, no-store, no-transform",
+          "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+          "pragma": "no-cache",
+          "cf-ray": "a4ffff668fc30ad8-SIN",
+          "permissions-policy": "interest-cohort=()",
+          "server": "cloudflare"
+        },
+        "protocol": "h3",
+        "remoteIPAddress": "104.26.1.190"
+      },
+      "body": {
+        "body": "{\"status\":\"Completed\",\"type\":\"splitBySize\",\"resultFilename\":\"sejda-N3OY1O.zip\",\"resultFileSize\":10176,\"resultFullUrlPattern\":\"www.sejda.com/api/tasks/XFUCVTMC-202610250954/download/%7B%7Bfilename%7D%7D?s=[redacted]&d=true&_s=[redacted]\",\"warnings\":[],\"resultItems\":[\"1_sample.pdf\",\"2_sample.pdf\",\"3_sample.pdf\",\"4_sample.pdf\"],\"id\":\"XFUCVTMC-202610250954\"}",
+        "base64Encoded": false
+      },
+      "failed": null
+    },
+    {
+      "requestId": "4480.315",
+      "url": "https://www.sejda.com/api/tasks/XFUCVTMC-202610250954/download/sejda-N3OY1O.zip?s=%5Bredacted%5D&d=true&_s=%5Bredacted%5D",
+      "method": "GET",
+      "resourceType": "Fetch",
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "Referer": "https://www.sejda.com/split-pdf-by-size",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+        "sec-ch-ua": "\"Google Chrome\";v=\"155\", \"Chromium\";v=\"155\", \"Not(A:Brand\";v=\"24\"",
+        "Accept-Language": "en-US,en;q=0.9",
+        "sec-ch-ua-mobile": "?0"
+      },
+      "postData": null,
+      "response": {
+        "status": 200,
+        "statusText": "",
+        "mimeType": "application/zip",
+        "headers": {
+          "x-firefox-translate": "disable",
+          "x-robots-tag": "noindex, nofollow, noarchive, nosnippet, notranslate",
+          "cf-cache-status": "DYNAMIC",
+          "report-to": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=[redacted]\"}]}",
+          "expires": "Sun, 25 Oct 2026 08:54:38 GMT",
+          "server-timing": "cfExtPri",
+          "alt-svc": "h3=\":443\"; ma=86400",
+          "date": "Sun, 25 Oct 2026 08:54:38 GMT",
+          "content-disposition": "attachment",
+          "content-type": "application/zip",
+          "priority": "u=1,i",
+          "x-frame-options": "SAMEORIGIN",
+          "cache-control": "no-store, private",
+          "nel": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}",
+          "pragma": "no-cache",
+          "cf-ray": "a4ffff6888f20ad8-SIN",
+          "permissions-policy": "interest-cohort=()",
+          "accept-ranges": "bytes",
+          "content-length": "10161",
+          "server": "cloudflare"
+        },
+        "protocol": "h3",
+        "remoteIPAddress": "104.26.1.190"
+      },
+      "body": {
+        "body": "UEsDBBQACAgIANJOWV0AAAAAAAAAAAAAAAAMAAAANF9zYW1wbGUucGRmASEJ3vYlUERGLTEuNQolp+Px8QoxIDAgb2JqCjw8Ci9UeXBlIC9DYXRhbG9nCi9WZXJzaW9uIC8xIzJFNQovUGFnZXMgMyAwIFIKL1BpZWNlSW5mbyA0IDAgUgo+PgplbmRvYmoKMiAwIG9iago8PAovUHJvZHVjZXIgKDMuMC4zOCBcKDUuMS4yNlwpICkKL01vZERhdGUgKEQ6MjAyNjEwMjUwOTU0MzcrMDEnMDAnKQovQ3JlYXRvciA8RkVGRjAwNzAwMDY0MDA2NjAwMkQwMDZDMDA2OTAwNjIwMDIwMDAyODAwNjgwMDc0MDA3NDAwNzAwMDczMDAzQTAwMkYwMDJGMDA2NzAwNjkwMDc0MDA2ODAwNzUwMDYyMDAyRTAwNjMwMDZGMDA2RDAwMkYwMDQ4MDA2RjAwNzAwMDY0MDA2OTAwNkUwMDY3MDAyRjAwNzAwMDY0MDA2NjAwMkQwMDZDMDA2OTAwNjIwMDI5PgovQ3JlYXRpb25EYXRlIChEOjIwMjYxMDIzMjA0NDI3WikKL1RpdGxlIDxGRUZGMDA1MzAwNkQwMDYxMDA2QzAwNkMwMDIwMDA0NTAwNjQwMDY5MDA3NDAwNkYwMDcyMDAyMDAwNzMwMDYxMDA2RDAwNzAwMDZDMDA2NT4KL0F1dGhvciA8RkVGRjAwNTMwMDZEMDA2MTAwNkMwMDZDMDAyMDAwNDUwMDY0MDA2OTAwNzQwMDZGMDA3Mj4KL1N1YmplY3QgPEZFRkYwMDQ0MDA2NTAwNzQwMDY1MDA3MjAwNkQwMDY5MDA2RTAwNjkwMDczMDA3NDAwNjkwMDYzMDAyMDAwNjYwMDY5MDA3ODAwNzQwMDc1MDA3MjAwNjUwMDIwMDA2NjAwNkYwMDcyMDAyMDAwNjYwMDY5MDA2RTAwNjQwMDJGMDA2ODAwNjkwMDY3MDA2ODAwNkMwMDY5MDA2NzAwNjgwMDc0MDAyMDAwNjQwMDY1MDA2RDAwNkY+Cj4+CmVuZG9iagozIDAgb2JqCjw8Ci9UeXBlIC9QYWdlcwovS2lkcyBbNSAwIFJdCi9Db3VudCAxCj4+CmVuZG9iago0IDAgb2JqCjw8Ci9zamRhIzVGIDYgMCBSCj4+CmVuZG9iago1IDAgb2JqCjw8Ci9UeXBlIC9QYWdlCi9QYXJlbnQgMyAwIFIKL1Jlc291cmNlcyA3IDAgUgovTWVkaWFCb3ggWzAgMCA1OTUuMjggODQxLjg5XQovQ29udGVudHMgWzggMCBSXQovQ3JvcEJveCBbMCAwIDU5NS4yOCA4NDEuODldCi9CbGVlZEJveCBbMCAwIDU5NS4yOCA4NDEuODldCi9Sb3RhdGUgMAo+PgplbmRvYmoKNiAwIG9iago8PAovTGFzdE1vZGlmaWVkIChEOjIwMjYxMDI1MDk1NDM3KzAxJzAwJykKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0ZvbnQgOSAwIFIKL1hPYmplY3QgMTAgMCBSCi9FeHRHU3RhdGUgMTEgMCBSCj4+CmVuZG9iago4IDAgb2JqCjw8Ci9GaWx0ZXIgL0ZsYXRlRGVjb2RlCi9MZW5ndGggMzM0Cj4+CnN0cmVhbQ0KeJyVkk9LxDAQxe/5FDkLq5PJ/GlAPOxuiwcvQr+A6K4oK7Iifn5f0oKybA9LaZgMnbzfe+kxrMdA1ynOr8av13Bzvzv87L7fnp9W68/Dy0o6K+RUtESmOO4DSxwfAgbwpGgU3dH/CLeSrbPk5GLqzJSFqTiTbNDNjp2TJXPTuzi+h/Eq9GN4DMeJQjTOyymGQ1s7lo5jWiDAXCXQ+fxJ2wazWp1TSxrnhU/UOFn2UnL2mPJ5NZr8ajaFMzb4bmo9Kmjb1gZ0USGJgac8Jv+OPhLibZsbXDFTSXvszQrYE74u9SzuL+NGPFIKMfMSt1nXuMGH+1m6h2UF7URJvOCoJYVsUzKCP6H6T3BY0F3DIzfHDmdkhgqZ1ZRcvNL0nuc+t8TavNVMkI1tsLswD9fCnRCQl2gh+0eboANKuMOt/CPhescmjcNPGH4BtzW0tA0KZW5kc3RyZWFtCmVuZG9iago5IDAgb2JqCjw8Ci9IZWx2ZXRpY2EjMkRCb2xkIzJENDg2OTA3MDk1OSAxMiAwIFIKL0hlbHZldGljYSMyRDc5NTk1ODI0ODIgMTMgMCBSCi9IZWx2ZXRpY2EjMkQyMTYzNzk5MzM3IDEzIDAgUgovSGVsdmV0aWNhIzJENDgyNDk5MDIyMiAxMyAwIFIKL0hlbHZldGljYSMyRDU4NDUwNDc5NjAgMTMgMCBSCi9IZWx2ZXRpY2EjMkQ3NTkyODQwNDUwIDEzIDAgUgo+PgplbmRvYmoKMTAgMCBvYmoKPDwKPj4KZW5kb2JqCjExIDAgb2JqCjw8Cj4+CmVuZG9iagoxMiAwIG9iago8PAovVHlwZSAvRm9udAovU3VidHlwZSAvVHlwZTEKL0Jhc2VGb250IC9IZWx2ZXRpY2EjMkRCb2xkCi9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nCj4+CmVuZG9iagoxMyAwIG9iago8PAovVHlwZSAvRm9udAovU3VidHlwZSAvVHlwZTEKL0Jhc2VGb250IC9IZWx2ZXRpY2EKL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcKPj4KZW5kb2JqCjE0IDAgb2JqCjw8Ci9Sb290IDEgMCBSCi9JbmZvIDIgMCBSCi9JRCBbPEI5RjNDRDlENDY2NTE0QTM3NDYzOTgzQTlCMEVGNDFBPiA8QjlGM0NEOUQ0NjY1MTRBMzc0NjM5ODNBOUIwRUY0MUE+XQovVHlwZSAvWFJlZgovU2l6ZSAxNQovSW5kZXggWzAgMTVdCi9XIFsxIDIgMl0KL0RMIDc1Ci9GaWx0ZXIgL0ZsYXRlRGVjb2RlCi9MZW5ndGggNTkKPj4Kc3RyZWFtDQp4nGNgYPj/n5GBn4GBkSERSDB9BxLMBiAiBEiwcIIINxDRCSTYFEEESAk7L4hQBhE9IOIdAwMARZAHzg0KZW5kc3RyZWFtCmVuZG9iagpzdGFydHhyZWYKMjAzMAolJUVPRgpQSwcIWCjs6CYJAAAhCQAAUEsDBBQACAgIANJOWV0AAAAAAAAAAAAAAAAMAAAAMV9zYW1wbGUucGRmAZQJa/YlUERGLTEuNQolp+Px8QoxIDAgb2JqCjw8Ci9UeXBlIC9DYXRhbG9nCi9WZXJzaW9uIC8xIzJFNQovUGFnZXMgMyAwIFIKL1BpZWNlSW5mbyA0IDAgUgo+PgplbmRvYmoKMiAwIG9iago8PAovUHJvZHVjZXIgKDMuMC4zOCBcKDUuMS4yNlwpICkKL01vZERhdGUgKEQ6MjAyNjEwMjUwOTU0MzcrMDEnMDAnKQovQ3JlYXRvciA8RkVGRjAwNzAwMDY0MDA2NjAwMkQwMDZDMDA2OTAwNjIwMDIwMDAyODAwNjgwMDc0MDA3NDAwNzAwMDczMDAzQTAwMkYwMDJGMDA2NzAwNjkwMDc0MDA2ODAwNzUwMDYyMDAyRTAwNjMwMDZGMDA2RDAwMkYwMDQ4MDA2RjAwNzAwMDY0MDA2OTAwNkUwMDY3MDAyRjAwNzAwMDY0MDA2NjAwMkQwMDZDMDA2OTAwNjIwMDI5PgovQ3JlYXRpb25EYXRlIChEOjIwMjYxMDIzMjA0NDI3WikKL1RpdGxlIDxGRUZGMDA1MzAwNkQwMDYxMDA2QzAwNkMwMDIwMDA0NTAwNjQwMDY5MDA3NDAwNkYwMDcyMDAyMDAwNzMwMDYxMDA2RDAwNzAwMDZDMDA2NT4KL0F1dGhvciA8RkVGRjAwNTMwMDZEMDA2MTAwNkMwMDZDMDAyMDAwNDUwMDY0MDA2OTAwNzQwMDZGMDA3Mj4KL1N1YmplY3QgPEZFRkYwMDQ0MDA2NTAwNzQwMDY1MDA3MjAwNkQwMDY5MDA2RTAwNjkwMDczMDA3NDAwNjkwMDYzMDAyMDAwNjYwMDY5MDA3ODAwNzQwMDc1MDA3MjAwNjUwMDIwMDA2NjAwNkYwMDcyMDAyMDAwNjYwMDY5MDA2RTAwNjQwMDJGMDA2ODAwNjkwMDY3MDA2ODAwNkMwMDY5MDA2NzAwNjgwMDc0MDAyMDAwNjQwMDY1MDA2RDAwNkY+Cj4+CmVuZG9iagozIDAgb2JqCjw8Ci9UeXBlIC9QYWdlcwovS2lkcyBbNSAwIFJdCi9Db3VudCAxCj4+CmVuZG9iago0IDAgb2JqCjw8Ci9zamRhIzVGIDYgMCBSCj4+CmVuZG9iago1IDAgb2JqCjw8Ci9UeXBlIC9QYWdlCi9QYXJlbnQgMyAwIFIKL1Jlc291cmNlcyA3IDAgUgovTWVkaWFCb3ggWzAgMCA1OTUuMjggODQxLjg5XQovQ29udGVudHMgWzggMCBSXQovQ3JvcEJveCBbMCAwIDU5NS4yOCA4NDEuODldCi9CbGVlZEJveCBbMCAwIDU5NS4yOCA4NDEuODldCi9Sb3RhdGUgMAo+PgplbmRvYmoKNiAwIG9iago8PAovTGFzdE1vZGlmaWVkIChEOjIwMjYxMDI1MDk1NDM3KzAxJzAwJykKPj4KZW5kb2JqCjcgMCBvYmoKPDwKL0ZvbnQgOSAwIFIKL1hPYmplY3QgMTAgMCBSCi9FeHRHU3RhdGUgMTEgMCBSCj4+CmVuZG9iago4IDAgb2JqCjw8Ci9GaWx0ZXIgL0ZsYXRlRGVjb2RlCi9MZW5ndGggNDE2Cj4+CnN0cmVhbQ0KeJyVk91qGzEQhe/1FLoOuB1J8yNBKPhnTS96U9gXCIlTGlyKS+nz94xWpXaIA2bZXaHZ0fnmzOwpbOZAH1Ict8Rf38LHz4fjn8Pv748Pq83P49PKqFWuZLXFTHF+Dpnj/CUgAVeKStEM+z/CvRTdadKtbjOxKGsz1r3lTM0yWUFsZ4S4ZEJ0r8UEGaKT8ac4v4T5Lkxz+BpOCxdLHI/XYDg4a82iNaYrTMjrTARVc8WSoLpXxepNtSRxPPIrtUxElaRVjam8rUbDAdbqWpZQWdOiG2hmy3DBdMJasap4r71ygyfOZKriLtnIhkPJ1taGS5an23ibCcF8HHiNV2Hc6JhAK4PUqVrnSZ0TLbMCm3eIOU/pMe3fs4G3kzavqnMvueddv5Haz5QCkKsug6RTs7qu8n/H4C4UfcfnCavecXh3QWdjFsr64rsbOSsLpUrpHXeJF84zFnSEWRdn/Q/oPNa9qmAX4953d3epzs7mYUwQ/iC53Vcc0aqlavUarzD940VvxywU73lX77vYF58I9+68rtH3CXz8jqt/AYpI9E8NCmVuZHN0cmVhbQplbmRvYmoKOSAwIG9iago8PAovSGVsdmV0aWNhIzJEQm9sZCMyRDcwOTg0ODA3ODkgMTIgMCBSCi9IZWx2ZXRpY2EjMkQ5NzQyNjgyNTY4IDEzIDAgUgovSGVsdmV0aWNhIzJEMjAwMDgwNTk4NiAxMyAwIFIKL0hlbHZldGljYSMyRDk3NTA0NjkyMDcgMTMgMCBSCi9IZWx2ZXRpY2EjMkQ3NTcyNTMzNjg2IDEzIDAgUgovSGVsdmV0aWNhIzJEODQ1MDE4MDEwNyAxMyAwIFIKL0hlbHZldGljYSMyRDg2NTk4NzE4NzggMTMgMCBSCj4+CmVuZG9iagoxMCAwIG9iago8PAo+PgplbmRvYmoKMTEgMCBvYmoKPDwKPj4KZW5kb2JqCjEyIDAgb2JqCjw8Ci9UeXBlIC9Gb250Ci9TdWJ0eXBlIC9UeXBlMQovQmFzZUZvbnQgL0hlbHZldGljYSMyREJvbGQKL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcKPj4KZW5kb2JqCjEzIDAgb2JqCjw8Ci9UeXBlIC9Gb250Ci9TdWJ0eXBlIC9UeXBlMQovQmFzZUZvbnQgL0hlbHZldGljYQovRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZwo+PgplbmRvYmoKMTQgMCBvYmoKPDwKL1Jvb3QgMSAwIFIKL0luZm8gMiAwIFIKL0lEIFs8MzdCQzJBMjhBM0FBNUFCOTU3QzY5RjJGQzJGNDNGRDE+IDwzN0JDMkEyOEEzQUE1QUI5NTdDNjlGMkZDMkY0M0ZEMT5dCi9UeXBlIC9YUmVmCi9TaXplIDE1Ci9JbmRleCBbMCAxNV0KL1cgWzEgMiAyXQovREwgNzUKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCA2MQo+PgpzdHJlYW0NCnicY2Bg+P+fkYGfgYGRIRFIMH0HEswGICIESLBwggg3ENEJJNiKgQR7BoioAxFTQMRfIMERz8AAAFFVCFcNCmVuZHN0cmVhbQplbmRvYmoKc3RhcnR4cmVmCjIxNDMKJSVFT0YKUEsHCLJfz6qZCQAAlAkAAFBLAwQUAAgICADSTlldAAAAAAAAAAAAAAAADAAAADJfc2FtcGxlLnBkZgGCCX32JVBERi0xLjUKJafj8fEKMSAwIG9iago8PAovVHlwZSAvQ2F0YWxvZwovVmVyc2lvbiAvMSMyRTUKL1BhZ2VzIDMgMCBSCi9QaWVjZUluZm8gNCAwIFIKPj4KZW5kb2JqCjIgMCBvYmoKPDwKL1Byb2R1Y2VyICgzLjAuMzggXCg1LjEuMjZcKSApCi9Nb2REYXRlIChEOjIwMjYxMDI1MDk1NDM3KzAxJzAwJykKL0NyZWF0b3IgPEZFRkYwMDcwMDA2NDAwNjYwMDJEMDA2QzAwNjkwMDYyMDAyMDAwMjgwMDY4MDA3NDAwNzQwMDcwMDA3MzAwM0EwMDJGMDAyRjAwNjcwMDY5MDA3NDAwNjgwMDc1MDA2MjAwMkUwMDYzMDA2RjAwNkQwMDJGMDA0ODAwNkYwMDcwMDA2NDAwNjkwMDZFMDA2NzAwMkYwMDcwMDA2NDAwNjYwMDJEMDA2QzAwNjkwMDYyMDAyOT4KL0NyZWF0aW9uRGF0ZSAoRDoyMDI2MTAyMzIwNDQyN1opCi9UaXRsZSA8RkVGRjAwNTMwMDZEMDA2MTAwNkMwMDZDMDAyMDAwNDUwMDY0MDA2OTAwNzQwMDZGMDA3MjAwMjAwMDczMDA2MTAwNkQwMDcwMDA2QzAwNjU+Ci9BdXRob3IgPEZFRkYwMDUzMDA2RDAwNjEwMDZDMDA2QzAwMjAwMDQ1MDA2NDAwNjkwMDc0MDA2RjAwNzI+Ci9TdWJqZWN0IDxGRUZGMDA0NDAwNjUwMDc0MDA2NTAwNzIwMDZEMDA2OTAwNkUwMDY5MDA3MzAwNzQwMDY5MDA2MzAwMjAwMDY2MDA2OTAwNzgwMDc0MDA3NTAwNzIwMDY1MDAyMDAwNjYwMDZGMDA3MjAwMjAwMDY2MDA2OTAwNkUwMDY0MDAyRjAwNjgwMDY5MDA2NzAwNjgwMDZDMDA2OTAwNjcwMDY4MDA3NDAwMjAwMDY0MDA2NTAwNkQwMDZGPgo+PgplbmRvYmoKMyAwIG9iago8PAovVHlwZSAvUGFnZXMKL0tpZHMgWzUgMCBSXQovQ291bnQgMQo+PgplbmRvYmoKNCAwIG9iago8PAovc2pkYSM1RiA2IDAgUgo+PgplbmRvYmoKNSAwIG9iago8PAovVHlwZSAvUGFnZQovUGFyZW50IDMgMCBSCi9SZXNvdXJjZXMgNyAwIFIKL01lZGlhQm94IFswIDAgNTk1LjI4IDg0MS44OV0KL0NvbnRlbnRzIFs4IDAgUl0KL0Nyb3BCb3ggWzAgMCA1OTUuMjggODQxLjg5XQovQmxlZWRCb3ggWzAgMCA1OTUuMjggODQxLjg5XQovUm90YXRlIDAKPj4KZW5kb2JqCjYgMCBvYmoKPDwKL0xhc3RNb2RpZmllZCAoRDoyMDI2MTAyNTA5NTQzNyswMScwMCcpCj4+CmVuZG9iago3IDAgb2JqCjw8Ci9Gb250IDkgMCBSCi9YT2JqZWN0IDEwIDAgUgovRXh0R1N0YXRlIDExIDAgUgo+PgplbmRvYmoKOCAwIG9iago8PAovRmlsdGVyIC9GbGF0ZURlY29kZQovTGVuZ3RoIDQwMAo+PgpzdHJlYW0NCniclZPNSsQwEMfveYqchdVkPhMQwXa7ePAi9AVEV1FWZEV8fidJK7uLPSwlYToz6fzmn+nedaMLl9FPi/3Xq7u62+5+tt9vT4+r7nP3vOIEJAKIyUPw44sD8uO9swP2RC/Bq5r/w10TSpKoQUlYAQLaygqBwd6DsMVIsgxivpqTlG78+O7GCzeM7sHtGw+xn7ZToJgoMVBU9nGBxc4VFg4SRYUbhWysg4D/Vovspw1OqmlKKccYBH3E/6uF1rmsS8et3qJdlGkqgGJVIFmMS6zqUnLNbxqWMwzDebRZMxJlyEuwIqlJg8QUTUakZOVyheEGZ4XRAFEYO/NiwzXfX6b0slE9zDwXFDSkmHNmWSRFaQMVJwa0CxyEoDBO1ypdkc6oJymrT+p4WV45oSzDPIoWL18wgZXO5RUNpX8RWuQN1JTVWqevV6pGAJVlXQe//Bzz8Be78PU1Pph9lHesfO3gTGZFZsmUdAmZqU0uz9L1Vu5Ws1lkLTTI/kBirfj9NK2z3BstsFClxhPIX4Zf8TsNCmVuZHN0cmVhbQplbmRvYmoKOSAwIG9iago8PAovSGVsdmV0aWNhIzJEQm9sZCMyRDU4MjQ2NjIzMzggMTIgMCBSCi9IZWx2ZXRpY2EjMkQxODQ4NTI0MTc1IDEzIDAgUgovSGVsdmV0aWNhIzJENzg4ODkxMTA2MyAxMyAwIFIKL0hlbHZldGljYSMyRDk3OTM0NDkyOSAxMyAwIFIKL0hlbHZldGljYSMyRDI3MDgxOTk5NTYgMTMgMCBSCi9IZWx2ZXRpY2EjMkQ2NzAzNjgyNjY0IDEzIDAgUgovSGVsdmV0aWNhIzJENzM1NTY5NDg3IDEzIDAgUgo+PgplbmRvYmoKMTAgMCBvYmoKPDwKPj4KZW5kb2JqCjExIDAgb2JqCjw8Cj4+CmVuZG9iagoxMiAwIG9iago8PAovVHlwZSAvRm9udAovU3VidHlwZSAvVHlwZTEKL0Jhc2VGb250IC9IZWx2ZXRpY2EjMkRCb2xkCi9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nCj4+CmVuZG9iagoxMyAwIG9iago8PAovVHlwZSAvRm9udAovU3VidHlwZSAvVHlwZTEKL0Jhc2VGb250IC9IZWx2ZXRpY2EKL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcKPj4KZW5kb2JqCjE0IDAgb2JqCjw8Ci9Sb290IDEgMCBSCi9JbmZvIDIgMCBSCi9JRCBbPDQ2RTA3OUZEQzBBNkRDM0I0MDYyNEU3MjA1QzlFQzlDPiA8NDZFMDc5RkRDMEE2REMzQjQwNjI0RTcyMDVDOUVDOUM+XQovVHlwZSAvWFJlZgovU2l6ZSAxNQovSW5kZXggWzAgMTVdCi9XIFsxIDIgMl0KL0RMIDc1Ci9GaWx0ZXIgL0ZsYXRlRGVjb2RlCi9MZW5ndGggNjEKPj4Kc3RyZWFtDQp4nGNgYPj/n5GBn4GBkSERSDB9BxLMBiAiBEiwcIIINxDRCSTYkoEEexiIyAERTSDiNZDg8GVgAABLAwftDQplbmRzdHJlYW0KZW5kb2JqCnN0YXJ0eHJlZgoyMTI1CiUlRU9GClBLBwhZLE40hwkAAIIJAABQSwMEFAAICAgA0k5ZXQAAAAAAAAAAAAAAAAwAAAAzX3NhbXBsZS5wZGYBgAl/9iVQREYtMS41CiWn4/HxCjEgMCBvYmoKPDwKL1R5cGUgL0NhdGFsb2cKL1ZlcnNpb24gLzEjMkU1Ci9QYWdlcyAzIDAgUgovUGllY2VJbmZvIDQgMCBSCj4+CmVuZG9iagoyIDAgb2JqCjw8Ci9Qcm9kdWNlciAoMy4wLjM4IFwoNS4xLjI2XCkgKQovTW9kRGF0ZSAoRDoyMDI2MTAyNTA5NTQzNyswMScwMCcpCi9DcmVhdG9yIDxGRUZGMDA3MDAwNjQwMDY2MDAyRDAwNkMwMDY5MDA2MjAwMjAwMDI4MDA2ODAwNzQwMDc0MDA3MDAwNzMwMDNBMDAyRjAwMkYwMDY3MDA2OTAwNzQwMDY4MDA3NTAwNjIwMDJFMDA2MzAwNkYwMDZEMDAyRjAwNDgwMDZGMDA3MDAwNjQwMDY5MDA2RTAwNjcwMDJGMDA3MDAwNjQwMDY2MDAyRDAwNkMwMDY5MDA2MjAwMjk+Ci9DcmVhdGlvbkRhdGUgKEQ6MjAyNjEwMjMyMDQ0MjdaKQovVGl0bGUgPEZFRkYwMDUzMDA2RDAwNjEwMDZDMDA2QzAwMjAwMDQ1MDA2NDAwNjkwMDc0MDA2RjAwNzIwMDIwMDA3MzAwNjEwMDZEMDA3MDAwNkMwMDY1PgovQXV0aG9yIDxGRUZGMDA1MzAwNkQwMDYxMDA2QzAwNkMwMDIwMDA0NTAwNjQwMDY5MDA3NDAwNkYwMDcyPgovU3ViamVjdCA8RkVGRjAwNDQwMDY1MDA3NDAwNjUwMDcyMDA2RDAwNjkwMDZFMDA2OTAwNzMwMDc0MDA2OTAwNjMwMDIwMDA2NjAwNjkwMDc4MDA3NDAwNzUwMDcyMDA2NTAwMjAwMDY2MDA2RjAwNzIwMDIwMDA2NjAwNjkwMDZFMDA2NDAwMkYwMDY4MDA2OTAwNjcwMDY4MDA2QzAwNjkwMDY3MDA2ODAwNzQwMDIwMDA2NDAwNjUwMDZEMDA2Rj4KPj4KZW5kb2JqCjMgMCBvYmoKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFs1IDAgUl0KL0NvdW50IDEKPj4KZW5kb2JqCjQgMCBvYmoKPDwKL3NqZGEjNUYgNiAwIFIKPj4KZW5kb2JqCjUgMCBvYmoKPDwKL1R5cGUgL1BhZ2UKL1BhcmVudCAzIDAgUgovUmVzb3VyY2VzIDcgMCBSCi9NZWRpYUJveCBbMCAwIDU5NS4yOCA4NDEuODldCi9Db250ZW50cyBbOCAwIFJdCi9Dcm9wQm94IFswIDAgNTk1LjI4IDg0MS44OV0KL0JsZWVkQm94IFswIDAgNTk1LjI4IDg0MS44OV0KL1JvdGF0ZSAwCj4+CmVuZG9iago2IDAgb2JqCjw8Ci9MYXN0TW9kaWZpZWQgKEQ6MjAyNjEwMjUwOTU0MzcrMDEnMDAnKQo+PgplbmRvYmoKNyAwIG9iago8PAovRm9udCA5IDAgUgovWE9iamVjdCAxMCAwIFIKL0V4dEdTdGF0ZSAxMSAwIFIKPj4KZW5kb2JqCjggMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCAzOTgKPj4Kc3RyZWFtDQp4nJWTzYoVMRCF93mKrIXR1H8CIsy9nYsLN0K/gOgoyoiMiM/vSbpVuEwvLk2qO0mF+nJO9VM6ram8pLwPyz+/pFdvHx5/P/z6+vHD3enH46e7GlULWRBlLnn9nFjz+i7hAB7KXnIE1r+n1ypenaKEugVzEeHSgosu3qK6uXJx8Yv3kTHim7x+S+uL1Nf0Pj1tNGp5D9c4zb2KiDbJdECCc4PEipOH28aAio6vZ6uR5T3wVTW2UgnwmkmeL1b2a/cwX5zHpUPkHqWIz4g8o8yo+4ykSOF+GwpxGM5X4SMWKLNfHCzdJRRvgsxtyD2YuAZECd6Eh1EWMga3wWUnZ+wR7DlhVUNsGevxfx25sdxKHrAftnGzQ3LxjXxwt9keaI5BjG9y75MPe9Qv4bB00N5fzqAa2XVScm+ggwvIvpFQDUbDOD/Wtujmc40GDUcj96ntbOgIv4BFN+dBodseL7Ptlk1rzKB96LzLmGEO/vOttFBJqomXQz1N964clPq3+ePfDzF4ZhfYVe0/aw3hGQ0KZW5kc3RyZWFtCmVuZG9iago5IDAgb2JqCjw8Ci9IZWx2ZXRpY2EjMkRCb2xkIzJEODc4NDAxNTcxMSAxMiAwIFIKL0hlbHZldGljYSMyRDk2NjgzMzM0OTMgMTMgMCBSCi9IZWx2ZXRpY2EjMkQyNTA4MTIwNDQgMTMgMCBSCi9IZWx2ZXRpY2EjMkQxMjc1MzIyODMyIDEzIDAgUgovSGVsdmV0aWNhIzJENzcyMDk2NjI5NSAxMyAwIFIKL0hlbHZldGljYSMyRDQ1MjUwNzI3NjIgMTMgMCBSCi9IZWx2ZXRpY2EjMkQ1NTYzODUzNjA1IDEzIDAgUgo+PgplbmRvYmoKMTAgMCBvYmoKPDwKPj4KZW5kb2JqCjExIDAgb2JqCjw8Cj4+CmVuZG9iagoxMiAwIG9iago8PAovVHlwZSAvRm9udAovU3VidHlwZSAvVHlwZTEKL0Jhc2VGb250IC9IZWx2ZXRpY2EjMkRCb2xkCi9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nCj4+CmVuZG9iagoxMyAwIG9iago8PAovVHlwZSAvRm9udAovU3VidHlwZSAvVHlwZTEKL0Jhc2VGb250IC9IZWx2ZXRpY2EKL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcKPj4KZW5kb2JqCjE0IDAgb2JqCjw8Ci9Sb290IDEgMCBSCi9JbmZvIDIgMCBSCi9JRCBbPEI4NjgxNUYyMzRERUExMENCQ0VCQzM4RjE0MTQ5RkQ4PiA8Qjg2ODE1RjIzNERFQTEwQ0JDRUJDMzhGMTQxNDlGRDg+XQovVHlwZSAvWFJlZgovU2l6ZSAxNQovSW5kZXggWzAgMTVdCi9XIFsxIDIgMl0KL0RMIDc1Ci9GaWx0ZXIgL0ZsYXRlRGVjb2RlCi9MZW5ndGggNjAKPj4Kc3RyZWFtDQp4nGNgYPj/n5GBn4GBkSERSDB9BxLMBiAiBEiwcIIINxDRCSTYQErYQ0FENohoBBGvgASHDwMDAEqKB+YNCmVuZHN0cmVhbQplbmRvYmoKc3RhcnR4cmVmCjIxMjQKJSVFT0YKUEsHCIimUo6FCQAAgAkAAFBLAQIUABQACAgIANJOWV1YKOzoJgkAACEJAAAMAAAAAAAAAAAAAAAAAAAAAAA0X3NhbXBsZS5wZGZQSwECFAAUAAgICADSTlldsl/PqpkJAACUCQAADAAAAAAAAAAAAAAAAABgCQAAMV9zYW1wbGUucGRmUEsBAhQAFAAICAgA0k5ZXVksTjSHCQAAggkAAAwAAAAAAAAAAAAAAAAAMxMAADJfc2FtcGxlLnBkZlBLAQIUABQACAgIANJOWV2IplKOhQkAAIAJAAAMAAAAAAAAAAAAAAAAAPQcAAAzX3NhbXBsZS5wZGZQSwUGAAAAAAQABADoAAAAsyYAAAAA",
+        "base64Encoded": true
+      },
+      "failed": null
+    }
+  ],
+  "console": [
+    {
+      "type": "log",
+      "text": "JQMIGRATE: Migrate is installed, version 3.0.1",
+      "timestamp": 1792918397052.724
+    },
+    {
+      "type": "log",
+      "text": "JQMIGRATE: Migrate is installed, version 3.0.1",
+      "timestamp": 1792918471666.548
+    },
+    {
+      "type": "log",
+      "text": "JQMIGRATE: Migrate is installed, version 3.0.1",
+      "timestamp": 1792918481181.841
+    },
+    {
+      "type": "log",
+      "text": "Task XFUCVTMC-202610250954 completed",
+      "timestamp": 1792918482547.275
+    }
+  ],
+  "pageErrors": []
+}

@@ -1,0 +1,278 @@
+{
+  "generatedAt": "2026-10-25T08:58:26.576Z",
+  "purpose": "Independent checks of the 2026-10-25 splitBySize, extractPages and rotatePages public results.",
+  "files": {
+    "splitBySize": {
+      "taskId": "XFUCVTMC-202610250954",
+      "taskStatus": 200,
+      "changeStatus": "Completed",
+      "payload": {
+        "type": "splitBySize",
+        "size": 1,
+        "sizeUnit": "KB",
+        "files": [
+          "e9740fa2-d8d2-475a-843e-c101e1e3c48b-AV43SV44PSFGJWIQ_2"
+        ],
+        "uri": "/split-pdf-by-size",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+        "cvts": "0.14",
+        "pdfjs": "bebd506c3",
+        "libsCache": "654",
+        "consoleLogs": [],
+        "traceId": "tr-c92dbad9-4f4d-4f93-bdff-36102d336554",
+        "www": "www61.sejda.com"
+      },
+      "zip": {
+        "path": "reports/_raw/split-pdf-by-size-result.zip",
+        "bytes": 10161,
+        "sha256": "4f79fc6798a74fcb25b33cf3f8746c1fcff4015d82d9e4428fa71adb435332c0",
+        "metadataBytes": 10176,
+        "metadataDelta": 15,
+        "resultItems": [
+          "1_sample.pdf",
+          "2_sample.pdf",
+          "3_sample.pdf",
+          "4_sample.pdf"
+        ],
+        "zipEntryOrder": [
+          "4_sample.pdf",
+          "1_sample.pdf",
+          "2_sample.pdf",
+          "3_sample.pdf"
+        ],
+        "entries": [
+          {
+            "name": "4_sample.pdf",
+            "method": 8,
+            "compressedBytes": 2342,
+            "uncompressedBytes": 2337
+          },
+          {
+            "name": "1_sample.pdf",
+            "method": 8,
+            "compressedBytes": 2457,
+            "uncompressedBytes": 2452
+          },
+          {
+            "name": "2_sample.pdf",
+            "method": 8,
+            "compressedBytes": 2439,
+            "uncompressedBytes": 2434
+          },
+          {
+            "name": "3_sample.pdf",
+            "method": 8,
+            "compressedBytes": 2437,
+            "uncompressedBytes": 2432
+          }
+        ]
+      },
+      "documents": [
+        {
+          "name": "1_sample.pdf",
+          "bytes": 2452,
+          "compressedBytes": 2457,
+          "method": 8,
+          "sha256": "a3343ef2366ebbbd59464461bc9885242b951647f2de8d372c69b9789e1a806e",
+          "pages": 1,
+          "rotations": [
+            0
+          ],
+          "pageText": [
+            "Small Editor — sample document Page 1 of 4 The quick brown fox jumps over the lazy dog. Search is a first-class feature in this editor. Find the word merge on this page: merge. Merge PDF files without leaving the browser. Match case matters: Merge is not merge."
+          ],
+          "pageMarkers": [
+            1
+          ]
+        },
+        {
+          "name": "2_sample.pdf",
+          "bytes": 2434,
+          "compressedBytes": 2439,
+          "method": 8,
+          "sha256": "d4b2dc804fa3bcd75a5c35f69198cae58b4cb1ac55ab7dcc10ff2580acdd6afb",
+          "pages": 1,
+          "rotations": [
+            0
+          ],
+          "pageText": [
+            "Chapter 2 — Repeating text Page 2 of 4 merge merge merge appears three times here. SEARCH is uppercase; search is lowercase. A second page keeps the find counter honest. Whole word matching should not match searcher. The lazy dog sleeps while the fox runs."
+          ],
+          "pageMarkers": [
+            2
+          ]
+        },
+        {
+          "name": "3_sample.pdf",
+          "bytes": 2432,
+          "compressedBytes": 2437,
+          "method": 8,
+          "sha256": "7de1110bc096298efa22192caaa2fd05d82d91d9c70475db7a0d96d34ce061b4",
+          "pages": 1,
+          "rotations": [
+            0
+          ],
+          "pageText": [
+            "Chapter 3 — Mixed content Page 3 of 4 Numbers: 1, 2, 3, 42, 100. Punctuation: (parentheses), [brackets], {braces}. Unicode: café, naïve, Zürich, résumé. Hyphenated words: state-of-the-art, e-mail. End of page three."
+          ],
+          "pageMarkers": [
+            3
+          ]
+        },
+        {
+          "name": "4_sample.pdf",
+          "bytes": 2337,
+          "compressedBytes": 2342,
+          "method": 8,
+          "sha256": "70a6068e34769a28645aa362d02c94800eaee3fb365f079048bd31d4ded69d0a",
+          "pages": 1,
+          "rotations": [
+            0
+          ],
+          "pageText": [
+            "Chapter 4 — Last page Page 4 of 4 Search once more to test wrap-around navigation. merge The quick brown fox returns for the finale. Thank you for reading."
+          ],
+          "pageMarkers": [
+            4
+          ]
+        }
+      ],
+      "totalPages": 4,
+      "warnings": [],
+      "rateLimit": {
+        "remaining": "2",
+        "wait": "3599"
+      }
+    },
+    "extractPages": {
+      "taskId": "4OMQYFHD-202610250956",
+      "taskStatus": 200,
+      "changeStatus": "Completed",
+      "payload": {
+        "type": "extractPages",
+        "pages": "1,3-4",
+        "outputFilenamePattern": "[BASENAME]",
+        "files": [
+          "beae412e-40ca-4b81-aee1-8fe9c83fe65b-MPOMYZAYAJPDKILP_2"
+        ],
+        "uri": "/extract-pdf-pages",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+        "cvts": "0.14",
+        "pdfjs": "bebd506c3",
+        "libsCache": "654",
+        "consoleLogs": [],
+        "traceId": "tr-01af3648-8d52-4108-ab7f-3dcb3b9c648f",
+        "www": "www61.sejda.com"
+      },
+      "pdf": {
+        "path": "reports/_raw/extract-pdf-pages-result.pdf",
+        "bytes": 2722,
+        "sha256": "b266f71e31c93672c5a149d935713756dfc6da409e09d981ed67b7e629cf84c2",
+        "metadataBytes": 2736,
+        "metadataDelta": 14,
+        "resultItems": [
+          "sample.pdf"
+        ]
+      },
+      "pages": 3,
+      "rotations": [
+        0,
+        0,
+        0
+      ],
+      "pageMarkers": [
+        1,
+        3,
+        4
+      ],
+      "pageText": [
+        "Small Editor — sample document Page 1 of 4 The quick brown fox jumps over the lazy dog. Search is a first-class feature in this editor. Find the word merge on this page: merge. Merge PDF files without leaving the browser. Match case matters: Merge is not merge.",
+        "Chapter 3 — Mixed content Page 3 of 4 Numbers: 1, 2, 3, 42, 100. Punctuation: (parentheses), [brackets], {braces}. Unicode: café, naïve, Zürich, résumé. Hyphenated words: state-of-the-art, e-mail. End of page three.",
+        "Chapter 4 — Last page Page 4 of 4 Search once more to test wrap-around navigation. merge The quick brown fox returns for the finale. Thank you for reading."
+      ],
+      "warnings": [],
+      "rateLimit": {
+        "remaining": "1",
+        "wait": "3498"
+      }
+    },
+    "rotatePages": {
+      "taskId": "2BJKD1DQ-202610250956",
+      "taskStatus": 200,
+      "changeStatus": "Completed",
+      "payload": {
+        "type": "rotatePages",
+        "outputFilenamePattern": "",
+        "files": [
+          "c5d09bce-6672-454e-bd59-19f2bb9bced5-GEQYNNEN0UZE4GCV_2"
+        ],
+        "uri": "/rotate-pdf-pages",
+        "pageRotationsPerSource": [
+          "0:1:90",
+          "0:3:180",
+          "0:4:270"
+        ],
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+        "cvts": "0.14",
+        "pdfjs": "bebd506c3",
+        "libsCache": "654",
+        "consoleLogs": [],
+        "traceId": "tr-782dca92-611b-4fa2-9826-5cbb36b84657",
+        "www": "www61.sejda.com"
+      },
+      "pdf": {
+        "path": "reports/_raw/rotate-pdf-pages-result.pdf",
+        "bytes": 3238,
+        "sha256": "ecff97257550aaecef85838e6794cce687a1ecc387211cafd3a6f6a88f0738f7",
+        "metadataBytes": 3248,
+        "metadataDelta": 10,
+        "resultItems": [
+          "sample.pdf"
+        ]
+      },
+      "pages": 4,
+      "rotations": [
+        90,
+        0,
+        180,
+        270
+      ],
+      "pageMarkers": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "pageText": [
+        "Small Editor — sample document Page 1 of 4 The quick brown fox jumps over the lazy dog. Search is a first-class feature in this editor. Find the word merge on this page: merge. Merge PDF files without leaving the browser. Match case matters: Merge is not merge.",
+        "Chapter 2 — Repeating text Page 2 of 4 merge merge merge appears three times here. SEARCH is uppercase; search is lowercase. A second page keeps the find counter honest. Whole word matching should not match searcher. The lazy dog sleeps while the fox runs.",
+        "Chapter 3 — Mixed content Page 3 of 4 Numbers: 1, 2, 3, 42, 100. Punctuation: (parentheses), [brackets], {braces}. Unicode: café, naïve, Zürich, résumé. Hyphenated words: state-of-the-art, e-mail. End of page three.",
+        "Chapter 4 — Last page Page 4 of 4 Search once more to test wrap-around navigation. merge The quick brown fox returns for the finale. Thank you for reading."
+      ],
+      "warnings": [],
+      "rateLimit": {
+        "remaining": "0",
+        "wait": "3479"
+      }
+    }
+  },
+  "rateLimits": [
+    {
+      "task": "splitBySize",
+      "remaining": "2",
+      "wait": "3599"
+    },
+    {
+      "task": "extractPages",
+      "remaining": "1",
+      "wait": "3498"
+    },
+    {
+      "task": "rotatePages",
+      "remaining": "0",
+      "wait": "3479"
+    }
+  ],
+  "rateLimitNote": "Three submissions consumed the remaining free-tier allowance; no bypass was used.",
+  "metadataDeltaNote": "The task metadata resultFileSize is larger than the bytes downloaded from the signed result URL. The cause remains UNKNOWN."
+}

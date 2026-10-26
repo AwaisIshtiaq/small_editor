@@ -1,0 +1,2 @@
+claim_id,claim,status,evidence_id,scope_or_limitation
+C-0001,example: site renders a pricing grid at /pricing,observed,ev_REPLACE,one rendering at 1280x720 en-US UTC

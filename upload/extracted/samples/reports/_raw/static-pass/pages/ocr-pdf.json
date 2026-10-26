@@ -1,0 +1,1403 @@
+{
+  "url": "https://www.sejda.com/ocr-pdf",
+  "title": "OCR Recognize Text in PDF Online",
+  "readyState": "complete",
+  "lang": "en",
+  "canonical": "https://www.sejda.com/ocr-pdf",
+  "metaDescription": "Convert PDF scans to searchable text and PDFs. Extract text from scans. Online, no installation or registration required. It's free, quick and easy to use.",
+  "h1": [
+    "OCR Recognize Text in PDF Online",
+    "How To Recognize Text With OCR And Convert To Searchable PDF Documents"
+  ],
+  "h2": [
+    "Convert PDF scans to searchable text and PDFs. Extract text from scans",
+    "Too many attempts. Please try again later.\n      \n      \n        Sorry, your file is too large.",
+    "You reached your free limit of 30 files per hour.\n        \n        Please upgrade to continue processing this task.\n      \n      \n        You reached your free limit of 3 tasks per hour.\n        \n        Please upgrade to continue processing this task or break for 00:59:00.\n      \n      \n        You reached your free limit of 50 MB per file.\n        \n        Please upgrade to continue processing this task.\n      \n      \n        You reached your free limit of 5MB per image file.\n        \n        Please upgrade to continue processing this task.\n      \n      \n        Free users are limited to a single file per task.\n        \n        Please upgrade to continue processing multiple files at once.\n      \n      \n        You reached your free limit of 50 pages.\n        \n        Please upgrade to continue processing this task.\n      \n      \n        Free users are limited to 20 pages per conversion.\n        \n        Please upgrade to continue processing this task.\n      \n      \n        Free users are limited to 20 links per task.\n        \n        Please upgrade to continue processing up to 100 links at once.\n      \n      \n        Free users are limited to 10 pages per OCR task.\n        \n        Please upgrade to continue processing this document.\n      \n      \n        Free users are limited to 50 pages per conversion.\n        \n        Please upgrade to continue processing this document.\n      \n      \n        Free users are limited to 5 files per Rename task.\n        \n        Please upgrade to continue processing this task.\n      \n      \n        Free users are limited to 1 workflow.\n        \n        Please upgrade to use more workflows.",
+    "Below we show how to OCR convert PDF documents, for free."
+  ],
+  "dataTask": [
+    {
+      "tag": "section",
+      "id": "task-content",
+      "class": "",
+      "name": "",
+      "value": "",
+      "task": "ocr",
+      "visible": true
+    }
+  ],
+  "fileInputs": [
+    {
+      "tag": "input",
+      "type": "file",
+      "name": "file",
+      "id": "fileupload_35ab9dcc-28fc-4e50-aff3-59d0cb186f56",
+      "class": "fileupload",
+      "value": "[redacted]",
+      "placeholder": "",
+      "checked": false,
+      "disabled": false,
+      "readOnly": false,
+      "min": null,
+      "max": null,
+      "step": null,
+      "accept": ".pdf",
+      "multiple": false,
+      "data": {
+        "data-url": "https://www.sejda.com/api/files/upload?_s=[redacted]&uplid=[redacted]",
+        "data-scope": "task-file",
+        "data-allows-drop": "true"
+      },
+      "formId": "fileUploadForm",
+      "formAction": "https://www.sejda.com/api/files/upload?_s=%5Bredacted%5D&uplid=%5Bredacted%5D",
+      "formMethod": "POST",
+      "formEnctype": "multipart/form-data"
+    },
+    {
+      "tag": "input",
+      "type": "file",
+      "name": "",
+      "id": "supportScreenshotFile",
+      "class": "",
+      "value": "[redacted]",
+      "placeholder": "",
+      "checked": false,
+      "disabled": false,
+      "readOnly": false,
+      "min": null,
+      "max": null,
+      "step": null,
+      "accept": ".png,.jpg,.jpeg,.bmp",
+      "multiple": false,
+      "data": {},
+      "formId": "contactForm",
+      "formAction": "",
+      "formMethod": "",
+      "formEnctype": ""
+    }
+  ],
+  "forms": [
+    {
+      "id": "",
+      "class": "",
+      "name": "",
+      "action": "",
+      "method": "",
+      "enctype": "",
+      "visible": false,
+      "data": {},
+      "fields": [
+        {
+          "tag": "input",
+          "type": "search",
+          "name": "",
+          "id": "searchTools",
+          "class": "form-control input-sm",
+          "value": "",
+          "placeholder": "Type to search",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        }
+      ]
+    },
+    {
+      "id": "fileUploadForm",
+      "class": "",
+      "name": "",
+      "action": "https://www.sejda.com/api/files/upload?_s=%5Bredacted%5D&uplid=%5Bredacted%5D",
+      "method": "POST",
+      "enctype": "multipart/form-data",
+      "visible": false,
+      "data": {
+        "data-parallel-chunked-uploads": "true",
+        "data-filetypes": "pdf",
+        "data-chunked-uploads": "true"
+      },
+      "fields": [
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "uplid",
+          "id": "uplid",
+          "class": "",
+          "value": "[redacted]",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "input",
+          "type": "file",
+          "name": "file",
+          "id": "fileupload_35ab9dcc-28fc-4e50-aff3-59d0cb186f56",
+          "class": "fileupload",
+          "value": "",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": ".pdf",
+          "multiple": false,
+          "data": {
+            "data-url": "https://www.sejda.com/api/files/upload?_s=[redacted]&uplid=[redacted]",
+            "data-scope": "task-file",
+            "data-allows-drop": "true"
+          }
+        }
+      ]
+    },
+    {
+      "id": "",
+      "class": "form-horizontal task-form",
+      "name": "",
+      "action": "",
+      "method": "",
+      "enctype": "",
+      "visible": false,
+      "data": {},
+      "fields": [
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "type",
+          "id": "",
+          "class": "",
+          "value": "ocr",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "outputFilenamePattern",
+          "id": "",
+          "class": "",
+          "value": "",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "button",
+          "type": "button",
+          "name": "",
+          "id": "",
+          "class": "btn dropdown-toggle btn-xs btn-select",
+          "value": "",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {
+            "data-toggle": "dropdown",
+            "data-id": "mainLangDropdown"
+          }
+        },
+        {
+          "tag": "select",
+          "type": "select",
+          "name": "lang",
+          "id": "mainLangDropdown",
+          "class": "drodown selectpicker",
+          "value": "eng",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "options": [
+            {
+              "value": "afr",
+              "text": "Afrikaans",
+              "selected": false
+            },
+            {
+              "value": "sqi",
+              "text": "Albanian",
+              "selected": false
+            },
+            {
+              "value": "grc",
+              "text": "Ancient Greek",
+              "selected": false
+            },
+            {
+              "value": "aze",
+              "text": "Azerbaijani",
+              "selected": false
+            },
+            {
+              "value": "eus",
+              "text": "Basque",
+              "selected": false
+            },
+            {
+              "value": "bel",
+              "text": "Belarusian",
+              "selected": false
+            },
+            {
+              "value": "ben",
+              "text": "Bengali",
+              "selected": false
+            },
+            {
+              "value": "bul",
+              "text": "Bulgarian",
+              "selected": false
+            },
+            {
+              "value": "cat",
+              "text": "Catalan",
+              "selected": false
+            },
+            {
+              "value": "chr",
+              "text": "Cherokee",
+              "selected": false
+            },
+            {
+              "value": "chi_sim",
+              "text": "Chinese",
+              "selected": false
+            },
+            {
+              "value": "hrv",
+              "text": "Croatian",
+              "selected": false
+            },
+            {
+              "value": "ces",
+              "text": "Czech",
+              "selected": false
+            },
+            {
+              "value": "dan",
+              "text": "Danish",
+              "selected": false
+            },
+            {
+              "value": "nld",
+              "text": "Dutch",
+              "selected": false
+            },
+            {
+              "value": "eng",
+              "text": "English",
+              "selected": true
+            },
+            {
+              "value": "enm",
+              "text": "English (Old)",
+              "selected": false
+            },
+            {
+              "value": "epo",
+              "text": "Esperanto",
+              "selected": false
+            },
+            {
+              "value": "est",
+              "text": "Estonian",
+              "selected": false
+            },
+            {
+              "value": "fin",
+              "text": "Finnish",
+              "selected": false
+            },
+            {
+              "value": "frk",
+              "text": "Frankish",
+              "selected": false
+            },
+            {
+              "value": "fra",
+              "text": "French",
+              "selected": false
+            },
+            {
+              "value": "frm",
+              "text": "French (Old)",
+              "selected": false
+            },
+            {
+              "value": "glg",
+              "text": "Galician",
+              "selected": false
+            },
+            {
+              "value": "deu",
+              "text": "German",
+              "selected": false
+            },
+            {
+              "value": "ell",
+              "text": "Greek",
+              "selected": false
+            },
+            {
+              "value": "heb",
+              "text": "Hebrew",
+              "selected": false
+            },
+            {
+              "value": "hin",
+              "text": "Hindi",
+              "selected": false
+            },
+            {
+              "value": "hun",
+              "text": "Hungarian",
+              "selected": false
+            },
+            {
+              "value": "isl",
+              "text": "Icelandic",
+              "selected": false
+            },
+            {
+              "value": "ind",
+              "text": "Indonesian",
+              "selected": false
+            },
+            {
+              "value": "ita",
+              "text": "Italian",
+              "selected": false
+            },
+            {
+              "value": "jpn",
+              "text": "Japanese",
+              "selected": false
+            },
+            {
+              "value": "kan",
+              "text": "Kannada",
+              "selected": false
+            },
+            {
+              "value": "kor",
+              "text": "Korean",
+              "selected": false
+            },
+            {
+              "value": "lav",
+              "text": "Latvian",
+              "selected": false
+            },
+            {
+              "value": "lit",
+              "text": "Lithuanian",
+              "selected": false
+            },
+            {
+              "value": "mkd",
+              "text": "Macedonian",
+              "selected": false
+            },
+            {
+              "value": "msa",
+              "text": "Malay",
+              "selected": false
+            },
+            {
+              "value": "mal",
+              "text": "Malayalam",
+              "selected": false
+            },
+            {
+              "value": "mlt",
+              "text": "Maltese",
+              "selected": false
+            },
+            {
+              "value": "nor",
+              "text": "Norwegian",
+              "selected": false
+            },
+            {
+              "value": "spa_old",
+              "text": "Old Spanish",
+              "selected": false
+            },
+            {
+              "value": "fas",
+              "text": "Persian (Farsi)",
+              "selected": false
+            },
+            {
+              "value": "pol",
+              "text": "Polish",
+              "selected": false
+            },
+            {
+              "value": "por",
+              "text": "Portuguese",
+              "selected": false
+            },
+            {
+              "value": "ron",
+              "text": "Romanian",
+              "selected": false
+            },
+            {
+              "value": "rus",
+              "text": "Russian",
+              "selected": false
+            },
+            {
+              "value": "srp",
+              "text": "Serbian",
+              "selected": false
+            },
+            {
+              "value": "slk",
+              "text": "Slovakian",
+              "selected": false
+            },
+            {
+              "value": "slv",
+              "text": "Slovenian",
+              "selected": false
+            },
+            {
+              "value": "spa",
+              "text": "Spanish",
+              "selected": false
+            },
+            {
+              "value": "swa",
+              "text": "Swahili",
+              "selected": false
+            },
+            {
+              "value": "swe",
+              "text": "Swedish",
+              "selected": false
+            },
+            {
+              "value": "tam",
+              "text": "Tamil",
+              "selected": false
+            },
+            {
+              "value": "tel",
+              "text": "Telugu",
+              "selected": false
+            },
+            {
+              "value": "tha",
+              "text": "Thai",
+              "selected": false
+            },
+            {
+              "value": "chi_tra",
+              "text": "Traditional Chinese",
+              "selected": false
+            },
+            {
+              "value": "tur",
+              "text": "Turkish",
+              "selected": false
+            },
+            {
+              "value": "ukr",
+              "text": "Ukrainian",
+              "selected": false
+            },
+            {
+              "value": "vie",
+              "text": "Vietnamese",
+              "selected": false
+            }
+          ],
+          "data": {
+            "data-width": "110px",
+            "data-style": "btn-xs btn-select"
+          }
+        },
+        {
+          "tag": "input",
+          "type": "checkbox",
+          "name": "outputFormats[]",
+          "id": "",
+          "class": "",
+          "value": "pdf",
+          "placeholder": "",
+          "checked": true,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "input",
+          "type": "checkbox",
+          "name": "outputFormats[]",
+          "id": "",
+          "class": "",
+          "value": "txt",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "button",
+          "type": "submit",
+          "name": "",
+          "id": "ocrAllPagesSubmitBtn",
+          "class": "btn btn-default btn-medium",
+          "value": "",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        }
+      ]
+    },
+    {
+      "id": "contactForm",
+      "class": "",
+      "name": "",
+      "action": "",
+      "method": "",
+      "enctype": "",
+      "visible": false,
+      "data": {},
+      "fields": [
+        {
+          "tag": "textarea",
+          "type": "textarea",
+          "name": "message",
+          "id": "contact-msg",
+          "class": "form-control",
+          "value": "",
+          "placeholder": "Type your message",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "input",
+          "type": "email",
+          "name": "email",
+          "id": "contact-email",
+          "class": "form-control",
+          "value": "[redacted]",
+          "placeholder": "Optional. If you want us to reply, let us know your email",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "button",
+          "type": "button",
+          "name": "",
+          "id": "completeStep1Btn",
+          "class": "btn btn-default",
+          "value": "",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "button",
+          "type": "button",
+          "name": "",
+          "id": "completeStep3Btn",
+          "class": "btn btn-link btn-xs",
+          "value": "",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "input",
+          "type": "radio",
+          "name": "supportMessageKind",
+          "id": "",
+          "class": "",
+          "value": "problem",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "input",
+          "type": "radio",
+          "name": "supportMessageKind",
+          "id": "",
+          "class": "",
+          "value": "other",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "input",
+          "type": "checkbox",
+          "name": "allowAccessLastTask",
+          "id": "",
+          "class": "",
+          "value": "on",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "input",
+          "type": "file",
+          "name": "",
+          "id": "supportScreenshotFile",
+          "class": "",
+          "value": "",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": ".png,.jpg,.jpeg,.bmp",
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "button",
+          "type": "submit",
+          "name": "",
+          "id": "sendMessageBtn",
+          "class": "btn btn-default",
+          "value": "",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "suflet",
+          "id": "",
+          "class": "",
+          "value": "iluzie",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "source",
+          "id": "",
+          "class": "",
+          "value": "",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "source2",
+          "id": "",
+          "class": "",
+          "value": "",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "lastFile",
+          "id": "",
+          "class": "",
+          "value": "",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "lastTask",
+          "id": "",
+          "class": "",
+          "value": "",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "events",
+          "id": "",
+          "class": "",
+          "value": "",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "consoleLogs",
+          "id": "",
+          "class": "",
+          "value": "",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "screenshot",
+          "id": "",
+          "class": "",
+          "value": "",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "os",
+          "id": "",
+          "class": "",
+          "value": "",
+          "placeholder": "",
+          "checked": false,
+          "disabled": false,
+          "readOnly": false,
+          "min": null,
+          "max": null,
+          "step": null,
+          "accept": null,
+          "multiple": false,
+          "data": {}
+        }
+      ]
+    }
+  ],
+  "submits": [
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "close",
+      "text": "×",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "close",
+      "text": "×",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "close",
+      "text": "×",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "a",
+      "type": "",
+      "id": "",
+      "class": "btn btn-default btn-medium upgrade-btn",
+      "text": "Upgrade",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "a",
+      "type": "",
+      "id": "",
+      "class": "btn btn-secondary btn-medium already-customer-btn login-btn",
+      "text": "Log in",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "span",
+      "type": "",
+      "id": "",
+      "class": "btn btn-lg fileinput-button",
+      "text": "Upload PDF file",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "btn btn-lg dropdown-toggle",
+      "text": "Toggle Dropdown",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "btn btn-primary btn-xs",
+      "text": "Continue",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "",
+      "id": "",
+      "class": "btn blue-btn btn-xs enter-owner-pwd-btn",
+      "text": "Enter password",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "close",
+      "text": "×",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "btn btn-primary btn-xs",
+      "text": "Continue",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "close",
+      "text": "×",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "btn btn-light btn-xs",
+      "text": "Cancel",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "btn btn-primary btn-xs",
+      "text": "Continue",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "close",
+      "text": "×",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "btn btn-yes btn-xs",
+      "text": "Ok, retry upload",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "btn btn-yes btn-xs",
+      "text": "Re-upload files",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "btn btn-default dropdown-toggle",
+      "text": "Sort by",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "btn btn-xs btn-secondary",
+      "text": "Close",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "a",
+      "type": "",
+      "id": "",
+      "class": "btn btn-xl",
+      "text": "OCR Recognize Text in PDF Online free",
+      "visible": true,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "btn dropdown-toggle btn-xs btn-select",
+      "text": "English",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "submit",
+      "id": "ocrAllPagesSubmitBtn",
+      "class": "btn btn-default btn-medium",
+      "text": "Recognize text on all pages",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "close",
+      "text": "×",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "a",
+      "type": "",
+      "id": "",
+      "class": "btn btn-secondary btn-xs",
+      "text": "Go to Sejda Desktop",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "close",
+      "text": "×",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "completeStep1Btn",
+      "class": "btn btn-default",
+      "text": "Next",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "completeStep3Btn",
+      "class": "btn btn-link btn-xs",
+      "text": "This does not answer my question",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "submit",
+      "id": "sendMessageBtn",
+      "class": "btn btn-default",
+      "text": "Send message",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "close",
+      "text": "×",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "btn btn-no btn-light btn-xs",
+      "text": "No, cancel",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "btn btn-yes btn-xs",
+      "text": "Yes, continue",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "close",
+      "text": "×",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "btn btn-yes btn-xs",
+      "text": "Reload page",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "close",
+      "text": "×",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "close",
+      "text": "×",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "btn btn-secondary btn-no btn-xs",
+      "text": "Cancel",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "btn btn-yes btn-xs",
+      "text": "Continue",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "close",
+      "text": "×",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "a",
+      "type": "",
+      "id": "",
+      "class": "btn btn-secondary btn-xs",
+      "text": "Learn more",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "close",
+      "text": "×",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "btn btn-yes btn-xs",
+      "text": "Move page",
+      "visible": false,
+      "disabled": false
+    },
+    {
+      "tag": "button",
+      "type": "button",
+      "id": "",
+      "class": "close",
+      "text": "×",
+      "visible": false,
+      "disabled": false
+    }
+  ],
+  "scripts": [
+    {
+      "src": "https://a.sejda.com/js/pa-pTbOttubxy_kKIavRgNtA.js",
+      "type": "",
+      "async": true,
+      "defer": true,
+      "integrity": "",
+      "inlineBytes": 0
+    },
+    {
+      "src": "https://www.sejda.com/js/pages/ocr-pdf.min.js?v=23",
+      "type": "text/javascript",
+      "async": true,
+      "defer": false,
+      "integrity": "",
+      "inlineBytes": 0
+    },
+    {
+      "src": "",
+      "type": "",
+      "async": true,
+      "defer": false,
+      "integrity": "",
+      "inlineBytes": 0
+    },
+    {
+      "src": "https://www.sejda.com/cache/654/js/libs-and-partials.min.js",
+      "type": "",
+      "async": true,
+      "defer": false,
+      "integrity": "",
+      "inlineBytes": 0
+    }
+  ],
+  "bodyText": "Sejda All Tools Compress Edit Fill & Sign Merge Delete Pages Crop Pricing Desktop Log in OCR Recognize Text in PDF Online Convert PDF scans to searchable text and PDFs. Extract text from scans Upload PDF file Toggle Dropdown Files stay private. Automatically deleted after 2 hours. Free service for documents up to 10 pages or 50 MB and 3 tasks per hour. PRO service for documents up to 100 pages Terms of Use and Privacy Policy OFFLINE Rather work offline? Try Sejda Desktop How To Recognize Text With OCR And Convert To Searchable PDF Documents Below we show how to OCR convert PDF documents, for free. Step 1: Select your PDF file Files are transfered safely over an encrypted SSL connection. Documents stay private and are permanently removed after processing. Rather skip the uploading and work with your files locally? Try Sejda Desktop. Offers same features as the web service, and the documents are converted locally. Click Upload PDF files and choose files from your computer. Can also drag and drop files anywhere on the page. Step 2: Select the language of your document The OCR conversion process works best when the language is specified. This way ambiguous words are easier resolved based on the language dictionary. Step 3: Select the output formats, searchable PDF and/or plain text Convert your scan PDF to a searchable PDF file that contains text. Or convert your PDF to a plain text file containing just the text. Tip: Output both a searchable PDF and the plain text file version You'll get a searchable PDF document as a result, where the invisible text is overlayed on the original images at the correct locations. Accuracy of the OCR process To inspect the accuracy of the OCR process, open the PDF document, select all text (Ctrl+A) and copy & paste it into a text file. Higher resolution documents consistently lead to better results. Don't compress your scans before running the OCR process. Unfortunately we can't guarantee 100% accuracy on the recognized text, this is a best-effort approach. Ready to OCR your PDF file? OCR Recognize Text in PDF Online free RESOURCES Pricing & Upgrade Sejda for Desktop Sejda for G Suite Sejda for Education About Blog API HTML to PDF API Developer Docs LEGAL Terms of Use Privacy Policy Cookies Privacy Settings Security SLA Made in Amsterdam © Sejda BV 2013-present. Thank you for your time. TOOLS Add PDF Page Numbers Alternate & Mix PDF Bates Numbering PDF Compress PDF Create PDF Bookmarks Crop PDF Delete PDF Annotations Delete PDF Pages Deskew PDF Edit PDF Metadata Extract Images from PDF Extract PDF Pages Fill & Sign PDF Flatten PDF Flip PDF Grayscale PDF Header & Footer PDF HTML to PDF JPG to PDF Merge PDF N-up PDF OCR PDF PDF Editor PDF Page Numbers PDF to Excel PDF to JPG PDF to PowerPoint PDF to Text PDF to Word Protect PDF Repair PDF Resize PDF Rotate PDF Split PDF by bookmarks Split PDF by pages Split PDF by size Split PDF by text Split PDF in half Unlock PDF Visual Combine & Reorder PDF Watermark PDF Word to PDF LANGUAGES العربية Bahasa Indonesia Deutsch Dansk Český English Español Ελληνικά Français Italiano 日本語 한국어 简体中文 繁體中文 हिन्दी עברית Magyar Nederlands Norsk Polski Português Română Русский Suomi Svenska ภาษาไทย Tiếng Việt Türkçe Українська CONTACT hi@sejda.com",
+  "bodyTextLength": 3255,
+  "bodyClasses": "",
+  "hasFileUploadForm": true,
+  "hasStep2Choices": false,
+  "hasTaskForm": true,
+  "hasDropZone": false,
+  "counts": {
+    "forms": 4,
+    "fileInputs": 2,
+    "dataTask": 1,
+    "buttons": 36,
+    "links": 279
+  },
+  "capture": {
+    "route": "ocr-pdf",
+    "requestedUrl": "https://www.sejda.com/ocr-pdf",
+    "capturedAt": "2026-10-24T21:46:06.894Z",
+    "environment": {
+      "viewport": "1440x900@1",
+      "locale": "en-US",
+      "timezone": "UTC",
+      "colorScheme": "light",
+      "reducedMotion": "reduce",
+      "serviceWorkers": "bypass",
+      "cache": "disabled",
+      "loggedIn": false
+    },
+    "htmlPath": "reports/_raw/static-pass/pages/ocr-pdf.html",
+    "htmlBytes": 126690,
+    "htmlSha256": "62d620c2d68c86233213ae9c3d3c31af3134a6423b2ef489dab689880c20692a",
+    "screenshotPath": "reports/_raw/static-pass/pages/ocr-pdf.png",
+    "screenshotBytes": 94231,
+    "screenshotSha256": "45c2b25b98a91b125144d7281bcfe27bb49ce686f4074cce06ed82ea1b377829"
+  }
+}

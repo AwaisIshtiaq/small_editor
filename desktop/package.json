@@ -1,0 +1,51 @@
+{
+  "name": "small-editor-desktop",
+  "version": "1.0.0",
+  "description": "Small Editor — desktop PDF tools, powered by the same engine as the web app",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --publish never"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.smaleditor.desktop",
+    "productName": "Small Editor",
+    "files": [
+      "main.js"
+    ],
+    "extraResources": [
+      {
+        "from": "../.next/standalone",
+        "to": ".",
+        "filter": [
+          "**/*",
+          "!node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs.map"
+        ]
+      },
+      {
+        "from": "../.next/static",
+        "to": ".next/static"
+      },
+      {
+        "from": "../public",
+        "to": "public"
+      }
+    ],
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "category": "Office"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.productivity"
+    }
+  }
+}

@@ -1,0 +1,557 @@
+{
+  "capturedAt": "2026-10-25T08:51:51.353Z",
+  "route": "rotate-pdf-pages",
+  "target": {
+    "id": "2334345BC4BF2D800BB6DC30A05BA653",
+    "title": "Split PDF by file size",
+    "url": "https://www.sejda.com/split-pdf-by-size"
+  },
+  "inputBefore": {
+    "id": "fileupload_cbed63e1-8238-4569-b774-dab065ef85bf",
+    "accept": ".pdf",
+    "multiple": true
+  },
+  "api": [
+    {
+      "method": "POST",
+      "url": "https://a.sejda.com/api/event",
+      "status": 202,
+      "mime": "text/plain",
+      "postData": "{\"n\":\"pageview\",\"v\":33,\"u\":\"https://www.sejda.com/rotate-pdf-pages\",\"d\":\"sejda.com\",\"r\":null}"
+    },
+    {
+      "method": "POST",
+      "url": "https://www.sejda.com/api/files/upload-check",
+      "status": 200,
+      "mime": "application/json",
+      "postData": "uplid=UPFM410250951"
+    },
+    {
+      "method": "POST",
+      "url": "https://www.sejda.com/api/files/upload?_s=61&uplid=UPFM410250951",
+      "status": 200,
+      "mime": "application/json",
+      "postData": null
+    }
+  ],
+  "dump": {
+    "url": "https://www.sejda.com/rotate-pdf-pages",
+    "title": "Rotate PDF - Rotate Pages, Online, for Free",
+    "step2": null,
+    "files": [
+      {
+        "name": "files[]",
+        "value": "6c6ca77f-a1f5-42d7-af6a-9c7956becd87-5NQOLVBN4KQQRHOD_2",
+        "id": ""
+      }
+    ],
+    "fileInputs": [
+      {
+        "id": "fileupload_cbed63e1-8238-4569-b774-dab065ef85bf",
+        "name": "file",
+        "accept": ".pdf",
+        "multiple": true
+      },
+      {
+        "id": "supportScreenshotFile",
+        "name": "",
+        "accept": ".png,.jpg,.jpeg,.bmp",
+        "multiple": false
+      }
+    ],
+    "buttons": [
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "a",
+        "type": "",
+        "id": "",
+        "class": "btn btn-default btn-medium upgrade-btn",
+        "text": "Upgrade",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "a",
+        "type": "",
+        "id": "",
+        "class": "btn btn-secondary btn-medium already-customer-btn login-btn",
+        "text": "Log in",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-lg dropdown-toggle",
+        "text": "Toggle Dropdown",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-primary btn-xs",
+        "text": "Continue",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "",
+        "id": "",
+        "class": "btn blue-btn btn-xs enter-owner-pwd-btn",
+        "text": "Enter password",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-primary btn-xs",
+        "text": "Continue",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-light btn-xs",
+        "text": "Cancel",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-primary btn-xs",
+        "text": "Continue",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-yes btn-xs",
+        "text": "Ok, retry upload",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-yes btn-xs",
+        "text": "Re-upload files",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-default dropdown-toggle",
+        "text": "Sort by",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-xs btn-secondary",
+        "text": "Close",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-default page-tools-btn active",
+        "text": "All pages",
+        "visible": true,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-default page-tools-btn",
+        "text": "Only odd",
+        "visible": true,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-default page-tools-btn",
+        "text": "Only even",
+        "visible": true,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "resetBtn",
+        "class": "btn btn-default",
+        "text": "Reset",
+        "visible": true,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-light btn-xs btn-yes",
+        "text": "Yes",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-primary btn-xs btn-no",
+        "text": "No",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "submit",
+        "id": "",
+        "class": "btn btn-default btn-medium",
+        "text": "Apply changes",
+        "visible": true,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "completeStep1Btn",
+        "class": "btn btn-default",
+        "text": "Next",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "completeStep3Btn",
+        "class": "btn btn-link btn-xs",
+        "text": "This does not answer my question",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "submit",
+        "id": "sendMessageBtn",
+        "class": "btn btn-default",
+        "text": "Send message",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-no btn-light btn-xs",
+        "text": "No, cancel",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-yes btn-xs",
+        "text": "Yes, continue",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-yes btn-xs",
+        "text": "Reload page",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-secondary btn-no btn-xs",
+        "text": "Cancel",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-yes btn-xs",
+        "text": "Continue",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "a",
+        "type": "",
+        "id": "",
+        "class": "btn btn-secondary btn-xs",
+        "text": "Learn more",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "btn btn-yes btn-xs",
+        "text": "Move page",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      },
+      {
+        "tag": "button",
+        "type": "button",
+        "id": "",
+        "class": "close",
+        "text": "×",
+        "visible": false,
+        "disabled": false,
+        "onclick": ""
+      }
+    ],
+    "taskForm": {
+      "id": "",
+      "class": "form-inline task-form",
+      "html": "<form autocomplete=\"off\" class=\"form-inline task-form\">\n          <input value=\"rotatePages\" name=\"type\" type=\"hidden\">\n          <input value=\"\" name=\"outputFilenamePattern\" type=\"hidden\">\n\n          <div class=\"container\">\n            <div class=\"row head-space-xl\">\n              <button class=\"btn btn-default btn-medium\" type=\"submit\">Apply changes</button>\n            </div>\n          </div>\n        <input type=\"hidden\" name=\"files[]\" value=\"6c6ca77f-a1f5-42d7-af6a-9c7956becd87-5NQOLVBN4KQQRHOD_2\"></form>",
+      "fields": [
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "type",
+          "id": "",
+          "value": "rotatePages",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "outputFilenamePattern",
+          "id": "",
+          "value": "",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        },
+        {
+          "tag": "button",
+          "type": "submit",
+          "name": "",
+          "id": "",
+          "value": "",
+          "placeholder": "",
+          "text": "Apply changes",
+          "visible": true,
+          "checked": false
+        },
+        {
+          "tag": "input",
+          "type": "hidden",
+          "name": "files[]",
+          "id": "",
+          "value": "6c6ca77f-a1f5-42d7-af6a-9c7956becd87-5NQOLVBN4KQQRHOD_2",
+          "placeholder": "",
+          "text": "",
+          "visible": false,
+          "checked": false
+        }
+      ]
+    },
+    "bodyText": " Sejda All Tools Compress Edit Fill & Sign Merge Delete Pages Crop\nPricing Desktop Log in \nRotate PDF\nRotate and save PDF pages permanently\n  \nAll pages\nOnly odd\nOnly even\n \n \n Reset\n1\n2\n3\n4\nApply changes"
+  }
+}

@@ -1,0 +1,940 @@
+openapi: 3.1.0
+info:
+  title: Reconstructed sejda.com public upload and task contract
+  version: 0.5.0
+  description: |
+    RECONSTRUCTED, NOT OFFICIAL. This document covers only operations that were
+    observed in logged-out browser sessions on 2026-10-23/25, plus a small set
+    of client-only references retained as unverified.
+
+    Three logged-out free-tier windows exercised ten task types end to end with
+    local fixtures:
+      - splitByPages      -> four one-page PDFs in a ZIP
+      - merge             -> one 8-page PDF
+      - headerFooter      -> one 4-page PDF with Page 1..Page 4 headers
+      - pdfToImage        -> four 150-dpi JPEGs in a ZIP
+      - splitByBookmarks  -> three section PDFs (pages 1, 2-3 and 4)
+      - alternateMix      -> one 8-page default-interleave PDF
+      - encrypt           -> one 4-page AES-256 PDF
+      - splitBySize       -> four one-page PDFs in a ZIP (1 KB target)
+      - extractPages      -> one 3-page PDF containing source pages 1, 3 and 4
+      - rotatePages       -> one 4-page PDF with page rotations 90, 0, 180, 270
+
+    All ten followed the same public lifecycle:
+      upload-check -> upload -> POST /api/tasks -> GET /api/tasks/{id}/change
+      -> result page -> signed download.
+
+    It is not the vendor's OpenAPI specification. Fields that were not visible
+    in the capture are marked `x-reconstructed`. Operations that appear only
+    as client references are kept under `x-unverified-client-references` and
+    are not claimed as implemented. All 44 English tool pages are inventoried
+    in `reports/coverage/tools.csv`, but only ten task-specific payloads were
+    submitted.
+  x-source:
+    - reports/_raw/rea-upload-task-network.json
+    - reports/_raw/rea-upload-task-network.sanitized.json
+    - reports/_raw/merge-task-network.json
+    - reports/_raw/header-footer-pdf-task-network.json
+    - reports/_raw/pdf-to-jpg-task-network.json
+    - reports/_raw/split-pdf-by-outline-task-network.sanitized.json
+    - reports/_raw/alternate-mix-pdf-task-network.sanitized.json
+    - reports/_raw/encrypt-pdf-task-network.sanitized.json
+    - reports/_raw/followup-workflow-verification.json
+    - reports/_raw/split-pdf-by-size-task-network.sanitized.json
+    - reports/_raw/extract-pdf-pages-task-network.sanitized.json
+    - reports/_raw/rotate-pdf-pages-task-network.sanitized.json
+    - reports/_raw/phase4c-workflow-verification.json
+    - reports/evidence/rea-bounded-pass.bundle.json
+    - reports/evidence/workflow-pass-manifest.csv
+    - reports/22-tool-matrix-and-workflows.md
+    - reports/_raw/sejda-js/shared.js
+    - reports/_raw/sejda-js/split.js
+    - site-re/sites/sejda-com/raw/upload-probe.json
+    - site-re/sites/sejda-com/raw/backend-probe.json
+  x-claims:
+    - C-0053
+    - C-0054
+    - C-0055
+    - C-0056
+    - C-0058
+    - C-0059
+    - C-0060
+    - C-0061
+    - C-0062
+    - C-0063
+    - C-0064
+    - C-0067
+    - C-0068
+    - C-0069
+    - C-0070
+    - C-0071
+    - C-0072
+    - C-0073
+    - C-0074
+    - C-0075
+    - C-0076
+    - C-0077
+    - C-0078
+    - C-0079
+    - C-0080
+    - C-0081
+    - C-0082
+    - C-0083
+    - C-0084
+
+servers:
+  - url: https://www.sejda.com
+    description: Public origin observed behind Cloudflare
+
+tags:
+  - name: files
+    description: File upload operations observed in a logged-out session
+  - name: tasks
+    description: Asynchronous task submission, status polling and result download
+  - name: analytics
+    description: First-party analytics endpoint observed during page activity
+
+paths:
+  /api/files/upload-check:
+    post:
+      tags: [files]
+      summary: Pre-upload check
+      description: |
+        Observed as a same-origin POST after selecting `sample.pdf`. The request
+        body was `uplid=<value>` (form-urlencoded) and the response body was
+        exactly `{"status":"ok"}`.
+      operationId: uploadCheck
+      security: []
+      x-status: observed
+      x-evidence: art_338ccde339635828e237193dac4ee524010ece3ff5e25cb27427a8f56381facf
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [uplid]
+              properties:
+                uplid:
+                  type: string
+                  description: Upload correlation id generated for the page/task session.
+      responses:
+        "200":
+          description: Check accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status]
+                properties:
+                  status:
+                    type: string
+                    enum: [ok]
+              example:
+                status: ok
+          headers:
+            Server:
+              schema: { type: string }
+              description: Observed `cloudflare`
+            X-Firefox-Translate:
+              schema: { type: string }
+              description: Observed `disable`
+            X-Frame-Options:
+              schema: { type: string }
+              description: Observed `SAMEORIGIN`
+            Cache-Control:
+              schema: { type: string }
+              description: Observed `no-cache, private, no-store, no-transform`
+            Access-Control-Allow-Origin:
+              schema: { type: string }
+              description: Observed `https://www.sejda.com`
+            Access-Control-Allow-Credentials:
+              schema: { type: string }
+              description: Observed `true`
+            Vary:
+              schema: { type: string }
+              description: Observed `Origin`
+        default:
+          description: Not exercised; error schema unknown
+          x-status: unknown
+
+  /api/files/upload:
+    post:
+      tags: [files]
+      summary: Upload a PDF
+      description: |
+        Observed as a same-origin multipart POST after `upload-check`. The
+        browser sent `X-FileLocalId`, `Content-Disposition: attachment;
+        filename="sample.pdf"` and a multipart body. The response was
+        `{"id":"<uuid>-<server-suffix>_<counter>"}`.
+
+        Chrome DevTools Protocol did not expose the multipart request bytes in
+        this capture, so the exact field order and all optional fields are not
+        modelled.
+      operationId: uploadFile
+      security: []
+      x-status: observed
+      x-evidence: art_338ccde339635828e237193dac4ee524010ece3ff5e25cb27427a8f56381facf
+      parameters:
+        - name: _s
+          in: query
+          required: false
+          schema: { type: string }
+          description: Observed empty in the 2026-10-25 capture; semantics unknown.
+        - name: uplid
+          in: query
+          required: false
+          schema: { type: string }
+          description: Observed upload correlation id; matches the preceding check.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The selected PDF. Field name observed in the page form.
+                uplid:
+                  type: string
+                  description: Hidden form field observed in the page form.
+              x-reconstructed: true
+              x-note: "The form is `#fileUploadForm`; the body bytes were not retained by CDP."
+      responses:
+        "200":
+          description: Upload accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [id]
+                properties:
+                  id:
+                    type: string
+                    description: Observed as `<uuid>-<server-suffix>_<counter>`; semantics unknown.
+                    examples:
+                      - "<file-id>"
+          headers:
+            Server:
+              schema: { type: string }
+              description: Observed `cloudflare`
+            X-Firefox-Translate:
+              schema: { type: string }
+              description: Observed `disable`
+            X-Frame-Options:
+              schema: { type: string }
+              description: Observed `SAMEORIGIN`
+            Cache-Control:
+              schema: { type: string }
+              description: Observed `no-cache, private, no-store, no-transform`
+            Access-Control-Allow-Origin:
+              schema: { type: string }
+              description: Observed `https://www.sejda.com`
+            Access-Control-Allow-Credentials:
+              schema: { type: string }
+              description: Observed `true`
+        default:
+          description: Not exercised; error schema unknown
+          x-status: unknown
+
+  /api/tasks:
+    post:
+      tags: [tasks]
+      summary: Submit a PDF task
+      description: |
+        Observed for ten logged-out task types: `splitByPages` (split-pdf),
+        `merge` (merge-pdf), `headerFooter` (header-footer-pdf),
+        `pdfToImage` (pdf-to-jpg), `splitByBookmarks` (split-pdf-by-outline),
+        `alternateMix` (alternate-mix-pdf), `encrypt` (encrypt-pdf),
+        `splitBySize` (split-pdf-by-size), `extractPages` (extract-pdf-pages)
+        and `rotatePages` (rotate-pdf-pages). The request was JSON and the
+        response was a bare JSON string containing the task id.
+
+        The task type is a client-supplied value; it does not establish the
+        server implementation or the SDK mapping. The common fields below are
+        observed across the ten payloads; type-specific fields are marked by
+        their observed task type. The latest three payloads all reported
+        `cvts: "0.14"`, `pdfjs: "bebd506c3"`, `libsCache: "654"`,
+        `consoleLogs: []` and `www: "www61.sejda.com"`.
+      operationId: submitTask
+      security: []
+      x-status: observed
+      x-evidence: art_338ccde339635828e237193dac4ee524010ece3ff5e25cb27427a8f56381facf ; art_8a5e872ee8fc7ac4443aff4780b055cc33d7b5486223dd31cd23b8051d9feac5 ; art_166ad931e10f6ba1d5ac4669bf7b37e4b535ed998757ace8f430d9ad8bc057a5 ; art_be53344e70412288459c1570555737b77476e436495f8b14adcf90af1e8081ee ; art_ae0da5348e808277f0098e2ee023ab3b11b5aa51156b5d5b90b49423a5988fcb ; art_1ac56e2979c6ba0722a04eb7fb1300489faf8599d9231ad2a636e4d64240f151 ; art_952572508c7a3d34c65af9e235911b1e638293641c12f08fac3204a162eb5578 ; art_d6f71089f79030b74e8949201386ee497d9230365280a342826ea0f8e75859e7 ; art_0daba153706d5245cf028e0165e3c65c73b183c41707ae0e36d44170314e0c5c ; art_1ff1dfcc42ca2fe007a0f465b133f248b3b562de857a72d1410a1e0fea47d561
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [type, files, uri]
+              properties:
+                type:
+                  type: string
+                  enum: [splitByPages, merge, headerFooter, pdfToImage, splitByBookmarks, alternateMix, encrypt, splitBySize, extractPages, rotatePages]
+                  description: Client task type; ten values were submitted end to end.
+                step:
+                  oneOf:
+                    - type: string
+                    - type: array
+                      items: { type: string }
+                  description: Split step as `"1"` for splitByPages; alternateMix serialized a three-slot array `["1","1","1"]`.
+                pages:
+                  type: string
+                  description: Page selection; observed `"all"` for splitByPages, `""` for headerFooter/pdfToImage, and `"1,3-4"` for extractPages.
+                size:
+                  type: number
+                  description: splitBySize only; observed numeric `1` with `sizeUnit: KB`.
+                sizeUnit:
+                  type: string
+                  enum: [MB, KB]
+                  description: splitBySize only; observed `KB`.
+                pageRotationsPerSource:
+                  type: array
+                  items: { type: string }
+                  description: rotatePages only; observed `["0:1:90","0:3:180","0:4:270"]`, where each entry is `fileIndex:pageNumber:rotation`.
+                bookmarksLevel:
+                  type: string
+                  description: Split-by-bookmarks outline level; observed `"1"`.
+                bookmarksExpression:
+                  type: string
+                  description: Split-by-bookmarks title filter (contains); observed `"Chapter"`.
+                includePageAfter:
+                  type: boolean
+                  description: Split-by-bookmarks extra end page; absent/false in the observed payload.
+                reverse:
+                  type: array
+                  items: { type: string }
+                  description: AlternateMix reverse flags; observed `["false","false","false"]`.
+                repeat:
+                  type: array
+                  items: { type: boolean }
+                  description: AlternateMix repeat flags; observed `[false,false,false]`.
+                userPassword:
+                  type: string
+                  format: password
+                  description: Encrypt only; observed synthetic test value, redacted here.
+                ownerPassword:
+                  type: string
+                  format: password
+                  description: Encrypt only; observed synthetic test value, redacted here.
+                encryptionAlgorithm:
+                  type: string
+                  enum: [aes_256, aes_128, rc4_128]
+                  description: Encrypt only; only `aes_256` was observed.
+                permissions:
+                  type: array
+                  items: { type: string }
+                  description: Encrypt only; absent when no permission boxes were selected.
+                outputFilenamePattern:
+                  type: string
+                  description: Observed `[BASENAME]-[CURRENTPAGE]` for splitByPages and pdfToImage, `[BASENAME]` for extractPages, and empty for headerFooter/rotatePages.
+                outputFilename:
+                  type: string
+                  description: Merge only; observed empty string.
+                mode:
+                  type: string
+                  description: Merge only; observed `file`.
+                acroFormPolicy:
+                  type: string
+                  description: Merge only; observed `merge_renaming`.
+                images:
+                  type: array
+                  items: { type: string }
+                  description: Merge only; observed empty array.
+                rotations:
+                  type: array
+                  items: { type: integer }
+                  description: Merge only; observed `[0, 0]` for two files.
+                pattern:
+                  type: string
+                  description: Header/footer only; observed `Page [PAGE_ARABIC]`.
+                hf-format-customize:
+                  type: array
+                  items: { type: string }
+                  description: Header/footer token array; observed 10 entries using PAGE_ARABIC, PAGE_ROMAN, TOTAL_PAGES_ARABIC and BASE_NAME.
+                pageLocation:
+                  type: string
+                  enum: [top-left, top-center, top-right, bottom-left, bottom-center, bottom-right]
+                  description: Header/footer placement; observed `top-center`.
+                font:
+                  type: string
+                  enum: [times_roman, helvetica, courier]
+                  description: Header/footer font; observed `times_roman`.
+                fontSize:
+                  type: integer
+                  description: Header/footer font size; observed 10.
+                color:
+                  type: string
+                  description: Header/footer color; observed `#000000`.
+                addMargins:
+                  type: boolean
+                  description: Header/footer margin option; observed false.
+                pageCountStartFrom:
+                  type: string
+                  description: Header/footer page counter start; observed empty.
+                allPages:
+                  type: boolean
+                  description: PDF-to-image only; observed true when no thumbnail was selected.
+                resolution:
+                  type: integer
+                  enum: [75, 150, 220]
+                  description: PDF-to-image DPI; observed 150.
+                imageFormat:
+                  type: string
+                  enum: [jpg, png, tiff]
+                  description: PDF-to-image format; observed jpg.
+                tiffSingleFileWithAllPages:
+                  type: boolean
+                  description: TIFF-only option from the page form; not exercised.
+                imageColorType:
+                  type: string
+                  enum: [rgb, grayscale, black_white]
+                  description: TIFF-only color option from the page form; not exercised.
+                files:
+                  type: array
+                  items:
+                    type: [string, "null"]
+                  description: File ids returned by the upload endpoint; alternateMix observed a third null slot.
+                uri:
+                  type: string
+                  description: Originating public route; observed `/split-pdf`, `/merge-pdf`, `/header-footer-pdf`, `/pdf-to-jpg`, `/split-pdf-by-outline`, `/alternate-mix-pdf`, `/encrypt-pdf`, `/split-pdf-by-size`, `/extract-pdf-pages`, `/rotate-pdf-pages`.
+                specificResultFilenames:
+                  type: array
+                  items: { type: string }
+                  description: Split only; observed four empty strings.
+                userAgent:
+                  type: string
+                  description: Browser user agent.
+                cvts:
+                  type: string
+                  description: Client build/version marker; observed `0.10`, `3.96`, `0.95`, `1.59` and `0.14`.
+                pdfjs:
+                  type: string
+                  description: pdf.js build marker; observed `bebd506c3`.
+                libsCache:
+                  type: string
+                  description: Shared-bundle cache key; observed `654`.
+                consoleLogs:
+                  type: array
+                  items: { type: string }
+                  description: Client console lines; observed `["Setting splitStep 1"]` for split and empty arrays otherwise.
+                traceId:
+                  type: string
+                  description: Client trace id; observed `tr-<id>` and varied per task.
+                www:
+                  type: string
+                  description: Origin/worker host marker; observed `www18`, `www22`, `www23`, `www36` and `www61`; selection mechanism unknown.
+              example:
+                type: splitByPages
+                step: "1"
+                pages: all
+                outputFilenamePattern: "[BASENAME]-[CURRENTPAGE]"
+                files: ["<file-id>"]
+                uri: /split-pdf
+                specificResultFilenames: ["", "", "", ""]
+                userAgent: "<browser UA>"
+                cvts: "0.10"
+                pdfjs: bebd506c3
+                libsCache: "654"
+                consoleLogs: ["Setting splitStep 1"]
+                traceId: tr-<id>
+                www: www23.sejda.com
+      responses:
+        "200":
+          description: Task accepted; body is a JSON string task id
+          content:
+            application/json:
+              schema:
+                type: string
+                examples: ["<task-id>"]
+          headers:
+            X-RateLimit-Remaining:
+              schema: { type: string }
+              description: Observed `2`, `1`, `0` in each of three logged-out free-tier windows.
+            X-RateLimit-Wait:
+              schema: { type: string }
+              description: Observed `3599`, `3260`, `3140` in window one; `3599`, `3483`, `3443` in window two; and `3599`, `3498`, `3479` in window three. The value is seconds until the free quota resets.
+            Server:
+              schema: { type: string }
+              description: Observed `cloudflare`
+            X-Firefox-Translate:
+              schema: { type: string }
+              description: Observed `disable`
+            X-Frame-Options:
+              schema: { type: string }
+              description: Observed `SAMEORIGIN`
+            Cache-Control:
+              schema: { type: string }
+              description: Observed `no-cache, private, no-store, no-transform`
+        "402":
+          description: Client code handles a quota/paywall response; not exercised
+          x-status: unverified
+        "429":
+          description: Client code handles a rate-limit response; not exercised
+          x-status: unverified
+        "430":
+          description: Client code shows a captcha challenge; not exercised
+          x-status: unverified
+        default:
+          description: Error schema unknown
+          x-status: unknown
+
+  /api/tasks/{id}/change:
+    get:
+      tags: [tasks]
+      summary: Poll task status and result
+      description: |
+        Observed immediately after task submission for all ten exercised task
+        types. Every response reported `status: "Completed"` and result
+        metadata. Other statuses were not observed. The query parameter `_` is
+        a cache-buster.
+
+        `resultFullUrlPattern` contains the placeholder `%7B%7Bfilename%7D%7D`
+        (URL-encoded `{{filename}}`). Substituting `resultFilename` produced the
+        multi-file ZIP; the unresolved template returned `text/html` for that
+        ZIP. See the observed task payloads below.
+      operationId: getTaskChange
+      security: []
+      x-status: observed
+      x-evidence: art_338ccde339635828e237193dac4ee524010ece3ff5e25cb27427a8f56381facf ; art_8a5e872ee8fc7ac4443aff4780b055cc33d7b5486223dd31cd23b8051d9feac5 ; art_166ad931e10f6ba1d5ac4669bf7b37e4b535ed998757ace8f430d9ad8bc057a5 ; art_be53344e70412288459c1570555737b77476e436495f8b14adcf90af1e8081ee ; art_ae0da5348e808277f0098e2ee023ab3b11b5aa51156b5d5b90b49423a5988fcb ; art_1ac56e2979c6ba0722a04eb7fb1300489faf8599d9231ad2a636e4d64240f151 ; art_952572508c7a3d34c65af9e235911b1e638293641c12f08fac3204a162eb5578 ; art_d6f71089f79030b74e8949201386ee497d9230365280a342826ea0f8e75859e7 ; art_0daba153706d5245cf028e0165e3c65c73b183c41707ae0e36d44170314e0c5c ; art_1ff1dfcc42ca2fe007a0f465b133f248b3b562de857a72d1410a1e0fea47d561
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+        - name: _
+          in: query
+          required: false
+          schema: { type: string }
+          description: Cache-buster observed as a millisecond timestamp.
+      responses:
+        "200":
+          description: Task status/result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Observed `Completed`; other values unknown.
+                  type:
+                    type: string
+                    enum: [splitByPages, merge, headerFooter, pdfToImage, splitByBookmarks, alternateMix, encrypt, splitBySize, extractPages, rotatePages]
+                    description: Task type echoed in the result metadata.
+                  resultFilename:
+                    type: string
+                    description: Observed `sejda-<suffix>.zip` for multi-file results, `sample.pdf` / `sample-merge-b_merged.pdf` for single-file results, `sample_mixed.pdf` for alternateMix, and `sample.pdf` for encrypt, extractPages and rotatePages.
+                  resultFileSize:
+                    type: integer
+                    description: Metadata size; observed 6896, 5344, 4256, 502800, 6096, 5296, 4048, 10176, 2736 and 3248. Downloads were 6881, 5342, 4251, 502792, 6083, 5285, 4046, 10161, 2722 and 3238 bytes respectively; the 2–15 byte delta is unexplained.
+                  resultFullUrlPattern:
+                    type: string
+                    description: Signed download URL pattern with URL-encoded `%7B%7Bfilename%7D%7D`; token redacted here.
+                  warnings:
+                    type: array
+                    items: { type: string }
+                  resultItems:
+                    type: array
+                    items: { type: string }
+                    description: Observed four PDF names, one merged PDF, one header/footer PDF, four JPG names, three bookmark-section PDF names, one alternateMix PDF, one encrypted PDF, four size-split PDF names, one extracted PDF, or one rotated PDF. The splitBySize ZIP central directory listed entries in order 4,1,2,3 while resultItems was 1,2,3,4; the reason is unknown.
+                  id:
+                    type: string
+                    description: Task id.
+              example:
+                status: Completed
+                type: pdfToImage
+                resultFilename: sejda-<suffix>.zip
+                resultFileSize: 502800
+                resultFullUrlPattern: "www.sejda.com/api/tasks/<task-id>/download/%7B%7Bfilename%7D%7D?s=<redacted>&d=true&_s=<redacted>"
+                warnings: []
+                resultItems: ["sample-1.jpg", "sample-2.jpg", "sample-3.jpg", "sample-4.jpg"]
+                id: "<task-id>"
+          headers:
+            Server:
+              schema: { type: string }
+              description: Observed `cloudflare`
+            X-Firefox-Translate:
+              schema: { type: string }
+              description: Observed `disable`
+            X-Frame-Options:
+              schema: { type: string }
+              description: Observed `SAMEORIGIN`
+            Cache-Control:
+              schema: { type: string }
+              description: Observed `no-cache, private, no-store, no-transform`
+        default:
+          description: Error schema unknown
+          x-status: unknown
+
+  /api/tasks/{id}/download/{filename}:
+    get:
+      tags: [tasks]
+      summary: Download a task result
+      description: |
+        The task-status response supplied a signed download pattern. The
+        observed pattern contains `%7B%7Bfilename%7D%7D`, so the client must
+        substitute the encoded `resultFilename`. With that substitution:
+          - splitByPages: `application/zip`, 6,881 bytes, four PDFs
+          - merge: `application/pdf`, 5,342 bytes, eight pages
+          - headerFooter: `application/pdf`, 4,251 bytes, four pages
+          - pdfToImage: `application/zip`, 502,792 bytes, four JPEGs
+          - splitByBookmarks: `application/zip`, 6,083 bytes, three PDFs
+          - alternateMix: `application/pdf`, 5,285 bytes, eight pages
+          - encrypt: `application/pdf`, 4,046 bytes, four AES-256 pages
+          - splitBySize: `application/zip`, 10,161 bytes, four one-page PDFs
+          - extractPages: `application/pdf`, 2,722 bytes, three pages (1, 3, 4)
+          - rotatePages: `application/pdf`, 3,238 bytes, four pages (90, 0, 180, 270)
+
+        Without substitution, the multi-file PDF-to-JPG request returned
+        `text/html` (289,508 bytes); the two single-file PDF requests still
+        returned PDF. The reason for that difference is unknown.
+        The signature is a short-lived capability and is redacted here.
+      operationId: downloadTaskResult
+      security: []
+      x-status: observed
+      x-evidence: art_16a2bc53fc48fe3e17a7130fe1668beb3cf0517ad7dce834383f7688a9760180 ; art_ae0da5348e808277f0098e2ee023ab3b11b5aa51156b5d5b90b49423a5988fcb ; art_1ac56e2979c6ba0722a04eb7fb1300489faf8599d9231ad2a636e4d64240f151 ; art_952572508c7a3d34c65af9e235911b1e638293641c12f08fac3204a162eb5578 ; art_4f79fc6798a74fcb25b33cf3f8746c1fcff4015d82d9e4428fa71adb435332c0 ; art_b266f71e31c93672c5a149d935713756dfc6da409e09d981ed67b7e629cf84c2 ; art_ecff97257550aaecef85838e6794cce687a1ecc387211cafd3a6f6a88f0738f7
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+        - name: filename
+          in: path
+          required: true
+          schema: { type: string }
+        - name: s
+          in: query
+          required: true
+          schema: { type: string }
+          description: Signed capability token; value redacted.
+        - name: d
+          in: query
+          required: false
+          schema: { type: string }
+          description: Observed `true`; semantics unknown.
+        - name: _s
+          in: query
+          required: false
+          schema: { type: string }
+          description: Observed `23`; semantics unknown.
+      responses:
+        "200":
+          description: Result file
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+              x-status: possible-not-exercised
+        default:
+          description: Expired/invalid capability or other error; not exercised
+          x-status: unknown
+
+  /api/event:
+    post:
+      tags: [analytics]
+      summary: First-party analytics event
+      description: |
+        Observed cross-origin from the page to `https://a.sejda.com/api/event`
+        on page load and on the result page. Response 202, body `ok`.
+      operationId: analyticsEvent
+      servers:
+        - url: https://a.sejda.com
+      security: []
+      x-status: observed
+      x-evidence: art_338ccde339635828e237193dac4ee524010ece3ff5e25cb27427a8f56381facf
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: object
+              properties:
+                n: { type: string, description: Observed `pageview`. }
+                v: { type: integer, description: Observed `33`. }
+                u: { type: string, description: Page URL. }
+                d: { type: string, description: Observed `sejda.com`. }
+                r: { type: string, nullable: true, description: Referrer. }
+              x-reconstructed: true
+              x-note: "Body was observed as JSON encoded with `Content-Type: text/plain`."
+      responses:
+        "202":
+          description: Accepted
+          content:
+            text/plain:
+              schema: { type: string }
+              example: ok
+        default:
+          description: Unknown
+          x-status: unknown
+
+x-unverified-client-references:
+  - method: POST
+    path: /api/files/{id}/password
+    evidence: art_17dea15b779038966383b0ef27f40cfa84fe61bde6875d45ac3ced7b50844672
+    status: client-reference-only
+    note: "Literal/call site in the shipped bundle; not exercised. Sends `{password}` as JSON."
+  - method: POST
+    path: /api/files/{id}/touch
+    evidence: art_17dea15b779038966383b0ef27f40cfa84fe61bde6875d45ac3ced7b50844672
+    status: client-reference-only
+    note: Client keeps files alive every 30 minutes while a task is open; not exercised.
+  - method: DELETE
+    path: /api/tasks/{id}
+    evidence: art_17dea15b779038966383b0ef27f40cfa84fe61bde6875d45ac3ced7b50844672
+    status: client-reference-only
+    note: Recent-task delete action; not exercised.
+  - method: POST
+    path: /api/tasks/{id}/cancel
+    evidence: art_17dea15b779038966383b0ef27f40cfa84fe61bde6875d45ac3ced7b50844672
+    status: client-reference-only
+    note: "`window.cancelTask(id)`; not exercised."
+  - method: POST
+    path: /api/files/upload-chunked
+    evidence: art_17dea15b779038966383b0ef27f40cfa84fe61bde6875d45ac3ced7b50844672
+    status: client-reference-only
+    note: "Chunked path for files above the client `maxChunkSize` (5,000,000 bytes); not exercised."
+  - method: POST
+    path: /api/files
+    evidence: art_17dea15b779038966383b0ef27f40cfa84fe61bde6875d45ac3ced7b50844672
+    status: client-reference-only
+    note: "Link/cloud-file import (`{url}` body); not exercised."
+  - method: GET
+    path: /api/files/client-view
+    evidence: art_17dea15b779038966383b0ef27f40cfa84fe61bde6875d45ac3ced7b50844672
+    status: client-reference-only
+    note: "`?url=` cloud-file viewer; not exercised."
+
+x-observed-client-constants:
+  source: art_17dea15b779038966383b0ef27f40cfa84fe61bde6875d45ac3ced7b50844672
+  status: derived-from-shipped-client
+  items:
+    - name: maxChunkSize
+      value: 5000000
+      note: Bytes; larger uploads use the chunked endpoint.
+    - name: maxConcurrentChunks
+      value: 4
+      note: Client concurrency cap.
+    - name: fileExpiry
+      value: 3600000
+      note: "One hour from upload (`expires_at = Date.now() + 36e5`)."
+    - name: touchInterval
+      value: 1800000
+      note: Touch every 30 minutes while a task is open.
+    - name: freeFilesPerHour
+      value: 30
+      note: UI text; server enforcement not independently verified.
+    - name: freeTasksPerHour
+      value: 3
+      note: UI text; three logged-out windows each observed remaining 2, 1, 0. Waits were 3599, 3260, 3140 s in window one; 3599, 3483, 3443 s in window two; and 3599, 3498, 3479 s in window three.
+    - name: freeFileSize
+      value: 50 MB
+      note: UI text; not exercised.
+    - name: freeImageFileSize
+      value: 5 MB
+      note: UI text; not exercised.
+    - name: freeMultipleFiles
+      value: single file per task
+      note: "UI text; merge/alternate pages advertise multiple files but `data-multiple-files` is `true` for those task types and `pro` for several others."
+
+x-observed-task-payloads:
+  status: observed
+  note: >
+    File ids and signed tokens are replaced with placeholders. These are the
+    ten task types submitted end to end; 31 of the 41 unique data-task values
+    were inventoried on static pages but not submitted.
+  tasks:
+    - route: /split-pdf
+      type: splitByPages
+      request:
+        step: "1"
+        pages: all
+        outputFilenamePattern: "[BASENAME]-[CURRENTPAGE]"
+        files: ["<file-id>"]
+        specificResultFilenames: ["", "", "", ""]
+        uri: /split-pdf
+      response:
+        status: Completed
+        resultFilename: sejda-<suffix>.zip
+        resultFileSize: 6896
+        resultItems: ["sample-1.pdf", "sample-2.pdf", "sample-3.pdf", "sample-4.pdf"]
+        downloaded: {bytes: 6881, content_type: application/zip, sha256: 16a2bc53fc48fe3e17a7130fe1668beb3cf0517ad7dce834383f7688a9760180}
+    - route: /merge-pdf
+      type: merge
+      request:
+        mode: file
+        outputFilename: ""
+        acroFormPolicy: merge_renaming
+        files: ["<file-id-1>", "<file-id-2>"]
+        images: []
+        rotations: [0, 0]
+        uri: /merge-pdf
+      response:
+        status: Completed
+        resultFilename: sample-merge-b_merged.pdf
+        resultFileSize: 5344
+        resultItems: ["sample-merge-b_merged.pdf"]
+        downloaded: {bytes: 5342, content_type: application/pdf, sha256: fb856fdd724095f853b1c7a6bcb732e9ca0d3c69c66a3d22cd4a01c28d420e96}
+    - route: /header-footer-pdf
+      type: headerFooter
+      request:
+        outputFilenamePattern: ""
+        pattern: "Page [PAGE_ARABIC]"
+        hf-format-customize: ["Page", "[PAGE_ARABIC]", "Page", "[PAGE_ROMAN]", "Page", "[PAGE_ARABIC]", "of", "[TOTAL_PAGES_ARABIC]", "[BASE_NAME]", "Draft version"]
+        pageLocation: top-center
+        font: times_roman
+        fontSize: 10
+        color: "#000000"
+        addMargins: false
+        pages: ""
+        pageCountStartFrom: ""
+        files: ["<file-id>"]
+        uri: /header-footer-pdf
+      response:
+        status: Completed
+        resultFilename: sample.pdf
+        resultFileSize: 4256
+        resultItems: ["sample.pdf"]
+        downloaded: {bytes: 4251, content_type: application/pdf, sha256: 7dab51e38e9cdcdb1d3fc18da75520f59b8d00990606293b9a4409a3e2130d4b}
+    - route: /pdf-to-jpg
+      type: pdfToImage
+      request:
+        pages: ""
+        allPages: true
+        resolution: 150
+        imageFormat: jpg
+        outputFilenamePattern: "[BASENAME]-[CURRENTPAGE]"
+        files: ["<file-id>"]
+        uri: /pdf-to-jpg
+      response:
+        status: Completed
+        resultFilename: sejda-<suffix>.zip
+        resultFileSize: 502800
+        resultItems: ["sample-1.jpg", "sample-2.jpg", "sample-3.jpg", "sample-4.jpg"]
+        downloaded: {bytes: 502792, content_type: application/zip, sha256: 500183f8b7df341f07863e2d40d1a46baec083bcca4d824c61f6d0ada22bf80f}
+    - route: /split-pdf-by-outline
+      type: splitByBookmarks
+      request:
+        bookmarksLevel: "1"
+        bookmarksExpression: "Chapter"
+        outputFilenamePattern: "[FILENUMBER]_[BOOKMARK_NAME]"
+        files: ["<file-id>"]
+        uri: /split-pdf-by-outline
+        note: includePageAfter was unchecked and absent from the payload.
+      response:
+        status: Completed
+        resultFilename: sejda-<suffix>.zip
+        resultFileSize: 6096
+        resultItems: ["1_Chapter 1.pdf", "2_Chapter 2.pdf", "3_Chapter 3.pdf"]
+        downloaded: {bytes: 6083, content_type: application/zip, sha256: f15e8012d74322f086c886c8d992b43353ccf03ab41e3fed624fd603680fdff9}
+        pageCounts: [1, 2, 1]
+    - route: /alternate-mix-pdf
+      type: alternateMix
+      request:
+        files: ["<file-id-1>", "<file-id-2>", null]
+        step: ["1", "1", "1"]
+        reverse: ["false", "false", "false"]
+        repeat: [false, false, false]
+        uri: /alternate-mix-pdf
+        note: The third array slot is an empty serialized slot, not a third document.
+      response:
+        status: Completed
+        resultFilename: sample_mixed.pdf
+        resultFileSize: 5296
+        resultItems: ["sample_mixed.pdf"]
+        downloaded: {bytes: 5285, content_type: application/pdf, sha256: 51d13570296d82722eef4ecdb9d5d93494daaf08c21c3095f9e2bb8172e664fc}
+        pageCount: 8
+        pageMarkers: [1, 1, 2, 2, 3, 3, 4, 4]
+    - route: /encrypt-pdf
+      type: encrypt
+      request:
+        outputFilenamePattern: ""
+        userPassword: "[REDACTED SYNTHETIC TEST VALUE]"
+        ownerPassword: "[REDACTED SYNTHETIC TEST VALUE]"
+        encryptionAlgorithm: aes_256
+        files: ["<file-id>"]
+        uri: /encrypt-pdf
+        note: No permission checkboxes were selected, so permissions[] was absent.
+      response:
+        status: Completed
+        resultFilename: sample.pdf
+        resultFileSize: 4048
+        resultItems: ["sample.pdf"]
+        downloaded: {bytes: 4046, content_type: application/pdf, sha256: 04274705e5183d92cfe48b6821c1ea84155bd84f69e0f7ba11ffca52b7483af1}
+        pages: 4
+        encryption: {v: 5, r: 6, lengthBits: 256, aesV3: true}
+    - route: /split-pdf-by-size
+      type: splitBySize
+      request:
+        size: 1
+        sizeUnit: KB
+        files: ["<file-id>"]
+        uri: /split-pdf-by-size
+      response:
+        status: Completed
+        resultFilename: sejda-<suffix>.zip
+        resultFileSize: 10176
+        resultItems: ["1_sample.pdf", "2_sample.pdf", "3_sample.pdf", "4_sample.pdf"]
+        downloaded: {bytes: 10161, content_type: application/zip, sha256: 4f79fc6798a74fcb25b33cf3f8746c1fcff4015d82d9e4428fa71adb435332c0}
+        pageCounts: [1, 1, 1, 1]
+        pageMarkers: [1, 2, 3, 4]
+        zipEntryOrder: ["4_sample.pdf", "1_sample.pdf", "2_sample.pdf", "3_sample.pdf"]
+    - route: /extract-pdf-pages
+      type: extractPages
+      request:
+        pages: "1,3-4"
+        outputFilenamePattern: "[BASENAME]"
+        files: ["<file-id>"]
+        uri: /extract-pdf-pages
+      response:
+        status: Completed
+        resultFilename: sample.pdf
+        resultFileSize: 2736
+        resultItems: ["sample.pdf"]
+        downloaded: {bytes: 2722, content_type: application/pdf, sha256: b266f71e31c93672c5a149d935713756dfc6da409e09d981ed67b7e629cf84c2}
+        pageCount: 3
+        pageMarkers: [1, 3, 4]
+    - route: /rotate-pdf-pages
+      type: rotatePages
+      request:
+        outputFilenamePattern: ""
+        pageRotationsPerSource: ["0:1:90", "0:3:180", "0:4:270"]
+        files: ["<file-id>"]
+        uri: /rotate-pdf-pages
+      response:
+        status: Completed
+        resultFilename: sample.pdf
+        resultFileSize: 3248
+        resultItems: ["sample.pdf"]
+        downloaded: {bytes: 3238, content_type: application/pdf, sha256: ecff97257550aaecef85838e6794cce687a1ecc387211cafd3a6f6a88f0738f7}
+        pageCount: 4
+        pageRotations: [90, 0, 180, 270]
+        pageMarkers: [1, 2, 3, 4]
+
+x-not-modelled:
+  - Authentication/authorization requirements and session ownership
+  - CSRF protection or origin policy beyond observed CORS headers
+  - Task queue/worker internals, retries and concurrency
+  - Storage backend, retention period and deletion guarantees
+  - Error response bodies and validation messages
+  - Rate-limit scope (IP/account/cookie)
+  - Any backend language/framework
+  - Task-specific payloads beyond the ten observed types; 31 of 41 unique data-task values were not submitted
+
+x-backend-language:
+  status: unknown
+  evidence: >
+    All observed responses carried `Server: cloudflare`; no JSESSIONID,
+    X-Powered-By, X-Application-Context, Tomcat/Jetty banner, Spring error page,
+    or other Java/framework fingerprint was observed. The official
+    torakiki/sejda SDK is a Java PDF library, but it is not the web backend.
+  would_settle: >
+    A legitimate web/API source repository, JAR/WAR/EAR, container image,
+    framework-leaking error, or sanitized runtime configuration.

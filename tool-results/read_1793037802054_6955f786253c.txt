@@ -1,0 +1,736 @@
+     1→// Organize/compress handler family: merge, the split-* group, page selection
+     2→// tools, and the geometry/quality rewriters (rotate, crop, resize, flip, n-up,
+     3→// deskew, compress, grayscale, repair).
+     4→
+     5→import { readFile, writeFile } from 'fs/promises'
+     6→import { join } from 'path'
+     7→import { PDFDocument, degrees, type PDFEmbeddedPage, type PDFPage } from '@cantoo/pdf-lib'
+     8→import { TaskError } from './errors'
+     9→import { parsePageSelection } from './parse'
+    10→import { baseName, withExt } from './mime'
+    11→import type { ToolParams } from './registry'
+    12→import type { StoredMeta } from './store'
+    13→import type { TaskContext, TaskHandler } from './types'
+    14→import { gsImageToPdf, gsPdfWrite, pdfToImages, qpdfRepair } from './bin'
+    15→import { decodePng, encodePng } from './writers'
+    16→import { extractOutline, extractTextPages } from './pdfjs-server'
+    17→
+    18→const PDF_MIME = 'application/pdf'
+    19→
+    20→type Bbox = { left: number; bottom: number; right: number; top: number }
+    21→
+    22→async function readInput(ctx: TaskContext, fileId: string): Promise<Buffer> {
+    23→  const buf = await ctx.readBuf(fileId)
+    24→  if (!buf) throw new TaskError('NOT_FOUND', 'Input file not found or expired')
+    25→  return buf
+    26→}
+    27→
+    28→async function loadPdf(ctx: TaskContext, fileId: string): Promise<{ buf: Buffer; doc: PDFDocument }> {
+    29→  const buf = await readInput(ctx, fileId)
+    30→  let doc: PDFDocument
+    31→  try {
+    32→    doc = await PDFDocument.load(buf, { ignoreEncryption: true })
+    33→  } catch (err) {
+    34→    throw new TaskError('FAILED', `Cannot parse PDF: ${(err as Error).message}`)
+    35→  }
+    36→  if (doc.isEncrypted) throw new TaskError('ENCRYPTED', 'File is password-protected. Unlock it first.')
+    37→  return { buf, doc }
+    38→}
+    39→
+    40→function parsePages(sel: string, pageCount: number): number[] {
+    41→  try {
+    42→    return parsePageSelection(sel, pageCount)
+    43→  } catch (err) {
+    44→    throw new TaskError('INVALID_PARAMS', (err as Error).message)
+    45→  }
+    46→}
+    47→
+    48→function seq(from: number, to: number): number[] {
+    49→  return Array.from({ length: Math.max(0, to - from) }, (_, i) => from + i)
+    50→}
+    51→
+    52→// StandardFonts encode WinAnsi (≈Latin-1); anything outside would crash save().
+    53→export function sanitizeWinAnsi(s: string): string {
+    54→  return s.replace(/[^\n\r\t\x20-\x7E\xA0-\xFF]/g, '?')
+    55→}
+    56→
+    57→function slugify(title: string): string {
+    58→  return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'section'
+    59→}
+    60→
+    61→function fullBbox(page: PDFPage): Bbox {
+    62→  const mb = page.getMediaBox()
+    63→  return { left: mb.x, bottom: mb.y, right: mb.x + mb.width, top: mb.y + mb.height }
+    64→}
+    65→
+    66→async function saveOne(ctx: TaskContext, doc: PDFDocument, name: string): Promise<StoredMeta> {
+    67→  return ctx.putOutput(Buffer.from(await doc.save()), withExt(name, 'pdf'), PDF_MIME)
+    68→}
+    69→
+    70→async function copyInto(out: PDFDocument, src: PDFDocument, indices: number[]): Promise<void> {
+    71→  const pages = await out.copyPages(src, indices)
+    72→  pages.forEach((p) => out.addPage(p))
+    73→}
+    74→
+    75→function firstFile(ctx: TaskContext) {
+    76→  const f = ctx.files[0]
+    77→  if (!f) throw new TaskError('TOO_FEW_FILES', 'This tool needs a PDF file')
+    78→  return f
+    79→}
+    80→
+    81→export const coreHandlers: Record<string, TaskHandler> = {
+    82→  // ---------------------------------------------------------- merge
+    83→  merge: async (ctx) => {
+    84→    const { normalizePageSizes, blankPageIfOdd } = ctx.params as ToolParams['merge']
+    85→    const out = await PDFDocument.create()
+    86→    let targetW = 0
+    87→    let targetH = 0
+    88→    for (let i = 0; i < ctx.files.length; i++) {
+    89→      const { doc } = await loadPdf(ctx, ctx.files[i].id)
+    90→      const indices = doc.getPageIndices()
+    91→      if (indices.length === 0) continue
+    92→      const first = doc.getPage(indices[0])
+    93→      const fileW = first.getWidth()
+    94→      const fileH = first.getHeight()
+    95→      if (i === 0 && normalizePageSizes) {
+    96→        targetW = fileW
+    97→        targetH = fileH
+    98→      }
+    99→      const normalize = normalizePageSizes && targetW > 0
+   100→      for (const idx of indices) {
+   101→        if (!normalize) {
+   102→          await copyInto(out, doc, [idx])
+   103→          continue
+   104→        }
+   105→        const pg = doc.getPage(idx)
+   106→        const mb = pg.getMediaBox()
+   107→        if (Math.abs(mb.width - targetW) < 0.01 && Math.abs(mb.height - targetH) < 0.01) {
+   108→          await copyInto(out, doc, [idx])
+   109→          continue
+   110→        }
+   111→        const emb = await out.embedPage(pg, fullBbox(pg))
+   112→        const page = out.addPage([targetW, targetH])
+   113→        page.drawPage(emb, { x: 0, y: 0, xScale: targetW / emb.width, yScale: targetH / emb.height })
+   114→      }
+   115→      if (blankPageIfOdd && indices.length % 2 === 1) {
+   116→        out.addPage([normalize ? targetW : fileW, normalize ? targetH : fileH])
+   117→      }
+   118→      ctx.progress(Math.round(((i + 1) / ctx.files.length) * 100))
+   119→    }
+   120→    return { outputs: [await saveOne(ctx, out, 'merged')] }
+   121→  },
+   122→
+   123→  // ---------------------------------------------------------- split
+   124→  split: async (ctx) => {
+   125→    const { mode, ranges, step } = ctx.params as ToolParams['split']
+   126→    const { doc } = await loadPdf(ctx, firstFile(ctx).id)
+   127→    const pageCount = doc.getPageCount()
+   128→    const groups: number[][] = []
+   129→    if (mode === 'ranges') {
+   130→      for (const part of ranges.split(',')) {
+   131→        if (!part.trim()) continue
+   132→        groups.push(parsePages(part, pageCount))
+   133→      }
+   134→    } else {
+   135→      const n = Math.max(1, Math.floor(step))
+   136→      for (let start = 0; start < pageCount; start += n) {
+   137→        groups.push(seq(start, Math.min(start + n, pageCount)))
+   138→      }
+   139→    }
+   140→    const usable = groups.filter((g) => g.length > 0)
+   141→    if (usable.length === 0) throw new TaskError('INVALID_PARAMS', 'No pages selected by the given ranges')
+   142→    const base = baseName(firstFile(ctx).name)
+   143→    const outputs: StoredMeta[] = []
+   144→    for (let i = 0; i < usable.length; i++) {
+   145→      const part = await PDFDocument.create()
+   146→      await copyInto(part, doc, usable[i])
+   147→      outputs.push(await saveOne(ctx, part, `${base}-${i + 1}`))
+   148→      ctx.progress(Math.round(((i + 1) / usable.length) * 100))
+   149→    }
+   150→    return { outputs }
+   151→  },
+   152→
+   153→  'split-bookmarks': async (ctx) => {
+   154→    const { level, expression, includePageAfter } = ctx.params as ToolParams['split-bookmarks']
+   155→    const file = firstFile(ctx)
+   156→    const { buf, doc } = await loadPdf(ctx, file.id)
+   157→    const pageCount = doc.getPageCount()
+   158→    const outline = await extractOutline(buf)
+   159→    if (!outline) throw new TaskError('INVALID_PARAMS', 'Document has no bookmarks')
+   160→    const expr = expression.trim().toLowerCase()
+   161→    const marks = outline
+   162→      .filter((o) => o.level === level && o.page >= 1)
+   163→      .filter((o) => !expr || o.title.toLowerCase().includes(expr))
+   164→      .sort((a, b) => a.page - b.page)
+   165→    if (marks.length === 0) throw new TaskError('INVALID_PARAMS', 'No bookmarks match the given level/expression')
+   166→    const base = baseName(file.name)
+   167→    const outputs: StoredMeta[] = []
+   168→    const usedNames = new Map<string, number>()
+   169→    for (let i = 0; i < marks.length; i++) {
+   170→      const start = marks[i].page
+   171→      let end = i + 1 < marks.length ? marks[i + 1].page - 1 : pageCount
+   172→      if (includePageAfter) end += 1
+   173→      end = Math.min(end, pageCount)
+   174→      if (end < start) continue
+   175→      const part = await PDFDocument.create()
+   176→      await copyInto(part, doc, seq(start - 1, end))
+   177→      const slug = slugify(marks[i].title)
+   178→      const seen = usedNames.get(slug) ?? 0
+   179→      usedNames.set(slug, seen + 1)
+   180→      outputs.push(await saveOne(ctx, part, `${base}-${slug}${seen > 0 ? `-${seen + 1}` : ''}`))
+   181→      ctx.progress(Math.round(((i + 1) / marks.length) * 100))
+   182→    }
+   183→    if (outputs.length === 0) throw new TaskError('INVALID_PARAMS', 'Bookmarks produced no non-empty chapters')
+   184→    return { outputs }
+   185→  },
+   186→
+   187→  'split-middle': async (ctx) => {
+   188→    const { ratio, mode, rightToLeft } = ctx.params as ToolParams['split-middle']
+   189→    // UI may send 0..100; normalize to 0..1 and keep away from degenerate bboxes
+   190→    const r = Math.min(0.95, Math.max(0.05, ratio > 1 ? ratio / 100 : ratio))
+   191→    const file = firstFile(ctx)
+   192→    const { doc } = await loadPdf(ctx, file.id)
+   193→    const out = await PDFDocument.create()
+   194→    const pageCount = doc.getPageCount()
+   195→    for (let i = 0; i < pageCount; i++) {
+   196→      const pg = doc.getPage(i)
+   197→      const w = pg.getWidth()
+   198→      const h = pg.getHeight()
+   199→      const halves: { bbox: Bbox; w: number; h: number }[] = []
+   200→      if (mode === 'vertical') {
+   201→        const parts: Bbox[] = [
+   202→          { left: 0, bottom: 0, right: w * r, top: h },
+   203→          { left: w * r, bottom: 0, right: w, top: h },
+   204→        ]
+   205→        if (rightToLeft) parts.reverse()
+   206→        for (const bbox of parts) halves.push({ bbox, w: bbox.right - bbox.left, h })
+   207→      } else {
+   208→        halves.push({ bbox: { left: 0, bottom: h * r, right: w, top: h }, w, h: h * (1 - r) })
+   209→        halves.push({ bbox: { left: 0, bottom: 0, right: w, top: h * r }, w, h: h * r })
+   210→      }
+   211→      for (const half of halves) {
+   212→        const emb = await out.embedPage(pg, half.bbox)
+   213→        const page = out.addPage([half.w, half.h])
+   214→        page.drawPage(emb, { x: 0, y: 0 })
+   215→      }
+   216→      ctx.progress(Math.round(((i + 1) / pageCount) * 95))
+   217→    }
+   218→    return { outputs: [await saveOne(ctx, out, `${baseName(file.name)}-split`)] }
+   219→  },
+   220→
+   221→  'split-size': async (ctx) => {
+   222→    const { size, sizeUnit } = ctx.params as ToolParams['split-size']
+   223→    const limit = size * (sizeUnit === 'MB' ? 1048576 : 1024)
+   224→    const file = firstFile(ctx)
+   225→    const { doc } = await loadPdf(ctx, file.id)
+   226→    const base = baseName(file.name)
+   227→    const pageCount = doc.getPageCount()
+   228→    const chunks: Buffer[] = []
+   229→    let current = await PDFDocument.create()
+   230→    let count = 0
+   231→    for (let i = 0; i < pageCount; i++) {
+   232→      const [p] = await current.copyPages(doc, [i])
+   233→      current.addPage(p)
+   234→      count++
+   235→      const serialized = Buffer.from(await current.save())
+   236→      if (serialized.byteLength <= limit) {
+   237→        ctx.progress(Math.round(((i + 1) / pageCount) * 95))
+   238→        continue
+   239→      }
+   240→      if (count > 1) {
+   241→        current.removePage(count - 1)
+   242→        chunks.push(Buffer.from(await current.save()))
+   243→        current = await PDFDocument.create()
+   244→        const [overflow] = await current.copyPages(doc, [i])
+   245→        current.addPage(overflow)
+   246→        count = 1
+   247→      } else {
+   248→        chunks.push(serialized)
+   249→        current = await PDFDocument.create()
+   250→        count = 0
+   251→      }
+   252→      ctx.progress(Math.round(((i + 1) / pageCount) * 95))
+   253→    }
+   254→    if (count > 0) chunks.push(Buffer.from(await current.save()))
+   255→    const outputs: StoredMeta[] = []
+   256→    for (let i = 0; i < chunks.length; i++) {
+   257→      outputs.push(await ctx.putOutput(chunks[i], withExt(`${base}-${i + 1}`, 'pdf'), PDF_MIME))
+   258→    }
+   259→    return { outputs }
+   260→  },
+   261→
+   262→  'split-text': async (ctx) => {
+   263→    const { areaY, areaHeight, startsWith } = ctx.params as ToolParams['split-text']
+   264→    const marker = startsWith.trim()
+   265→    if (!marker) throw new TaskError('INVALID_PARAMS', 'Marker text is required')
+   266→    const file = firstFile(ctx)
+   267→    const { buf, doc } = await loadPdf(ctx, file.id)
+   268→    const { pages } = await extractTextPages(buf)
+   269→    const pageCount = doc.getPageCount()
+   270→    const markerPages: number[] = []
+   271→    for (let n = 0; n < Math.min(pageCount, pages.length); n++) {
+   272→      const h = doc.getPage(n).getHeight()
+   273→      const top = (areaY / 100) * h
+   274→      const bottom = ((areaY + areaHeight) / 100) * h
+   275→      for (const line of pages[n]) {
+   276→        const fromTop = h - line.y // pdf.js baseline y is measured from the bottom
+   277→        if (fromTop >= top && fromTop <= bottom && line.text.trimStart().startsWith(marker)) {
+   278→          markerPages.push(n + 1)
+   279→          break
+   280→        }
+   281→      }
+   282→    }
+   283→    if (markerPages.length === 0) throw new TaskError('INVALID_PARAMS', 'Marker text not found')
+   284→    const base = baseName(file.name)
+   285→    const starts = [1, ...new Set(markerPages.filter((p) => p > 1))]
+   286→    const outputs: StoredMeta[] = []
+   287→    for (let i = 0; i < starts.length; i++) {
+   288→      const start = starts[i]
+   289→      const end = i + 1 < starts.length ? starts[i + 1] - 1 : pageCount
+   290→      if (end < start) continue
+   291→      const part = await PDFDocument.create()
+   292→      await copyInto(part, doc, seq(start - 1, end))
+   293→      outputs.push(await saveOne(ctx, part, `${base}-${outputs.length + 1}`))
+   294→    }
+   295→    return { outputs }
+   296→  },
+   297→
+   298→  // ---------------------------------------------------------- page selection
+   299→  'extract-pages': async (ctx) => {
+   300→    const { pages } = ctx.params as ToolParams['extract-pages']
+   301→    const file = firstFile(ctx)
+   302→    const { doc } = await loadPdf(ctx, file.id)
+   303→    const sel = parsePages(pages, doc.getPageCount())
+   304→    if (sel.length === 0) throw new TaskError('INVALID_PARAMS', 'No pages selected')
+   305→    const out = await PDFDocument.create()
+   306→    await copyInto(out, doc, sel)
+   307→    return { outputs: [await saveOne(ctx, out, `${baseName(file.name)}-extract`)] }
+   308→  },
+   309→
+   310→  'delete-pages': async (ctx) => {
+   311→    const { pages } = ctx.params as ToolParams['delete-pages']
+   312→    const file = firstFile(ctx)
+   313→    const { doc } = await loadPdf(ctx, file.id)
+   314→    const pageCount = doc.getPageCount()
+   315→    const drop = new Set(parsePages(pages, pageCount))
+   316→    const keep = seq(0, pageCount).filter((i) => !drop.has(i))
+   317→    if (keep.length === 0) throw new TaskError('INVALID_PARAMS', 'Cannot delete every page')
+   318→    const out = await PDFDocument.create()
+   319→    await copyInto(out, doc, keep)
+   320→    return { outputs: [await saveOne(ctx, out, `${baseName(file.name)}-deleted`)] }
+   321→  },
+   322→
+   323→  'alternate-mix': async (ctx) => {
+   324→    const { step, reverse, repeat } = ctx.params as ToolParams['alternate-mix']
+   325→    const docs: PDFDocument[] = []
+   326→    for (const f of ctx.files) docs.push((await loadPdf(ctx, f.id)).doc)
+   327→    const take = Math.max(1, Math.floor(step))
+   328→    const order = reverse ? [...docs.keys()].reverse() : [...docs.keys()]
+   329→    const pos = docs.map(() => 0)
+   330→    const out = await PDFDocument.create()
+   331→    let live = docs.length
+   332→    let stop = false
+   333→    const total = docs.reduce((n, d) => n + d.getPageCount(), 0)
+   334→    let copied = 0
+   335→    while (live > 0 && !stop) {
+   336→      let exhaustedThisRound = false
+   337→      for (const di of order) {
+   338→        if (pos[di] >= docs[di].getPageCount()) continue
+   339→        const end = Math.min(pos[di] + take, docs[di].getPageCount())
+   340→        await copyInto(out, docs[di], seq(pos[di], end))
+   341→        copied += end - pos[di]
+   342→        pos[di] = end
+   343→        if (pos[di] >= docs[di].getPageCount()) {
+   344→          live--
+   345→          exhaustedThisRound = true
+   346→        }
+   347→      }
+   348→      // "stop at first exhaustion" finishes the round so equal-length docs
+   349→      // (the scan-merge case) never lose their last page
+   350→      if (!repeat && exhaustedThisRound) stop = true
+   351→      ctx.progress(Math.round((copied / Math.max(1, total)) * 100))
+   352→    }
+   353→    return { outputs: [await saveOne(ctx, out, 'mixed')] }
+   354→  },
+   355→
+   356→  organize: async (ctx) => {
+   357→    const { order } = ctx.params as ToolParams['organize']
+   358→    if (order.length === 0) throw new TaskError('INVALID_PARAMS', 'Empty page order')
+   359→    const file = firstFile(ctx)
+   360→    const { doc } = await loadPdf(ctx, file.id)
+   361→    const pageCount = doc.getPageCount()
+   362→    if (order.some((i) => i < 0 || i >= pageCount)) {
+   363→      throw new TaskError('INVALID_PARAMS', `Page index out of range (0-${pageCount - 1})`)
+   364→    }
+   365→    const out = await PDFDocument.create()
+   366→    // one copy per occurrence so repeated indices stay independent pages
+   367→    for (const idx of order) {
+   368→      await copyInto(out, doc, [idx])
+   369→    }
+   370→    return { outputs: [await saveOne(ctx, out, 'organized')] }
+   371→  },
+   372→
+   373→  rotate: async (ctx) => {
+   374→    const { angle, pages } = ctx.params as ToolParams['rotate']
+   375→    const file = firstFile(ctx)
+   376→    const { doc } = await loadPdf(ctx, file.id)
+   377→    const pageCount = doc.getPageCount()
+   378→    const sel = new Set(pages ? parsePages(pages, pageCount) : seq(0, pageCount))
+   379→    for (const idx of sel) {
+   380→      const pg = doc.getPage(idx)
+   381→      pg.setRotation(degrees((((pg.getRotation().angle + angle) % 360) + 360) % 360))
+   382→    }
+   383→    return { outputs: [await saveOne(ctx, doc, `${baseName(file.name)}-rotated`)] }
+   384→  },
+   385→
+   386→  // ---------------------------------------------------------- quality
+   387→  compress: async (ctx) => {
+   388→    const { quality } = ctx.params as ToolParams['compress']
+   389→    const file = firstFile(ctx)
+   390→    const name = `${baseName(file.name)}-compressed`
+   391→    if (quality === 'lossless') {
+   392→      const { doc } = await loadPdf(ctx, file.id)
+   393→      return { outputs: [await saveOne(ctx, doc, name)] }
+   394→    }
+   395→    const settings = (
+   396→      { extremely: 'screen', recommended: 'ebook', good: 'printer', great: 'prepress' } as const
+   397→    )[quality as 'extremely' | 'recommended' | 'good' | 'great']
+   398→    const buf = await readInput(ctx, file.id)
+   399→    const dir = await ctx.workdir()
+   400→    const inPath = join(dir, 'in.pdf')
+   401→    await writeFile(inPath, buf)
+   402→    const outPath = await gsPdfWrite([inPath], join(dir, 'out.pdf'), { settings })
+   403→    const gsBytes = await readFile(outPath)
+   404→    const final = gsBytes.byteLength < buf.byteLength ? gsBytes : buf
+   405→    return { outputs: [await ctx.putOutput(final, withExt(name, 'pdf'), PDF_MIME)] }
+   406→  },
+   407→
+   408→  grayscale: async (ctx) => {
+   409→    const file = firstFile(ctx)
+   410→    const dir = await ctx.workdir()
+   411→    const inPath = join(dir, 'in.pdf')
+   412→    await writeFile(inPath, await readInput(ctx, file.id))
+   413→    const outPath = await gsPdfWrite([inPath], join(dir, 'out.pdf'), { gray: true })
+   414→    return {
+   415→      outputs: [await ctx.adoptOutput(outPath, withExt(`${baseName(file.name)}-grayscale`, 'pdf'), PDF_MIME)],
+   416→    }
+   417→  },
+   418→
+   419→  crop: async (ctx) => {
+   420→    const { margin } = ctx.params as ToolParams['crop']
+   421→    const file = firstFile(ctx)
+   422→    const { buf, doc } = await loadPdf(ctx, file.id)
+   423→    const dir = await ctx.workdir()
+   424→    const inPath = join(dir, 'in.pdf')
+   425→    await writeFile(inPath, buf)
+   426→    const pngs = await pdfToImages(inPath, dir, { dpi: 72, format: 'png' })
+   427→    const pageCount = Math.min(doc.getPageCount(), pngs.length)
+   428→    for (let i = 0; i < pageCount; i++) {
+   429→      const img = decodePng(await readFile(pngs[i]))
+   430→      const pg = doc.getPage(i)
+   431→      const mb = pg.getMediaBox()
+   432→      const rot = ((pg.getRotation().angle % 360) + 360) % 360
+   433→      const box = inkBbox(img.rgba, img.width, img.height)
+   434→      let box2: { x0: number; y0: number; x1: number; y1: number }
+   435→      if (!box) {
+   436→        box2 = { x0: mb.x, y0: mb.y, x1: mb.x + mb.width, y1: mb.y + mb.height }
+   437→      } else {
+   438→        // rendered px == pt at 72dpi; map image bbox (y down) back to user space
+   439→        const corners = [
+   440→          imagePointToPdf(box.x0, box.y0, img.width, img.height, mb, rot),
+   441→          imagePointToPdf(box.x1, box.y1, img.width, img.height, mb, rot),
+   442→        ]
+   443→        box2 = {
+   444→          x0: Math.min(...corners.map((c) => c.x)),
+   445→          y0: Math.min(...corners.map((c) => c.y)),
+   446→          x1: Math.max(...corners.map((c) => c.x)),
+   447→          y1: Math.max(...corners.map((c) => c.y)),
+   448→        }
+   449→      }
+   450→      const x0 = Math.max(mb.x, box2.x0 + margin)
+   451→      const y0 = Math.max(mb.y, box2.y0 + margin)
+   452→      const x1 = Math.min(mb.x + mb.width, box2.x1 - margin)
+   453→      const y1 = Math.min(mb.y + mb.height, box2.y1 - margin)
+   454→      if (x1 - x0 >= 1 && y1 - y0 >= 1) pg.setCropBox(x0, y0, x1 - x0, y1 - y0)
+   455→      ctx.progress(Math.round(((i + 1) / pageCount) * 95))
+   456→    }
+   457→    return { outputs: [await saveOne(ctx, doc, `${baseName(file.name)}-crop`)] }
+   458→  },
+   459→
+   460→  resize: async (ctx) => {
+   461→    const { pageSize, customWidth, customHeight, margin, unit } = ctx.params as ToolParams['resize']
+   462→    const factor = unit === 'mm' ? 2.8346 : unit === 'in' ? 72 : 1
+   463→    const sizes: Record<string, [number, number]> = { a4: [595, 842], a3: [842, 1191], letter: [612, 792] }
+   464→    const [tw, th] =
+   465→      pageSize === 'custom'
+   466→        ? [customWidth * factor, customHeight * factor]
+   467→        : sizes[pageSize] ?? sizes.a4
+   468→    const file = firstFile(ctx)
+   469→    const { doc } = await loadPdf(ctx, file.id)
+   470→    const out = await PDFDocument.create()
+   471→    const pageCount = doc.getPageCount()
+   472→    const fitW = Math.max(1, tw - 2 * margin)
+   473→    const fitH = Math.max(1, th - 2 * margin)
+   474→    for (let i = 0; i < pageCount; i++) {
+   475→      const pg = doc.getPage(i)
+   476→      const emb = await out.embedPage(pg, fullBbox(pg))
+   477→      const scale = Math.min(fitW / emb.width, fitH / emb.height)
+   478→      const page = out.addPage([tw, th])
+   479→      page.drawPage(emb, {
+   480→        x: (tw - emb.width * scale) / 2,
+   481→        y: (th - emb.height * scale) / 2,
+   482→        xScale: scale,
+   483→        yScale: scale,
+   484→      })
+   485→      ctx.progress(Math.round(((i + 1) / pageCount) * 95))
+   486→    }
+   487→    return { outputs: [await saveOne(ctx, out, `${baseName(file.name)}-resized`)] }
+   488→  },
+   489→
+   490→  flip: async (ctx) => {
+   491→    const { mode } = ctx.params as ToolParams['flip']
+   492→    const file = firstFile(ctx)
+   493→    const { doc } = await loadPdf(ctx, file.id)
+   494→    const out = await PDFDocument.create()
+   495→    const pageCount = doc.getPageCount()
+   496→    for (let i = 0; i < pageCount; i++) {
+   497→      const pg = doc.getPage(i)
+   498→      const mb = pg.getMediaBox()
+   499→      const emb = await out.embedPage(pg, fullBbox(pg))
+   500→      const page = out.addPage([mb.width, mb.height])
+   501→      page.drawPage(
+   502→        emb,
+   503→        mode === 'horizontal'
+   504→          ? { x: mb.x + mb.width, y: mb.y, xScale: -1, yScale: 1 }
+   505→          : { x: mb.x, y: mb.y + mb.height, xScale: 1, yScale: -1 },
+   506→      )
+   507→    }
+   508→    ctx.progress(100)
+   509→    return { outputs: [await saveOne(ctx, out, 'flipped')] }
+   510→  },
+   511→
+   512→  'n-up': async (ctx) => {
+   513→    const { n, pageOrdering, preservePageSize } = ctx.params as ToolParams['n-up']
+   514→    const perSheet = Math.max(1, Math.min(9, Math.floor(n)))
+   515→    const file = firstFile(ctx)
+   516→    const { doc } = await loadPdf(ctx, file.id)
+   517→    const pageCount = doc.getPageCount()
+   518→    const cols = perSheet === 2 ? 2 : perSheet === 4 ? 2 : 3
+   519→    const rows = Math.max(1, Math.ceil(perSheet / cols))
+   520→    let sheetW: number
+   521→    let sheetH: number
+   522→    if (preservePageSize) {
+   523→      const first = doc.getPage(doc.getPageIndices()[0])
+   524→      sheetW = first.getWidth()
+   525→      sheetH = first.getHeight()
+   526→    } else if (perSheet < 4) {
+   527→      sheetW = 842 // A4 landscape
+   528→      sheetH = 595
+   529→    } else {
+   530→      sheetW = 1191 // A3 landscape
+   531→      sheetH = 842
+   532→    }
+   533→    const out = await PDFDocument.create()
+   534→    const embedded: PDFEmbeddedPage[] = []
+   535→    for (let i = 0; i < pageCount; i++) {
+   536→      const pg = doc.getPage(i)
+   537→      embedded.push(await out.embedPage(pg, fullBbox(pg)))
+   538→      ctx.progress(Math.round(((i + 1) / pageCount) * 80))
+   539→    }
+   540→    const gutter = 4
+   541→    const cellW = sheetW / cols
+   542→    const cellH = sheetH / rows
+   543→    for (let s = 0; s < embedded.length; s += perSheet) {
+   544→      const page = out.addPage([sheetW, sheetH])
+   545→      for (let k = 0; k < perSheet && s + k < embedded.length; k++) {
+   546→        const emb = embedded[s + k]
+   547→        const row = pageOrdering === 'horizontal' ? Math.floor(k / cols) : k % rows
+   548→        const col = pageOrdering === 'horizontal' ? k % cols : Math.floor(k / rows)
+   549→        const scale = Math.min((cellW - 2 * gutter) / emb.width, (cellH - 2 * gutter) / emb.height)
+   550→        const dw = emb.width * scale
+   551→        const dh = emb.height * scale
+   552→        page.drawPage(emb, {
+   553→          x: col * cellW + (cellW - dw) / 2,
+   554→          y: sheetH - (row + 1) * cellH + (cellH - dh) / 2,
+   555→          xScale: scale,
+   556→          yScale: scale,
+   557→        })
+   558→      }
+   559→    }
+   560→    return { outputs: [await saveOne(ctx, out, 'n-up')] }
+   561→  },
+   562→
+   563→  deskew: async (ctx) => {
+   564→    const { onlyStronglySkewed } = ctx.params as ToolParams['deskew']
+   565→    const file = firstFile(ctx)
+   566→    const { buf, doc } = await loadPdf(ctx, file.id)
+   567→    const dir = await ctx.workdir()
+   568→    const inPath = join(dir, 'in.pdf')
+   569→    await writeFile(inPath, buf)
+   570→    const pngs = await pdfToImages(inPath, dir, { dpi: 150, format: 'png' })
+   571→    const pageCount = Math.min(doc.getPageCount(), pngs.length)
+   572→    const out = await PDFDocument.create()
+   573→    let deskewed = 0
+   574→    for (let i = 0; i < pageCount; i++) {
+   575→      const img = decodePng(await readFile(pngs[i]))
+   576→      const skew = estimateSkew(img)
+   577→      if (Math.abs(skew) < (onlyStronglySkewed ? 1 : 0.1)) {
+   578→        await copyInto(out, doc, [i]) // not skewed enough to touch — keep vector page
+   579→      } else {
+   580→        deskewed++
+   581→        const rotated = rotateBitmap(img, skew)
+   582→        const pngPath = join(dir, `deskew-${i + 1}.png`)
+   583→        await writeFile(pngPath, encodePng(rotated.rgba, rotated.width, rotated.height))
+   584→        const single = await gsImageToPdf(pngPath, join(dir, `deskew-${i + 1}.pdf`))
+   585→        const oneDoc = await PDFDocument.load(await readFile(single), { ignoreEncryption: true })
+   586→        const srcPage = oneDoc.getPage(oneDoc.getPageIndices()[0])
+   587→        const emb = await out.embedPage(srcPage, fullBbox(srcPage))
+   588→        const mb = doc.getPage(i).getMediaBox()
+   589→        const page = out.addPage([mb.width, mb.height])
+   590→        // gs sizes image pages 1px=1pt; the render was 150dpi → scale back
+   591→        page.drawPage(emb, { x: 0, y: 0, xScale: mb.width / emb.width, yScale: mb.height / emb.height })
+   592→      }
+   593→      ctx.progress(Math.round(((i + 1) / pageCount) * 95))
+   594→    }
+   595→    if (onlyStronglySkewed && deskewed === 0) {
+   596→      return { outputs: [await ctx.putOutput(buf, withExt(`${baseName(file.name)}-deskew`, 'pdf'), PDF_MIME)] }
+   597→    }
+   598→    return { outputs: [await saveOne(ctx, out, `${baseName(file.name)}-deskew`)] }
+   599→  },
+   600→
+   601→  repair: async (ctx) => {
+   602→    const file = firstFile(ctx)
+   603→    const buf = await readInput(ctx, file.id)
+   604→    let doc: PDFDocument
+   605→    try {
+   606→      doc = await PDFDocument.load(buf, { ignoreEncryption: true })
+   607→    } catch {
+   608→      const dir = await ctx.workdir()
+   609→      const inPath = join(dir, 'in.pdf')
+   610→      await writeFile(inPath, buf)
+   611→      let rescued: Buffer
+   612→      try {
+   613→        rescued = await readFile(await qpdfRepair(inPath, join(dir, 'fixed.pdf')))
+   614→      } catch {
+   615→        throw new TaskError('FAILED', 'Could not repair document')
+   616→      }
+   617→      try {
+   618→        doc = await PDFDocument.load(rescued, { ignoreEncryption: true })
+   619→      } catch {
+   620→        throw new TaskError('FAILED', 'Could not repair document')
+   621→      }
+   622→    }
+   623→    const out = await PDFDocument.create()
+   624→    await copyInto(out, doc, doc.getPageIndices())
+   625→    return { outputs: [await saveOne(ctx, out, 'repaired')] }
+   626→  },
+   627→}
+   628→
+   629→// Scan for non-white pixels (any channel < 250); coords in px, y down. 1px = 1pt at 72dpi.
+   630→function inkBbox(rgba: Uint8Array, w: number, h: number): { x0: number; y0: number; x1: number; y1: number } | null {
+   631→  let x0 = w
+   632→  let y0 = h
+   633→  let x1 = -1
+   634→  let y1 = -1
+   635→  for (let y = 0; y < h; y++) {
+   636→    const row = y * w * 4
+   637→    for (let x = 0; x < w; x++) {
+   638→      const i = row + x * 4
+   639→      if (rgba[i] < 250 || rgba[i + 1] < 250 || rgba[i + 2] < 250) {
+   640→        if (x < x0) x0 = x
+   641→        if (x > x1) x1 = x
+   642→        if (y < y0) y0 = y
+   643→        if (y > y1) y1 = y
+   644→      }
+   645→    }
+   646→  }
+   647→  return x1 < 0 ? null : { x0, y0, x1, y1 }
+   648→}
+   649→
+   650→// Inverse-map a rendered pixel (y down) to PDF user space, honoring /Rotate.
+   651→function imagePointToPdf(
+   652→  nx: number,
+   653→  ny: number,
+   654→  rw: number,
+   655→  rh: number,
+   656→  mb: { x: number; y: number; width: number; height: number },
+   657→  rot: number,
+   658→): { x: number; y: number } {
+   659→  switch (rot) {
+   660→    case 90:
+   661→      return { x: mb.x + ny, y: mb.y + nx }
+   662→    case 180:
+   663→      return { x: mb.x + rw - nx, y: mb.y + ny }
+   664→    case 270:
+   665→      return { x: mb.x + rh - ny, y: mb.y + rw - nx }
+   666→    default:
+   667→      return { x: mb.x + nx, y: mb.y + rh - ny }
+   668→  }
+   669→}
+   670→
+   671→// Projection-profile skew estimate: the angle whose line histogram is most
+   672→// concentrated (max sum of squares) wins. Positive = text rises to the right.
+   673→function estimateSkew(img: { rgba: Uint8Array; width: number; height: number }): number {
+   674→  const { rgba, width: W, height: H } = img
+   675→  const xs: number[] = []
+   676→  const ys: number[] = []
+   677→  for (let y = 0; y < H; y += 2) {
+   678→    for (let x = 0; x < W; x += 2) {
+   679→      const i = (y * W + x) * 4
+   680→      const gray = (rgba[i] * 299 + rgba[i + 1] * 587 + rgba[i + 2] * 114) / 1000
+   681→      if (gray < 128) {
+   682→        xs.push(x)
+   683→        ys.push(y)
+   684→      }
+   685→    }
+   686→  }
+   687→  if (xs.length < 100) return 0
+   688→  let best = 0
+   689→  let bestScore = -1
+   690→  for (let a = -10; a <= 10; a += 0.5) {
+   691→    const t = Math.tan((a * Math.PI) / 180)
+   692→    const off = Math.ceil(Math.abs(t) * (W / 2)) + 1
+   693→    const hist = new Int32Array(H + 2 * off)
+   694→    for (let k = 0; k < xs.length; k++) {
+   695→      hist[ys[k] + Math.round(t * (xs[k] - W / 2)) + off]++
+   696→    }
+   697→    let score = 0
+   698→    for (let k = 0; k < hist.length; k++) score += hist[k] * hist[k]
+   699→    if (score > bestScore) {
+   700→      bestScore = score
+   701→      best = a
+   702→    }
+   703→  }
+   704→  return best
+   705→}
+   706→
+   707→// Nearest-neighbor inverse rotation sampled around the center; output stays W×H.
+   708→function rotateBitmap(
+   709→  img: { rgba: Uint8Array; width: number; height: number },
+   710→  skewDeg: number,
+   711→): { rgba: Uint8Array; width: number; height: number } {
+   712→  const { rgba: src, width: W, height: H } = img
+   713→  const out = new Uint8Array(W * H * 4).fill(255)
+   714→  const s = (skewDeg * Math.PI) / 180
+   715→  const cos = Math.cos(s)
+   716→  const sin = Math.sin(s)
+   717→  const cx = W / 2
+   718→  const cy = H / 2
+   719→  for (let y = 0; y < H; y++) {
+   720→    for (let x = 0; x < W; x++) {
+   721→      const dx = x - cx
+   722→      const dy = y - cy
+   723→      const sx = Math.round(cx + dx * cos + dy * sin)
+   724→      const sy = Math.round(cy - dx * sin + dy * cos)
+   725→      if (sx < 0 || sx >= W || sy < 0 || sy >= H) continue
+   726→      const si = (sy * W + sx) * 4
+   727→      const di = (y * W + x) * 4
+   728→      out[di] = src[si]
+   729→      out[di + 1] = src[si + 1]
+   730→      out[di + 2] = src[si + 2]
+   731→      out[di + 3] = 255
+   732→    }
+   733→  }
+   734→  return { rgba: out, width: W, height: H }
+   735→}
+   736→

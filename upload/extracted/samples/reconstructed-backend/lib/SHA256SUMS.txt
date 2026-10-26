@@ -1,0 +1,3 @@
+daddea1ea0be0f56978ab3006b8ac92834afeefbd9b7e4e6316fca57df0fa636 *commons-logging-1.2.jar
+057983e9d4cabb9d649d286a5ae507a1d8e13b66744fd9432b3a0b3d04180fc3 *fontbox-2.0.32.jar
+ac2c82df0dd5fccc91ca691f3a1845fb0b06c57f183d2f4701570c1d842c37d7 *pdfbox-2.0.32.jar
