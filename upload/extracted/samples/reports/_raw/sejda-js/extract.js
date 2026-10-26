@@ -1,1 +1,0 @@
-$(function(){$(".predefined-pages-selector").click(function(){$("#specificPages").val(""),$("#specificPagesWrap").fadeOut()}),$(".specific-pages-selector").click(function(){$("#specificPagesWrap").fadeIn()})});

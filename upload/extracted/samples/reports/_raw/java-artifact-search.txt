@@ -1,3 +1,0 @@
-Java/backend artifact search
-scope: D:/small_editor (including node_modules, excluding reports/evidence bundles)
-END
