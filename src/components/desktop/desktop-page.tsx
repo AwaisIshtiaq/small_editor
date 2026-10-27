@@ -7,6 +7,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { CMP, D, F3, FOOTER_TOOLS, IT, LANGS } from './desktop-data'
+import { SketchHover } from './hover-motion'
+import { SKETCH_ART } from './sketch-art'
 
 const svg = (n: string) => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -330,13 +332,20 @@ export default function DesktopPage() {
             </h2>
           </div>
           <div className="f3">
-            {F3.map((f, i) => (
-              <div className="fc rv" style={{ ['--i' as string]: String(i % 3) }} key={f[0]}>
-                <div className="bz">{svg(f[2])}</div>
-                <h3>{f[0]}</h3>
-                <p>{f[1]}</p>
-              </div>
-            ))}
+            {F3.map((f, i) => {
+              const Art = SKETCH_ART[f[2]]
+              return (
+                <div className="fc rv" style={{ ['--i' as string]: String(i % 3) }} key={f[0]}>
+                  {Art ? (
+                    <SketchHover art={<Art />} label={f[0]} />
+                  ) : (
+                    <div className="bz">{svg(f[2])}</div>
+                  )}
+                  <h3>{f[0]}</h3>
+                  <p>{f[1]}</p>
+                </div>
+              )
+            })}
           </div>
           <p className="rv" style={{ textAlign: 'center', marginTop: 70, color: 'var(--mu)' }}>
             Can&rsquo;t find the feature you were looking for?
