@@ -54,6 +54,14 @@ export function SketchHover({ art, label, w = 200, h = 150 }: SketchHoverProps) 
   const ref = useRef<PlayerRef>(null)
   const [live, setLive] = useState(false)
 
+  // Every enter replays from frame 0, so the icon always moves — first hover
+  // mounts the Player (effect below), later hovers restart the mounted one.
+  const start = () => {
+    setLive(true)
+    ref.current?.seekTo(0)
+    ref.current?.play()
+  }
+
   useEffect(() => {
     if (live) ref.current?.play()
   }, [live])
@@ -64,17 +72,17 @@ export function SketchHover({ art, label, w = 200, h = 150 }: SketchHoverProps) 
       role="img"
       aria-label={label}
       tabIndex={0}
-      onMouseEnter={() => setLive(true)}
+      onMouseEnter={start}
       onMouseLeave={() => {
         ref.current?.pause()
         ref.current?.seekTo(0)
       }}
-      onFocus={() => setLive(true)}
+      onFocus={start}
       onBlur={() => {
         ref.current?.pause()
         ref.current?.seekTo(0)
       }}
-      onTouchStart={() => setLive(true)}
+      onTouchStart={start}
     >
       {live ? (
         <Player
