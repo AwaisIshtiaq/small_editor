@@ -9,6 +9,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { D, FOOTER_TOOLS, FREE, LANGS, PLANS, PLAN_ALL_IMGS, PLAN_IMGS, type Plan } from './pricing-data'
+import PayBadges from '../pay-badges'
 
 const money = (v: number) =>
   '$' +
@@ -388,10 +389,7 @@ export default function PricingPage() {
             Prices in USD &nbsp;·&nbsp; <Link href="/desktop#pricing">Desktop Week Pass available here</Link>
           </p>
           <div className="pay">
-            <span>PayPal</span>
-            <span>Mastercard</span>
-            <span>VISA</span>
-            <span>AMEX</span>
+            <PayBadges />
           </div>
         </div>
       </section>
@@ -680,89 +678,129 @@ function PlanCard({
   )
 }
 
+// Pencil-sketch redraw of the "moveable parts" illustration, matching the
+// reference: hand-inked strokes (theme-adaptive via --tx/--mu), sparse yellow
+// accents (#f0b429), hatch shading. Same composition as before and the same
+// .mv groups / data attributes, so the hover-drag parallax is unchanged.
 function MvbArt() {
+  const INK = 'var(--tx)'
+  const MUT = 'var(--mu)'
+  const AMB = '#f0b429'
+  const AMB_SOFT = 'rgba(240,180,41,.28)'
+  // wobbly hand-drawn rectangle path
+  const wr = (x: number, y: number, w: number, h: number, r = 3) =>
+    `M${x + r} ${y} q${w * 0.3} -1.5 ${w - r} 0 q1.5 ${h * 0.3} 0 ${h - r} q-${w * 0.3} 1.5 -${w - r} 0 q-1.5 -${h * 0.3} 0 -${h - r} z`
   return (
-    <svg viewBox="0 0 400 300" fill="none" stroke="var(--tx)" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" aria-label="Interactive illustration: hover to move the parts">
+    <svg viewBox="0 0 400 300" fill="none" stroke={INK} strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" aria-label="Interactive illustration: hover to move the parts">
       <defs>
         <pattern id="ht" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-          <path d="M0 0v5" stroke="var(--mu)" strokeWidth="1" />
+          <path d="M0 0v5" stroke={MUT} strokeWidth="1" />
+        </pattern>
+        <pattern id="ht2" width="4.2" height="4.2" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+          <path d="M0 0v4.2" stroke={MUT} strokeWidth="0.9" />
         </pattern>
       </defs>
+      {/* dashed orbit — double-pass sketch stroke */}
       <g className="mv" data-x="0" data-y="0" data-r="24" data-d=".25">
-        <circle cx="200" cy="146" r="112" stroke="var(--mu)" strokeDasharray="2 6" />
+        <circle cx="200" cy="146" r="112" stroke={MUT} strokeDasharray="2 6" />
+        <circle cx="199" cy="147.5" r="110.5" stroke={MUT} strokeWidth={1.1} strokeDasharray="2 7" opacity={0.55} />
       </g>
+      {/* lightbulb — yellow glow, ink rays */}
       <g className="mv" data-x="-34" data-y="-24" data-r="-12" data-d="1">
         <g transform="translate(92 68)">
-          <path d="M-13 18C-22 11-26 3-26-6a26 26 0 0152 0C26 3 22 11 13 18z" fill="rgba(255,90,9,.2)" />
-          <path d="M-12 24h24M-10 30h20M-6 36h12M-5 -2l5 10 5-10" />
-          <path d="M0 -42v-9M-30 -30l-6-6M30-30l6-6M-38-6h-8M38-6h8" stroke="var(--v)" />
+          <path d="M-13 18C-22 11-26 3-26-6a26 26 0 0152 0C26 3 22 11 13 18z" fill={AMB_SOFT} />
+          <path d="M-11.5 16.5C-20 10-24.5 2.5-24.5-6a24.5 24.5 0 0149 0C24.5 2.5 20 10 11.5 16.5z" strokeWidth={1.1} opacity={0.5} />
+          <path d="M-12 24h24M-10 30h20M-6 36h12" />
+          <path d="M-5 -2l5 10 5-10" stroke={AMB} strokeWidth={1.5} />
+          <path d="M0 -42v-9M-30 -30l-6-6M30 -30l6-6M-38 -6h-8M38 -6h8" opacity={0.85} />
         </g>
       </g>
+      {/* pie chart — yellow wedge, ink circle */}
       <g className="mv" data-x="30" data-y="-30" data-r="30" data-d=".8">
         <g transform="translate(262 46)">
           <circle r="17" />
-          <path d="M0 0V-17A17 17 0 0116.200-5z" fill="var(--v)" stroke="none" />
-          <path d="M26 -14h18M30 -8h12" stroke="var(--mu)" />
+          <path d="M0 0V-17A17 17 0 0116.200-5z" fill={AMB} stroke={INK} strokeWidth={1.2} />
+          <path d="M26 -14h18M30 -8h12" stroke={MUT} />
         </g>
       </g>
+      {/* cursor — yellow pick marker */}
       <g className="mv" data-x="-6" data-y="-26" data-r="10" data-d="1.3">
-        <path transform="translate(50 -42)" d="M176 84l0 36 9-8 7 15 7-3-7-15 12-1z" fill="var(--bg)" />
+        <path transform="translate(50 -42)" d="M176 84l0 36 9-8 7 15 7-3-7-15 12-1z" fill={AMB} stroke={INK} strokeWidth={1.2} />
       </g>
+      {/* puzzle outlined — hatched fill */}
       <g className="mv" data-x="-24" data-y="-14" data-r="-16" data-d="1.1">
         <g transform="translate(146 96)">
-          <path d="M0 0h14v-5a6 6 0 1112 0v5h14v14h5a6 6 0 110 12h-5v14H0z" fill="var(--bg)" />
+          <path d="M0 0h14v-5a6 6 0 1112 0v5h14v14h5a6 6 0 110 12h-5v14H0z" fill="url(#ht)" />
+          <path d="M0 0h14v-5a6 6 0 1112 0v5h14v14h5a6 6 0 110 12h-5v14H0z" strokeWidth={1.3} opacity={0.85} />
         </g>
       </g>
+      {/* puzzle yellow — ink outline */}
       <g className="mv" data-x="24" data-y="16" data-r="16" data-d="1.2">
         <g transform="translate(212 140)">
-          <path d="M0 0h14v-5a6 6 0 1112 0v5h14v14h5a6 6 0 110 12h-5v14H0z" fill="var(--v)" stroke="none" />
+          <path d="M0 0h14v-5a6 6 0 1112 0v5h14v14h5a6 6 0 110 12h-5v14H0z" fill={AMB} />
+          <path d="M0 0h14v-5a6 6 0 1112 0v5h14v14h5a6 6 0 110 12h-5v14H0z" stroke={INK} strokeWidth={1.3} />
         </g>
       </g>
+      {/* briefcase left — hatched body, yellow clasp */}
       <g className="mv" data-x="-34" data-y="20" data-r="-8" data-d=".9">
         <g transform="translate(66 206)">
-          <rect x="-22" y="14" width="44" height="46" fill="url(#ht)" />
-          <rect x="-22" y="14" width="44" height="46" />
-          <rect x="-20" y="-10" width="40" height="28" rx="12" fill="var(--bg)" />
-          <path d="M-6 -8V-52a6 6 0 0112 0V-8M2 -2v7M9 -2v7" />
-          <circle cx="0" cy="-66" r="4.5" fill="var(--v)" stroke="none" />
+          <path d={wr(-22, 14, 44, 46, 4)} fill="url(#ht)" />
+          <path d={wr(-22, 14, 44, 46, 4)} strokeWidth={1.3} />
+          <rect x="-20" y="-10" width="40" height="28" rx="12" fill="var(--card)" />
+          <path d="M-6 -8V-52a6 6 0 0112 0V-8M2 -2v7M9 -2v7" strokeWidth={1.4} />
+          <circle cx="0" cy="-66" r="4.5" fill={AMB} stroke="none" />
         </g>
       </g>
+      {/* briefcase right */}
       <g className="mv" data-x="34" data-y="20" data-r="8" data-d=".9">
         <g transform="translate(334 206)">
-          <rect x="-22" y="14" width="44" height="46" fill="url(#ht)" />
-          <rect x="-22" y="14" width="44" height="46" />
-          <rect x="-20" y="-10" width="40" height="28" rx="12" fill="var(--bg)" />
-          <path d="M-6 -8V-52a6 6 0 0112 0V-8M2 -2v7M9 -2v7" />
+          <path d={wr(-22, 14, 44, 46, 4)} fill="url(#ht2)" />
+          <path d={wr(-22, 14, 44, 46, 4)} strokeWidth={1.3} />
+          <rect x="-20" y="-10" width="40" height="28" rx="12" fill="var(--card)" />
+          <path d="M-6 -8V-52a6 6 0 0112 0V-8M2 -2v7M9 -2v7" strokeWidth={1.4} />
         </g>
       </g>
+      {/* gear — double-pass ink teeth */}
       <g className="mv" data-x="-16" data-y="30" data-r="80" data-d="1.4">
         <g transform="translate(160 246)">
-          <circle r="19" strokeWidth="9" strokeDasharray="5 5.3" stroke="var(--v)" />
+          <circle r="19" strokeWidth="8" strokeDasharray="5 5.3" stroke={INK} opacity={0.9} />
+          <circle r="19" strokeWidth="8" strokeDasharray="5 5.3" stroke={INK} opacity={0.3} transform="rotate(9)" />
           <circle r="10" />
-          <circle r="3" fill="var(--tx)" />
+          <circle r="3" fill={INK} stroke="none" />
         </g>
       </g>
+      {/* growth bars — pencil-tone bars, yellow trend arrow */}
       <g className="mv" data-x="16" data-y="34" data-r="-6" data-d="1">
         <g transform="translate(228 262)">
-          <path d="M0 0v-14M16 0v-26M32 0v-38" strokeWidth="7" stroke="var(--v)" />
-          <path d="M-8 -22l22-16 14 8 24-22M44 -52h10v10" stroke="var(--tx)" />
+          <path d="M0 0v-14M16 0v-26M32 0v-38" strokeWidth="7" stroke={INK} opacity={0.3} />
+          <path d="M-8 -22l22-16 14 8 24-22M44 -52h10v10" stroke={AMB} strokeWidth={2.4} />
         </g>
       </g>
+      {/* trophy — yellow cup, hatched base */}
       <g className="mv" data-x="36" data-y="-24" data-r="10" data-d=".7">
         <g transform="translate(350 80)">
-          <path d="M-20 -14h40v10a20 20 0 01-40 0zM-20 -8h-8a8 8 0 008 12M20 -8h8a8 8 0 01-8 12M0 16v12M-12 28h24v8h-24z" fill="rgba(255,90,9,.22)" />
+          <path d="M-20 -14h40v10a20 20 0 01-40 0z" fill={AMB_SOFT} />
+          <path d="M-20 -14h40v10a20 20 0 01-40 0z" strokeWidth={1.4} />
+          <path d="M-20 -8h-8a8 8 0 008 12M20 -8h8a8 8 0 01-8 12" strokeWidth={1.3} />
+          <rect x="-12" y="28" width="24" height="8" fill="url(#ht)" />
+          <path d="M0 16v12M-12 28h24v8h-24z" strokeWidth={1.4} />
+          <path d="M-9 30.5h18" strokeWidth={1} opacity={0.5} />
         </g>
       </g>
+      {/* flow arrows — yellow in, muted out */}
       <g className="mv" data-x="-20" data-y="6" data-r="0" data-d="1.2">
-        <path d="M96 142h30M118 136l8 6-8 6" stroke="var(--v)" />
-        <path d="M276 116h-30M254 110l-8 6 8 6" stroke="var(--mu)" />
+        <path d="M96 142h30M118 136l8 6-8 6" stroke={AMB} />
+        <path d="M276 116h-30M254 110l-8 6 8 6" stroke={MUT} />
       </g>
+      {/* small accents */}
       <g className="mv" data-x="10" data-y="-14" data-r="30" data-d="1.6">
-        <circle cx="130" cy="30" r="4" fill="var(--v)" stroke="none" />
-        <circle cx="310" cy="150" r="3" fill="var(--v)" stroke="none" />
-        <path d="M300 34l6 6M306 34l-6 6" stroke="var(--mu)" />
+        <circle cx="130" cy="30" r="4" fill={AMB} stroke="none" />
+        <circle cx="310" cy="150" r="3" fill={INK} stroke="none" opacity={0.55} />
+        <path d="M300 34l6 6M306 34l-6 6" stroke={MUT} />
       </g>
-      <path d="M40 284h320" stroke="var(--mu)" strokeDasharray="2 4" />
+      {/* ground — sketch shadow lines */}
+      <path d="M40 284h320" stroke={MUT} strokeDasharray="2 4" />
+      <path d="M64 289h250" stroke={MUT} strokeWidth={0.9} strokeDasharray="2 5" opacity={0.5} />
     </svg>
   )
 }

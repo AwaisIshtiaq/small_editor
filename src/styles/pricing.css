@@ -115,8 +115,10 @@
 .ppg .cta3:active{transform:scale(.97)}
 .ppg .note{text-align:center;color:var(--mu);font-size:13px;margin-top:34px}
 .ppg .note a{color:var(--v);text-decoration:underline;text-underline-offset:3px}
-.ppg .pay{display:flex;gap:10px;justify-content:center;margin-top:24px;flex-wrap:wrap}
-.ppg .pay span{padding:8px 16px;border-radius:8px;border:1px solid var(--hair);background:var(--g);font-size:12px;font-weight:700;letter-spacing:.04em}
+.ppg .pay{display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap;align-items:center}
+.ppg .pay .pb{display:flex;border-radius:6px;overflow:hidden;border:1px solid var(--hair);background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.16);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.ppg .pay .pb:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(0,0,0,.24)}
+.ppg .pay svg{display:block;height:34px;width:auto}
 .ppg #tsum{margin:0 0 34px;font-size:14px}
 .ppg #tsum b{color:var(--tx)}
 .ppg #tsum a{color:var(--v);text-decoration:underline;text-underline-offset:3px}
@@ -134,7 +136,7 @@
 .ppg .tw h2{font-size:clamp(28px,3.4vw,44px);margin:0 0 22px}
 .ppg .ck{list-style:none;padding:0;display:flex;flex-direction:column;gap:12px;margin-bottom:28px;color:var(--mu);font-size:18px}
 .ppg .ck li::before{content:"\2713";color:var(--v);margin-right:12px;font-weight:700}
-.ppg .mvb{position:relative;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;border-radius:28px;border:1px solid var(--hair);background:radial-gradient(70% 70% at 50% 45%,rgba(255,90,9,.16),transparent 75%),var(--card);padding:10px}
+.ppg .mvb{position:relative;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;border-radius:28px;border:1px solid var(--hair);background:radial-gradient(70% 70% at 50% 45%,rgba(240,180,41,.13),transparent 75%),var(--card);padding:10px}
 .ppg .mvb svg{width:100%;height:auto;display:block;overflow:visible}
 .ppg .mvb .hint{padding:6px 0 8px;text-align:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mu);pointer-events:none}
 .ppg .mv{transform-box:fill-box;transform-origin:center;transform:translate(var(--tx,0px),var(--ty,0px)) rotate(var(--tr,0deg)) scale(var(--ts,1));transition:transform .95s cubic-bezier(.34,1.56,.64,1);cursor:pointer}

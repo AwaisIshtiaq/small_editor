@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { CMP, D, F3, FOOTER_TOOLS, IT, LANGS } from './desktop-data'
 import { SketchHover } from './hover-motion'
 import { SKETCH_ART } from './sketch-art'
+import PayBadges from '../pay-badges'
 
 const svg = (n: string) => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -529,10 +530,7 @@ function Pricing({ tab, setTab, soon }: { tab: 'p' | 't'; setTab: (t: 'p' | 't')
         </div>
         <p className="note">Prices in USD</p>
         <div className="pay">
-          <span>PayPal</span>
-          <span>Mastercard</span>
-          <span>VISA</span>
-          <span>AMEX</span>
+          <PayBadges />
         </div>
       </div>
     </section>
