@@ -1,7 +1,5 @@
-// Branded payment-method badges (PayPal, Mastercard, VISA, AMEX) drawn as
-// inline SVG per the reference screenshot: classic card-style badges with
-// their real brand colors, so no image assets are needed and they render
-// identically on both themes.
+// Payment-method badges (PayPal, Mastercard, VISA, AMEX) as inline SVG per
+// the reference shot: classic brand colors, no image assets, theme-proof.
 
 const SHELL = { strokeLinejoin: 'round' as const }
 

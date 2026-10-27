@@ -1,7 +1,6 @@
 // Pencil-sketch illustrations for the "We help with your PDF tasks" cards,
-// drawn to match the reference screenshots: hand-inked strokes, hatch
-// shading, sparse green/amber accents on plain white. All deterministic
-// (no randomness) so Remotion renders frame 0 identical every time.
+// matching the reference shots: ink strokes, hatch shading, green/amber
+// accents. Deterministic so Remotion renders frame 0 identically every time.
 
 const INK = '#2d2a26'
 const GRN = '#2f9e63'

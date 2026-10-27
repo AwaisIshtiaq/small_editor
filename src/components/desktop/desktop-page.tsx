@@ -393,7 +393,6 @@ export default function DesktopPage() {
         </div>
       </div>
 
-      {/* pricing + FAQ + window mock + guide + footer continue in part 2 */}
       <Pricing tab={tab} setTab={setTab} soon={soon} />
       <Faq soon={soon} />
       <WindowMock />

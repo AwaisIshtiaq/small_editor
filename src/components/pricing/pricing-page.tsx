@@ -1,10 +1,8 @@
 'use client'
 
-// Small Editor Pricing page, ported 1:1 from the user-provided design file
-// (upload/Pricing — Small Editor.html). Interactive behavior mirrors the
-// original inline script: personal/teams tabs, team-size modal with volume
-// discounts, 3D-tilt cards with cursor aura, moveable illustration, reveal
-// on scroll, mega menu, language popover, toasts.
+// Small Editor Pricing page, ported 1:1 from the user's design file
+// (upload/Pricing — Small Editor.html); behavior mirrors its inline script
+// (tabs, team modal, tilt cards, moveable illustration, popovers, toasts).
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
@@ -52,7 +50,7 @@ export default function PricingPage() {
   const demoCheckout = useCallback(
     (e: { preventDefault: () => void }) => {
       e.preventDefault()
-      say('Checkout isn\u2019t connected yet — demo page')
+      say('Checkout isn\u2019t connected yet (demo page)')
     },
     [say],
   )
@@ -121,10 +119,15 @@ export default function PricingPage() {
     }
   }, [openM])
 
-  // Escape closes the modal; outside click closes nav popovers.
+  // Escape closes the modal and any open nav popover (same as the desktop page).
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setModal(false)
+      if (e.key === 'Escape') {
+        setModal(false)
+        setMega(false)
+        setLang(false)
+        setBurger(false)
+      }
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
@@ -678,10 +681,8 @@ function PlanCard({
   )
 }
 
-// Pencil-sketch redraw of the "moveable parts" illustration, matching the
-// reference: hand-inked strokes (theme-adaptive via --tx/--mu), sparse yellow
-// accents (#f0b429), hatch shading. Same composition as before and the same
-// .mv groups / data attributes, so the hover-drag parallax is unchanged.
+// Pencil-sketch redraw: ink via theme vars, yellow accents, hatch shading.
+// Same .mv groups and data attributes as before, so the parallax is unchanged.
 function MvbArt() {
   const INK = 'var(--tx)'
   const MUT = 'var(--mu)'
@@ -700,12 +701,12 @@ function MvbArt() {
           <path d="M0 0v4.2" stroke={MUT} strokeWidth="0.9" />
         </pattern>
       </defs>
-      {/* dashed orbit — double-pass sketch stroke */}
+      {/* dashed orbit */}
       <g className="mv" data-x="0" data-y="0" data-r="24" data-d=".25">
         <circle cx="200" cy="146" r="112" stroke={MUT} strokeDasharray="2 6" />
         <circle cx="199" cy="147.5" r="110.5" stroke={MUT} strokeWidth={1.1} strokeDasharray="2 7" opacity={0.55} />
       </g>
-      {/* lightbulb — yellow glow, ink rays */}
+      {/* lightbulb */}
       <g className="mv" data-x="-34" data-y="-24" data-r="-12" data-d="1">
         <g transform="translate(92 68)">
           <path d="M-13 18C-22 11-26 3-26-6a26 26 0 0152 0C26 3 22 11 13 18z" fill={AMB_SOFT} />
@@ -715,7 +716,7 @@ function MvbArt() {
           <path d="M0 -42v-9M-30 -30l-6-6M30 -30l6-6M-38 -6h-8M38 -6h8" opacity={0.85} />
         </g>
       </g>
-      {/* pie chart — yellow wedge, ink circle */}
+      {/* pie chart */}
       <g className="mv" data-x="30" data-y="-30" data-r="30" data-d=".8">
         <g transform="translate(262 46)">
           <circle r="17" />
@@ -723,25 +724,25 @@ function MvbArt() {
           <path d="M26 -14h18M30 -8h12" stroke={MUT} />
         </g>
       </g>
-      {/* cursor — yellow pick marker */}
+      {/* cursor */}
       <g className="mv" data-x="-6" data-y="-26" data-r="10" data-d="1.3">
         <path transform="translate(50 -42)" d="M176 84l0 36 9-8 7 15 7-3-7-15 12-1z" fill={AMB} stroke={INK} strokeWidth={1.2} />
       </g>
-      {/* puzzle outlined — hatched fill */}
+      {/* puzzle, hatched */}
       <g className="mv" data-x="-24" data-y="-14" data-r="-16" data-d="1.1">
         <g transform="translate(146 96)">
           <path d="M0 0h14v-5a6 6 0 1112 0v5h14v14h5a6 6 0 110 12h-5v14H0z" fill="url(#ht)" />
           <path d="M0 0h14v-5a6 6 0 1112 0v5h14v14h5a6 6 0 110 12h-5v14H0z" strokeWidth={1.3} opacity={0.85} />
         </g>
       </g>
-      {/* puzzle yellow — ink outline */}
+      {/* puzzle, yellow */}
       <g className="mv" data-x="24" data-y="16" data-r="16" data-d="1.2">
         <g transform="translate(212 140)">
           <path d="M0 0h14v-5a6 6 0 1112 0v5h14v14h5a6 6 0 110 12h-5v14H0z" fill={AMB} />
           <path d="M0 0h14v-5a6 6 0 1112 0v5h14v14h5a6 6 0 110 12h-5v14H0z" stroke={INK} strokeWidth={1.3} />
         </g>
       </g>
-      {/* briefcase left — hatched body, yellow clasp */}
+      {/* briefcase left */}
       <g className="mv" data-x="-34" data-y="20" data-r="-8" data-d=".9">
         <g transform="translate(66 206)">
           <path d={wr(-22, 14, 44, 46, 4)} fill="url(#ht)" />
@@ -760,7 +761,7 @@ function MvbArt() {
           <path d="M-6 -8V-52a6 6 0 0112 0V-8M2 -2v7M9 -2v7" strokeWidth={1.4} />
         </g>
       </g>
-      {/* gear — double-pass ink teeth */}
+      {/* gear */}
       <g className="mv" data-x="-16" data-y="30" data-r="80" data-d="1.4">
         <g transform="translate(160 246)">
           <circle r="19" strokeWidth="8" strokeDasharray="5 5.3" stroke={INK} opacity={0.9} />
@@ -769,14 +770,14 @@ function MvbArt() {
           <circle r="3" fill={INK} stroke="none" />
         </g>
       </g>
-      {/* growth bars — pencil-tone bars, yellow trend arrow */}
+      {/* growth bars + trend arrow */}
       <g className="mv" data-x="16" data-y="34" data-r="-6" data-d="1">
         <g transform="translate(228 262)">
           <path d="M0 0v-14M16 0v-26M32 0v-38" strokeWidth="7" stroke={INK} opacity={0.3} />
           <path d="M-8 -22l22-16 14 8 24-22M44 -52h10v10" stroke={AMB} strokeWidth={2.4} />
         </g>
       </g>
-      {/* trophy — yellow cup, hatched base */}
+      {/* trophy */}
       <g className="mv" data-x="36" data-y="-24" data-r="10" data-d=".7">
         <g transform="translate(350 80)">
           <path d="M-20 -14h40v10a20 20 0 01-40 0z" fill={AMB_SOFT} />
@@ -787,7 +788,7 @@ function MvbArt() {
           <path d="M-9 30.5h18" strokeWidth={1} opacity={0.5} />
         </g>
       </g>
-      {/* flow arrows — yellow in, muted out */}
+      {/* flow arrows */}
       <g className="mv" data-x="-20" data-y="6" data-r="0" data-d="1.2">
         <path d="M96 142h30M118 136l8 6-8 6" stroke={AMB} />
         <path d="M276 116h-30M254 110l-8 6 8 6" stroke={MUT} />
@@ -798,7 +799,7 @@ function MvbArt() {
         <circle cx="310" cy="150" r="3" fill={INK} stroke="none" opacity={0.55} />
         <path d="M300 34l6 6M306 34l-6 6" stroke={MUT} />
       </g>
-      {/* ground — sketch shadow lines */}
+      {/* ground line */}
       <path d="M40 284h320" stroke={MUT} strokeDasharray="2 4" />
       <path d="M64 289h250" stroke={MUT} strokeWidth={0.9} strokeDasharray="2 5" opacity={0.5} />
     </svg>
