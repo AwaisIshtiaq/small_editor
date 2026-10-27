@@ -450,6 +450,9 @@
 .dpg .f3{display:grid;grid-template-columns:repeat(3,1fr);gap:64px 40px;margin-top:64px}
 
 .dpg .fc{text-align:center}
+.dpg .fc .skh{width:180px;height:135px;margin:0 auto 4px;display:block;cursor:pointer;outline:none}
+.dpg .fc .skh svg{width:100%;height:100%;display:block}
+.dpg .fc .skh:focus-visible{border-radius:12px;box-shadow:0 0 0 2px var(--hair)}
 
 .dpg .fc .bz{width:96px;height:96px;margin:0 auto 22px;border-radius:44% 56% 52% 48%/55% 45% 55% 45%;background:var(--g);border:1px solid var(--hair);display:grid;place-items:center;color:var(--v)}
 
