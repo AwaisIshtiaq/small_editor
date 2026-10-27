@@ -1,10 +1,8 @@
 'use client'
 
-// Remotion-powered hover animation for the pencil-sketch icons.
-// At rest the plain SVG is rendered, so the page looks pixel-identical to the
-// design. On first hover a <Player> mounts and loops a short composition that
-// gently lifts and wiggles the sketch (frame 0 equals the static pose, so the
-// switch is seamless). Leaving the icon pauses and rewinds to frame 0.
+// Remotion-powered hover animation for the pencil-sketch icons. At rest the
+// plain SVG renders (pixel-identical to the design); on hover a <Player> loops
+// a lift-and-wiggle whose frame 0 matches the static pose. Leave rewinds to 0.
 
 import { useEffect, useRef, useState } from 'react'
 import { Player, type PlayerRef } from '@remotion/player'
@@ -56,6 +54,14 @@ export function SketchHover({ art, label, w = 200, h = 150 }: SketchHoverProps) 
   const ref = useRef<PlayerRef>(null)
   const [live, setLive] = useState(false)
 
+  // Every enter replays from frame 0, so the icon always moves — first hover
+  // mounts the Player (effect below), later hovers restart the mounted one.
+  const start = () => {
+    setLive(true)
+    ref.current?.seekTo(0)
+    ref.current?.play()
+  }
+
   useEffect(() => {
     if (live) ref.current?.play()
   }, [live])
@@ -66,17 +72,17 @@ export function SketchHover({ art, label, w = 200, h = 150 }: SketchHoverProps) 
       role="img"
       aria-label={label}
       tabIndex={0}
-      onMouseEnter={() => setLive(true)}
+      onMouseEnter={start}
       onMouseLeave={() => {
         ref.current?.pause()
         ref.current?.seekTo(0)
       }}
-      onFocus={() => setLive(true)}
+      onFocus={start}
       onBlur={() => {
         ref.current?.pause()
         ref.current?.seekTo(0)
       }}
-      onTouchStart={() => setLive(true)}
+      onTouchStart={start}
     >
       {live ? (
         <Player

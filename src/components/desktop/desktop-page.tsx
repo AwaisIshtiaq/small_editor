@@ -1,14 +1,16 @@
 'use client'
 
 // Small Editor Desktop page, ported 1:1 from the user-provided design file
-// (upload/desktop ui.html). Interactive behavior mirrors the original inline
-// script: mega menu, language popover, pricing tabs, reveal-on-scroll, toasts.
+// (upload/desktop ui.html). The product page keeps a slim header — Pricing
+// scrolls to the in-page plans, the full toolbar lives on the other pages.
+// Interactive behavior: language popover, pricing tabs, reveal-on-scroll, toasts.
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { CMP, D, F3, FOOTER_TOOLS, IT, LANGS } from './desktop-data'
 import { SketchHover } from './hover-motion'
 import { SKETCH_ART } from './sketch-art'
+import PayBadges from '../pay-badges'
 
 const svg = (n: string) => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -18,9 +20,7 @@ const svg = (n: string) => (
 
 export default function DesktopPage() {
   const rootRef = useRef<HTMLDivElement>(null)
-  const [mega, setMega] = useState(false)
   const [lang, setLang] = useState(false)
-  const [burger, setBurger] = useState(false)
   const [tab, setTab] = useState<'p' | 't'>('p')
   const [os, setOs] = useState('Windows')
   const [toast, setToast] = useState('')
@@ -61,7 +61,9 @@ export default function DesktopPage() {
   // Original design detects the visitor OS for the download label.
   useEffect(() => {
     const ua = navigator.userAgent
-    setOs(/Mac/.test(ua) ? 'macOS' : /Linux|X11/.test(ua) && !/Android/.test(ua) ? 'Linux' : 'Windows')
+    if (/Mac/.test(ua)) setOs('macOS')
+    else if (/Linux|X11/.test(ua) && !/Android/.test(ua)) setOs('Linux')
+    else setOs('Windows')
   }, [])
 
   // Smooth in-page scrolling for #pricing / #guide (offset under the fixed nav).
@@ -81,14 +83,10 @@ export default function DesktopPage() {
     return () => root.removeEventListener('click', onClick)
   }, [])
 
-  // Close popovers on outside click or Escape (original closes on outside click).
+  // Close the language popover on outside click or Escape.
   useEffect(() => {
-    if (!mega && !lang && !burger) return
-    const close = () => {
-      setMega(false)
-      setLang(false)
-      setBurger(false)
-    }
+    if (!lang) return
+    const close = () => setLang(false)
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') close()
     }
@@ -98,9 +96,7 @@ export default function DesktopPage() {
       document.removeEventListener('click', close)
       document.removeEventListener('keydown', onKey)
     }
-  }, [mega, lang, burger])
-
-  const cats = [...new Set(D.map((t) => t.c))]
+  }, [lang])
 
   return (
     <div className="dpg" ref={rootRef}>
@@ -133,45 +129,10 @@ export default function DesktopPage() {
           </svg>
           Small Editor
         </Link>
-        <button
-          className={'at' + (mega ? ' on' : '')}
-          aria-expanded={mega}
-          onClick={(e) => {
-            e.stopPropagation()
-            setLang(false)
-            setMega((v) => !v)
-          }}
-        >
-          All Tools{' '}
-          <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
-            <path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-        <Link className="lk" href="/#tools">
-          Compress
-        </Link>
-        <Link className="lk" href="/#tools">
-          Edit
-        </Link>
-        <Link className="lk hm" href="/#tools">
-          Fill &amp; Sign
-        </Link>
-        <Link className="lk" href="/#tools">
-          Merge
-        </Link>
-        <Link className="lk hm" href="/#tools">
-          Delete Pages
-        </Link>
-        <Link className="lk hm" href="/#tools">
-          Crop
-        </Link>
         <span className="sp" />
         <a className="lk" href="#pricing">
           Pricing
         </a>
-        <Link className="lk on" href="/desktop" aria-current="page">
-          Desktop
-        </Link>
         <Link className="lk" href="/#tools">
           Log in
         </Link>
@@ -180,7 +141,6 @@ export default function DesktopPage() {
           aria-label="Select language"
           onClick={(e) => {
             e.stopPropagation()
-            setMega(false)
             setLang((v) => !v)
           }}
         >
@@ -190,10 +150,6 @@ export default function DesktopPage() {
             <path d="M3 12h18" />
           </svg>
         </button>
-        <button className="bm" aria-label="Menu" aria-expanded={burger} onClick={() => setBurger((v) => !v)}>
-          <span />
-          <span />
-        </button>
         <div className={'lp' + (lang ? ' on' : '')}>
           {LANGS.map((l) => (
             <a key={l} href="#" onClick={soon('More languages')}>
@@ -202,29 +158,6 @@ export default function DesktopPage() {
           ))}
         </div>
       </nav>
-
-      <div className={'mega shell' + (mega ? ' on' : '')}>
-        <div className="core">
-          {cats.map((c) => (
-            <div className="mg" key={c}>
-              <h6>{c}</h6>
-              {D.filter((t) => t.c === c).map((t) => (
-                <Link key={t.n} href={'/workspace?tool=' + t.slug} onClick={() => setMega(false)}>
-                  {t.n}
-                </Link>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className={'ov' + (burger ? ' on' : '')} onClick={() => setBurger(false)}>
-        <Link href="/#tools">All tools</Link>
-        <Link href="/#tools">Edit &amp; Sign</Link>
-        <Link href="/#tools">Merge</Link>
-        <a href="#pricing">Pricing</a>
-        <Link href="/#tools">Log in</Link>
-      </div>
 
       <header className="dh" id="top">
         <div className="wrap">
@@ -392,7 +325,6 @@ export default function DesktopPage() {
         </div>
       </div>
 
-      {/* pricing + FAQ + window mock + guide + footer continue in part 2 */}
       <Pricing tab={tab} setTab={setTab} soon={soon} />
       <Faq soon={soon} />
       <WindowMock />
@@ -529,10 +461,7 @@ function Pricing({ tab, setTab, soon }: { tab: 'p' | 't'; setTab: (t: 'p' | 't')
         </div>
         <p className="note">Prices in USD</p>
         <div className="pay">
-          <span>PayPal</span>
-          <span>Mastercard</span>
-          <span>VISA</span>
-          <span>AMEX</span>
+          <PayBadges />
         </div>
       </div>
     </section>

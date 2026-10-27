@@ -1,0 +1,17 @@
+node_modules
+.next
+.git
+.zscripts
+dev.log
+server.log
+upload
+ponytail
+anti-slop
+skills
+download
+tests
+tool-results
+examples
+db
+*.md
+!README.md

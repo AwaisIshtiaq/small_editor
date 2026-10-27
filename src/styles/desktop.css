@@ -34,7 +34,7 @@
 
 .dpg nav{position:fixed;top:calc(16px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:6px;padding:8px 8px 8px 18px;border-radius:99px;border:1px solid var(--hair);background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);max-width:calc(100% - 24px)}
 
-.dpg .logo{font-weight:800;letter-spacing:-.03em;font-size:17px;display:flex;align-items:center;gap:10px;margin-right:12px}
+.dpg .logo{font-weight:800;letter-spacing:-.03em;font-size:17px;display:flex;align-items:center;gap:10px;margin-right:12px;white-space:nowrap}
 
 .dpg .logo svg{width:32px;height:32px;flex:none;filter:drop-shadow(0 6px 14px rgba(255,90,9,.5))}
 
@@ -79,14 +79,12 @@
 }
 
 @media (max-width:860px){
-.dpg nav .at,.dpg nav .sp,.dpg nav .gb{display:none}
-.dpg nav{justify-content:space-between;width:calc(100% - 24px)}
-.dpg .mega .core{grid-template-columns:1fr 1fr}
+.dpg nav{width:calc(100% - 24px)}
 }
 
 .dpg .logo i{width:20px;height:20px;border-radius:7px;background:linear-gradient(135deg,var(--v),var(--a));display:block}
 
-.dpg nav .lk{padding:8px 12px;border-radius:99px;font-size:13px;color:var(--mu);transition:color .5s var(--ease),background .5s var(--ease)}
+.dpg nav .lk{padding:8px 12px;border-radius:99px;font-size:13px;color:var(--mu);transition:color .5s var(--ease),background .5s var(--ease);white-space:nowrap}
 
 .dpg nav .lk:hover{color:var(--tx);background:var(--g)}
 
@@ -285,8 +283,7 @@
 .dpg .tilt{transform:none}
 .dpg .t,.dpg .t.big{grid-column:span 6;grid-row:auto}
 .dpg .t.big h3{font-size:22px}
-.dpg nav .lk,.dpg nav .pill{display:none}
-.dpg .bm{display:block}
+.dpg nav .pill{display:none}
 .dpg nav{padding-left:16px}
 .dpg section{padding:80px 0}
 .dpg .hero{padding-top:120px}
@@ -508,9 +505,13 @@
 
 .dpg .note{text-align:center;color:var(--mu);font-size:13px;margin-top:22px}
 
-.dpg .pay{display:flex;gap:10px;justify-content:center;margin-top:28px;flex-wrap:wrap}
+.dpg .pay{display:flex;gap:12px;justify-content:center;margin-top:28px;flex-wrap:wrap;align-items:center}
 
-.dpg .pay span{padding:8px 16px;border-radius:8px;border:1px solid var(--hair);background:var(--g);font-size:12px;font-weight:700;letter-spacing:.04em}
+.dpg .pay .pb{display:flex;border-radius:6px;overflow:hidden;border:1px solid var(--hair);background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.16);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+
+.dpg .pay .pb:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(0,0,0,.24)}
+
+.dpg .pay svg{display:block;height:34px;width:auto}
 
 .dpg .faq{display:grid;grid-template-columns:1fr 1fr;gap:50px 70px;margin-top:54px}
 

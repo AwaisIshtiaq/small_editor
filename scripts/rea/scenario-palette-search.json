@@ -1,0 +1,40 @@
+{
+  "start_url": { "url": "https://www.sejda.com/", "query": [] },
+  "browser": { "mode": "launch", "executable_path": "/home/z/.cache/ms-playwright/chromium-1200/chrome-linux64/chrome" },
+  "environment": {
+    "viewport": { "width": 1440, "height": 900, "device_scale_factor": 1 },
+    "locale": "en-US",
+    "timezone": "UTC",
+    "color_scheme": "light",
+    "reduced_motion": "reduce",
+    "service_workers": "block"
+  },
+  "actions": [
+    { "action": "goto", "destination": { "url": "https://www.sejda.com/", "query": [] }, "wait_until": "load", "step_id": "open-home", "timeout_ms": 30000 },
+    { "action": "wait_for_timeout", "duration_ms": 1500, "step_id": "settle-home" },
+    { "action": "click", "locator": { "kind": "css", "selector": "a.more-tasks" }, "step_id": "open-all-tools", "timeout_ms": 10000 },
+    { "action": "wait_for_timeout", "duration_ms": 800, "step_id": "menu-settle" },
+    { "action": "fill", "locator": { "kind": "css", "selector": "#searchTools" }, "value": { "source": "literal", "value": "split" }, "step_id": "type-split", "timeout_ms": 10000 },
+    { "action": "wait_for_timeout", "duration_ms": 800, "step_id": "filter-settle" },
+    { "action": "fill", "locator": { "kind": "css", "selector": "#searchTools" }, "value": { "source": "literal", "value": "zzzz" }, "step_id": "type-no-match", "timeout_ms": 10000 },
+    { "action": "wait_for_timeout", "duration_ms": 800, "step_id": "no-match-settle" }
+  ],
+  "capture": {
+    "after_each_step": ["screenshot"],
+    "at_end": ["screenshot", "dom", "url"],
+    "events": ["console", "page-errors"],
+    "limits": {
+      "max_event_allocation_bytes": 4194304,
+      "max_events": 10000,
+      "max_network_body_allocation_bytes": 1048576,
+      "max_network_body_bytes": 65536,
+      "max_network_header_allocation_bytes": 1048576,
+      "max_network_metadata_allocation_bytes": 1048576,
+      "max_network_transactions": 1024,
+      "max_total_event_allocation_bytes": 16777216
+    },
+    "network": { "header_values": false, "request_body": false, "response_body": false }
+  },
+  "secrets": [],
+  "storage": { "cookies": [], "local_storage": [], "session_storage": [] }
+}

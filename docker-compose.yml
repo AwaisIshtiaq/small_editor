@@ -1,0 +1,21 @@
+# Small Editor — single-service deployment.
+# Testing phase (limits off):      docker compose up --build
+# Production (Sejda free-tier limits on): LIMITS_ENFORCED=true docker compose up --build
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      # Read at runtime by the API routes; default here = enforced (production).
+      # For the unlimited testing phase run: LIMITS_ENFORCED=false docker compose up
+      - LIMITS_ENFORCED=${LIMITS_ENFORCED:-true}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "bun", "-e", "fetch('http://127.0.0.1:3000/api').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    tmpfs:
+      # ephemeral file store on tmpfs: wiped on restart, never written to disk
+      - /tmp:size=512m
