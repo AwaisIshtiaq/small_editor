@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import '@/styles/desktop.css'
+import '../../styles/desktop.css'
 import DesktopPage from '@/components/desktop/desktop-page'
 
 export const metadata: Metadata = {
