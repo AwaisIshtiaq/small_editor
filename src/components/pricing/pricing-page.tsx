@@ -466,7 +466,6 @@ export default function PricingPage() {
             }}
           >
             <MvbArt />
-            <div className="hint">Hover or drag across</div>
           </div>
           <div className="rv" style={{ ['--i' as string]: '1' }}>
             <h2>
@@ -698,6 +697,8 @@ function MvbArt() {
   // wobbly hand-drawn rectangle path
   const wr = (x: number, y: number, w: number, h: number, r = 3) =>
     `M${x + r} ${y} q${w * 0.3} -1.5 ${w - r} 0 q1.5 ${h * 0.3} 0 ${h - r} q-${w * 0.3} 1.5 -${w - r} 0 q-1.5 -${h * 0.3} 0 -${h - r} z`
+  // puzzle piece profile, reused for both colors
+  const pz = 'M0 0h14v-5a6 6 0 1112 0v5h14v14h5a6 6 0 110 12h-5v14H0z'
   return (
     <svg viewBox="0 0 400 300" fill="none" stroke={INK} strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" aria-label="Interactive illustration: hover to move the parts">
       <defs>
@@ -708,107 +709,114 @@ function MvbArt() {
           <path d="M0 0v4.2" stroke={MUT} strokeWidth="0.9" />
         </pattern>
       </defs>
-      {/* dashed orbit */}
-      <g className="mv" data-x="0" data-y="0" data-r="24" data-d=".25">
-        <circle cx="200" cy="146" r="112" stroke={MUT} strokeDasharray="2 6" />
-        <circle cx="199" cy="147.5" r="110.5" stroke={MUT} strokeWidth={1.1} strokeDasharray="2 7" opacity={0.55} />
+      {/* big sketch loop, hand-drawn double pass */}
+      <g className="mv" data-x="4" data-y="2" data-r="5" data-d=".3">
+        <circle cx="185" cy="152" r="80" strokeWidth={1.6} />
+        <circle cx="186.5" cy="150.5" r="78.5" strokeWidth={1} opacity={0.3} />
       </g>
-      {/* lightbulb */}
-      <g className="mv" data-x="-34" data-y="-24" data-r="-12" data-d="1">
-        <g transform="translate(92 68)">
+      {/* lightbulb, glowing */}
+      <g className="mv" data-x="-30" data-y="-22" data-r="-10" data-d="1">
+        <g transform="translate(75 62)">
           <path d="M-13 18C-22 11-26 3-26-6a26 26 0 0152 0C26 3 22 11 13 18z" fill={AMB_SOFT} />
           <path d="M-11.5 16.5C-20 10-24.5 2.5-24.5-6a24.5 24.5 0 0149 0C24.5 2.5 20 10 11.5 16.5z" strokeWidth={1.1} opacity={0.5} />
           <path d="M-12 24h24M-10 30h20M-6 36h12" />
           <path d="M-5 -2l5 10 5-10" stroke={AMB} strokeWidth={1.5} />
-          <path d="M0 -42v-9M-30 -30l-6-6M30 -30l6-6M-38 -6h-8M38 -6h8" opacity={0.85} />
+          <path d="M0 -42v-9M-30 -30l-6-6M30 -30l6-6M-38 -6h-8M38 -6h8" stroke={AMB} opacity={0.9} />
         </g>
       </g>
-      {/* pie chart */}
-      <g className="mv" data-x="30" data-y="-30" data-r="30" data-d=".8">
-        <g transform="translate(262 46)">
-          <circle r="17" />
-          <path d="M0 0V-17A17 17 0 0116.200-5z" fill={AMB} stroke={INK} strokeWidth={1.2} />
-          <path d="M26 -14h18M30 -8h12" stroke={MUT} />
+      {/* pie chart riding the loop */}
+      <g className="mv" data-x="30" data-y="-26" data-r="26" data-d=".9">
+        <g transform="translate(228 80)">
+          <circle r="16" fill="var(--card)" />
+          <path d="M0 0V-16A16 16 0 0115.3-4z" fill={AMB} stroke={INK} strokeWidth={1.2} />
         </g>
-      </g>
-      {/* cursor */}
-      <g className="mv" data-x="-6" data-y="-26" data-r="10" data-d="1.3">
-        <path transform="translate(50 -42)" d="M176 84l0 36 9-8 7 15 7-3-7-15 12-1z" fill={AMB} stroke={INK} strokeWidth={1.2} />
       </g>
       {/* puzzle, hatched */}
-      <g className="mv" data-x="-24" data-y="-14" data-r="-16" data-d="1.1">
-        <g transform="translate(146 96)">
-          <path d="M0 0h14v-5a6 6 0 1112 0v5h14v14h5a6 6 0 110 12h-5v14H0z" fill="url(#ht)" />
-          <path d="M0 0h14v-5a6 6 0 1112 0v5h14v14h5a6 6 0 110 12h-5v14H0z" strokeWidth={1.3} opacity={0.85} />
+      <g className="mv" data-x="-20" data-y="-12" data-r="-12" data-d="1.1">
+        <g transform="translate(152 118)">
+          <path d={pz} fill="url(#ht)" />
+          <path d={pz} strokeWidth={1.3} opacity={0.85} />
         </g>
       </g>
       {/* puzzle, yellow */}
-      <g className="mv" data-x="24" data-y="16" data-r="16" data-d="1.2">
-        <g transform="translate(212 140)">
-          <path d="M0 0h14v-5a6 6 0 1112 0v5h14v14h5a6 6 0 110 12h-5v14H0z" fill={AMB} />
-          <path d="M0 0h14v-5a6 6 0 1112 0v5h14v14h5a6 6 0 110 12h-5v14H0z" stroke={INK} strokeWidth={1.3} />
+      <g className="mv" data-x="20" data-y="14" data-r="14" data-d="1.2">
+        <g transform="translate(196 162)">
+          <path d={pz} fill={AMB} />
+          <path d={pz} stroke={INK} strokeWidth={1.3} />
         </g>
       </g>
-      {/* briefcase left */}
-      <g className="mv" data-x="-34" data-y="20" data-r="-8" data-d=".9">
-        <g transform="translate(66 206)">
-          <path d={wr(-22, 14, 44, 46, 4)} fill="url(#ht)" />
-          <path d={wr(-22, 14, 44, 46, 4)} strokeWidth={1.3} />
-          <rect x="-20" y="-10" width="40" height="28" rx="12" fill="var(--card)" />
-          <path d="M-6 -8V-52a6 6 0 0112 0V-8M2 -2v7M9 -2v7" strokeWidth={1.4} />
-          <circle cx="0" cy="-66" r="4.5" fill={AMB} stroke="none" />
+      {/* small squares in the loop */}
+      <g className="mv" data-x="12" data-y="10" data-r="-18" data-d="1.5">
+        <rect x="228" y="182" width="12" height="12" fill="url(#ht2)" strokeWidth={1.2} />
+        <rect x="242" y="186" width="8" height="8" fill="var(--card)" strokeWidth={1.1} />
+      </g>
+      {/* hand reaching down over the loop */}
+      <g className="mv" data-x="-6" data-y="-26" data-r="8" data-d="1.2">
+        <g transform="translate(190 46)">
+          <path d="M-5 8v18a6 6 0 0012 0V8" fill="var(--card)" strokeWidth={1.4} />
+          <rect x="-16" y="-18" width="32" height="28" rx="10" fill="var(--card)" strokeWidth={1.4} />
+          <path d={wr(-13, -30, 26, 12, 4)} fill="url(#ht)" strokeWidth={1.2} />
+          <path d="M-8 -6h6M4 -6h6" strokeWidth={1} opacity={0.5} />
         </g>
       </g>
-      {/* briefcase right */}
-      <g className="mv" data-x="34" data-y="20" data-r="8" data-d=".9">
-        <g transform="translate(334 206)">
-          <path d={wr(-22, 14, 44, 46, 4)} fill="url(#ht2)" />
-          <path d={wr(-22, 14, 44, 46, 4)} strokeWidth={1.3} />
-          <rect x="-20" y="-10" width="40" height="28" rx="12" fill="var(--card)" />
-          <path d="M-6 -8V-52a6 6 0 0112 0V-8M2 -2v7M9 -2v7" strokeWidth={1.4} />
+      {/* finger up, yellow tip */}
+      <g className="mv" data-x="-30" data-y="16" data-r="-6" data-d=".9">
+        <g transform="translate(56 178)">
+          <path d="M-5 -14v-40a5 5 0 0110 0v40" fill="var(--card)" strokeWidth={1.4} />
+          <rect x="-18" y="-18" width="36" height="26" rx="12" fill="var(--card)" strokeWidth={1.4} />
+          <path d={wr(-20, 8, 40, 40, 4)} fill="url(#ht)" strokeWidth={1.3} />
+          <circle cx="0" cy="-56" r="4.5" fill={AMB} stroke="none" />
+          <path d="M-9 -4h5M6 -4h5" strokeWidth={1} opacity={0.5} />
         </g>
+      </g>
+      {/* finger up beside the rising arrow */}
+      <g className="mv" data-x="30" data-y="18" data-r="6" data-d=".9">
+        <g transform="translate(282 182)">
+          <path d="M-5 -14v-40a5 5 0 0110 0v40" fill="var(--card)" strokeWidth={1.4} />
+          <rect x="-18" y="-18" width="36" height="26" rx="12" fill="var(--card)" strokeWidth={1.4} />
+          <path d={wr(-20, 8, 40, 40, 4)} fill="url(#ht2)" strokeWidth={1.3} />
+          <path d="M26 22v-40M20 -10l6-8 6 8" stroke={AMB} strokeWidth={2.2} />
+        </g>
+      </g>
+      {/* arrow pushing toward the loop */}
+      <g className="mv" data-x="-18" data-y="6" data-r="0" data-d="1.2">
+        <path d="M92 150h34M118 143l9 7-9 7" stroke={AMB} strokeWidth={1.9} />
       </g>
       {/* gear */}
-      <g className="mv" data-x="-16" data-y="30" data-r="80" data-d="1.4">
-        <g transform="translate(160 246)">
-          <circle r="19" strokeWidth="8" strokeDasharray="5 5.3" stroke={INK} opacity={0.9} />
-          <circle r="19" strokeWidth="8" strokeDasharray="5 5.3" stroke={INK} opacity={0.3} transform="rotate(9)" />
-          <circle r="10" />
-          <circle r="3" fill={INK} stroke="none" />
+      <g className="mv" data-x="-14" data-y="26" data-r="70" data-d="1.4">
+        <g transform="translate(148 240)">
+          <circle r="17" strokeWidth="7.5" strokeDasharray="4.6 4.9" opacity={0.9} />
+          <circle r="17" strokeWidth="7.5" strokeDasharray="4.6 4.9" opacity={0.3} transform="rotate(9)" />
+          <circle r="9" />
+          <circle r="2.8" fill={INK} stroke="none" />
         </g>
       </g>
-      {/* growth bars + trend arrow */}
-      <g className="mv" data-x="16" data-y="34" data-r="-6" data-d="1">
-        <g transform="translate(228 262)">
-          <path d="M0 0v-14M16 0v-26M32 0v-38" strokeWidth="7" stroke={INK} opacity={0.3} />
-          <path d="M-8 -22l22-16 14 8 24-22M44 -52h10v10" stroke={AMB} strokeWidth={2.4} />
-        </g>
+      {/* tiny bars */}
+      <g className="mv" data-x="-10" data-y="30" data-r="0" data-d="1.1">
+        <path d="M96 262v-11M107 262v-19M118 262v-27" strokeWidth="5.5" opacity={0.32} />
       </g>
       {/* trophy */}
-      <g className="mv" data-x="36" data-y="-24" data-r="10" data-d=".7">
-        <g transform="translate(350 80)">
-          <path d="M-20 -14h40v10a20 20 0 01-40 0z" fill={AMB_SOFT} />
-          <path d="M-20 -14h40v10a20 20 0 01-40 0z" strokeWidth={1.4} />
-          <path d="M-20 -8h-8a8 8 0 008 12M20 -8h8a8 8 0 01-8 12" strokeWidth={1.3} />
-          <rect x="-12" y="28" width="24" height="8" fill="url(#ht)" />
-          <path d="M0 16v12M-12 28h24v8h-24z" strokeWidth={1.4} />
-          <path d="M-9 30.5h18" strokeWidth={1} opacity={0.5} />
+      <g className="mv" data-x="34" data-y="-22" data-r="9" data-d=".7">
+        <g transform="translate(352 100)">
+          <path d="M-21 -18h42v12a21 21 0 01-42 0z" fill={AMB} strokeWidth={1.4} />
+          <path d="M-21 -12h-9a9 9 0 009 13M21 -12h9a9 9 0 01-9 13" strokeWidth={1.3} />
+          <path d="M0 15v11M-13 26h26v9h-26z" strokeWidth={1.4} />
+          <rect x="-13" y="26" width="26" height="9" fill="url(#ht)" strokeWidth={1.2} opacity={0.9} />
         </g>
       </g>
-      {/* flow arrows */}
-      <g className="mv" data-x="-20" data-y="6" data-r="0" data-d="1.2">
-        <path d="M96 142h30M118 136l8 6-8 6" stroke={AMB} />
-        <path d="M276 116h-30M254 110l-8 6 8 6" stroke={MUT} />
+      {/* accents */}
+      <g className="mv" data-x="10" data-y="-12" data-r="24" data-d="1.6">
+        <path d="M318 34v10M313 39h10" stroke={MUT} />
+        <path d="M330 140l7 7M337 140l-7 7" stroke={MUT} opacity={0.7} />
+        <circle cx="118" cy="34" r="3.5" fill={AMB} stroke="none" />
+        <circle cx="300" cy="216" r="3" fill={INK} stroke="none" opacity={0.5} />
+        <path d="M262 30l5 5M267 30l-5 5" stroke={MUT} opacity={0.7} />
       </g>
-      {/* small accents */}
-      <g className="mv" data-x="10" data-y="-14" data-r="30" data-d="1.6">
-        <circle cx="130" cy="30" r="4" fill={AMB} stroke="none" />
-        <circle cx="310" cy="150" r="3" fill={INK} stroke="none" opacity={0.55} />
-        <path d="M300 34l6 6M306 34l-6 6" stroke={MUT} />
+      {/* sketchy ground */}
+      <g stroke={MUT} strokeWidth={1} opacity={0.75}>
+        <path d="M96 276l9-6M114 276l9-6M132 276l9-6M150 276l9-6M168 276l9-6M186 276l9-6M204 276l9-6M222 276l9-6M240 276l9-6M258 276l9-6" />
+        <path d="M126 283l8-5M142 283l8-5M158 283l8-5M174 283l8-5M190 283l8-5M206 283l8-5M222 283l8-5" opacity={0.55} />
       </g>
-      {/* ground line */}
-      <path d="M40 284h320" stroke={MUT} strokeDasharray="2 4" />
-      <path d="M64 289h250" stroke={MUT} strokeWidth={0.9} strokeDasharray="2 5" opacity={0.5} />
     </svg>
   )
 }

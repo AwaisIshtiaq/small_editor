@@ -138,7 +138,6 @@
 .ppg .ck li::before{content:"\2713";color:var(--v);margin-right:12px;font-weight:700}
 .ppg .mvb{position:relative;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;border-radius:28px;border:1px solid var(--hair);background:radial-gradient(70% 70% at 50% 45%,rgba(240,180,41,.13),transparent 75%),var(--card);padding:10px}
 .ppg .mvb svg{width:100%;height:auto;display:block;overflow:visible}
-.ppg .mvb .hint{padding:6px 0 8px;text-align:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mu);pointer-events:none}
 .ppg .mv{transform-box:fill-box;transform-origin:center;transform:translate(var(--tx,0px),var(--ty,0px)) rotate(var(--tr,0deg)) scale(var(--ts,1));transition:transform .95s cubic-bezier(.34,1.56,.64,1);cursor:pointer}
 .ppg .mv:hover{--ts:1.14}
 .ppg .mvb svg *{vector-effect:non-scaling-stroke}
