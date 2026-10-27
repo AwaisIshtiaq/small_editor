@@ -16,7 +16,13 @@ const money = (v: number) =>
     maximumFractionDigits: 2,
   })
 
-const disc = (n: number) => (n >= 50 ? 0.6 : n >= 25 ? 0.4 : n >= 5 ? 0.2 : n >= 2 ? 0.1 : 0)
+function disc(n: number): number {
+  if (n >= 50) return 0.6
+  if (n >= 25) return 0.4
+  if (n >= 5) return 0.2
+  if (n >= 2) return 0.1
+  return 0
+}
 
 export default function PricingPage() {
   const rootRef = useRef<HTMLDivElement>(null)
@@ -110,13 +116,14 @@ export default function PricingPage() {
     return () => io.disconnect()
   }, [tab, teamN])
 
-  // Original design: #teams hash opens the team pricing dialog.
+  // Original design: #teams hash opens the team pricing dialog (once).
   // Deferred so the mount effect doesn't set state synchronously.
+  const hashSeen = useRef(false)
   useEffect(() => {
-    if (location.hash === '#teams') {
-      const t = setTimeout(openM, 0)
-      return () => clearTimeout(t)
-    }
+    if (hashSeen.current || location.hash !== '#teams') return
+    hashSeen.current = true
+    const t = setTimeout(openM, 0)
+    return () => clearTimeout(t)
   }, [openM])
 
   // Escape closes the modal and any open nav popover (same as the desktop page).

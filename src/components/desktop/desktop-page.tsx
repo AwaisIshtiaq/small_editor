@@ -62,7 +62,9 @@ export default function DesktopPage() {
   // Original design detects the visitor OS for the download label.
   useEffect(() => {
     const ua = navigator.userAgent
-    setOs(/Mac/.test(ua) ? 'macOS' : /Linux|X11/.test(ua) && !/Android/.test(ua) ? 'Linux' : 'Windows')
+    if (/Mac/.test(ua)) setOs('macOS')
+    else if (/Linux|X11/.test(ua) && !/Android/.test(ua)) setOs('Linux')
+    else setOs('Windows')
   }, [])
 
   // Smooth in-page scrolling for #pricing / #guide (offset under the fixed nav).
