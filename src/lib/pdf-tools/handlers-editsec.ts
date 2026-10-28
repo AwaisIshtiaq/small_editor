@@ -35,6 +35,19 @@ async function pickFont(doc: PDFDocument, name: FontName): Promise<PDFFont> {
   return doc.embedFont(FONTS[name] ?? StandardFonts.Helvetica)
 }
 
+// Embed a raster in whatever format the browser/OS handed us. pdf-lib only
+// parses PNG and JPEG natively — anything else (WebP, BMP, …) is transcoded
+// to PNG with sharp first. The editor UI accepts png/jpeg/webp uploads.
+async function embedImageAuto(doc: PDFDocument, buf: Buffer): Promise<PDFImage> {
+  const isPng = buf.length > 8 && buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47
+  const isJpg = buf.length > 3 && buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff
+  if (isPng) return doc.embedPng(buf)
+  if (isJpg) return doc.embedJpg(buf)
+  const { default: sharp } = await import('sharp')
+  const png = await sharp(buf).png().toBuffer()
+  return doc.embedPng(png)
+}
+
 // "bottom-center" | "header-left" | "top-right" … → { v, h } (header=top, footer=bottom)
 function parsePosition(s: string): Pos {
   const pos: Pos = { v: 'bottom', h: 'center' }
@@ -72,7 +85,7 @@ const sign: TaskHandler = async (ctx) => {
     throw new TaskError('INVALID_PARAMS', `Page ${p.pageNumber} is outside this document (1-${pageCount})`)
   }
   const page = doc.getPages()[p.pageNumber - 1]
-  const img = await doc.embedPng(imgBuf)
+  const img = await embedImageAuto(doc, imgBuf)
   const height = p.width * (img.height / img.width)
   // UI y is top-left; pdf-lib draws from bottom-left
   page.drawImage(img, { x: p.x, y: page.getHeight() - p.y - height, width: p.width, height })
@@ -91,7 +104,7 @@ const pdfEditor: TaskHandler = async (ctx) => {
     if (op.kind !== 'image' || images.has(op.imageDataId)) continue
     const imgBuf = await ctx.readBuf(op.imageDataId)
     if (!imgBuf) throw new TaskError('INVALID_PARAMS', `Editor image ${op.imageDataId} not found`)
-    images.set(op.imageDataId, await doc.embedPng(imgBuf))
+    images.set(op.imageDataId, await embedImageAuto(doc, imgBuf))
   }
 
   // Ops apply in chronological order: insert/rotate mutate the page list,

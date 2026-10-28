@@ -139,6 +139,9 @@ export function resolveOps(history: History[], initialSlots: Slot[]): EditorOp[]
     if (item.kind === 'insert') {
       const at = item.afterSlotId === START ? -1 : slots.findIndex((s) => s.id === item.afterSlotId)
       slots.splice(at + 1, 0, { id: item.slotId, src: null, userRot: 0, w0: item.w0, h0: item.h0 })
+      // MUST reach the server: without it the blank page disappears on save
+      // and every op placed on it fails page validation (hard save error).
+      out.push({ kind: 'insert-page', afterPage: at + 1 })
     } else if (item.kind === 'rotate') {
       const slot = slots.find((s) => s.id === item.slotId)
       if (slot) slot.userRot = (((slot.userRot + item.delta) % 360) + 360) % 360

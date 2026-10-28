@@ -132,8 +132,9 @@ export function EditorShell({
         }
         setOrigRots(rots)
         setSlots0(init)
-      } catch {
-        if (!cancelled) setLoadError('Could not open this PDF for editing.')
+      } catch (e) {
+        console.error('[editor] loadPdf failed:', e)
+        if (!cancelled) setLoadError(e instanceof Error ? `Could not open this PDF for editing — ${e.message}` : 'Could not open this PDF for editing.')
       }
     })()
     return () => {
@@ -495,7 +496,7 @@ export function EditorShell({
     const isSel = selected === p.id
     const sel = isSel ? ' outline outline-2 outline-primary outline-offset-1' : ''
     const common = {
-      onPointerDown: (e: React.PointerEvent<HTMLDivElement>) => startMove(e, p.id),
+      onPointerDown: (e: React.PointerEvent<Element>) => startMove(e as React.PointerEvent<HTMLDivElement>, p.id),
       className: cn('absolute cursor-move', sel),
       'aria-label': `${o.kind} item`,
     }
@@ -510,7 +511,11 @@ export function EditorShell({
             {o.text}
           </div>
         )
-      case 'rect':
+      case 'rect': {
+        // Whiteout (solid white rect) is invisible on a white page while
+        // editing — show the editing treatment (hatch + dashed border) so
+        // users can see, select and move it. Saved output stays solid white.
+        const isWhiteout = o.color.toLowerCase() === '#ffffff' && (o.opacity ?? 1) === 1
         return (
           <div
             key={p.id}
@@ -520,11 +525,19 @@ export function EditorShell({
               top: o.y * z,
               width: o.width * z,
               height: o.height * z,
-              backgroundColor: o.color,
+              backgroundColor: isWhiteout ? 'rgba(148,163,184,0.16)' : o.color,
               opacity: o.opacity ?? 1,
+              ...(isWhiteout
+                ? {
+                    border: '1.5px dashed #94a3b8',
+                    backgroundImage:
+                      'repeating-linear-gradient(45deg, rgba(148,163,184,0.35) 0 5px, transparent 5px 10px)',
+                  }
+                : null),
             }}
           />
         )
+      }
       case 'ellipse':
         return (
           <div
@@ -548,7 +561,7 @@ export function EditorShell({
         const w = Math.max(1, Math.abs(o.x2 - o.x1) * z)
         const h = Math.max(1, Math.abs(o.y2 - o.y1) * z)
         return (
-          <svg key={p.id} {...common} style={{ left, top }} width={w} height={h} aria-hidden="true">
+          <svg key={p.id} {...(common as unknown as React.SVGProps<SVGSVGElement>)} style={{ left, top }} width={w} height={h} aria-hidden="true">
             <line
               x1={o.x1 <= o.x2 ? 0 : w}
               y1={o.y1 <= o.y2 ? 0 : h}
@@ -759,9 +772,16 @@ export function EditorShell({
           </div>
         </div>
 
-        {/* ink options */}
-        {(tool === 'text' || tool === 'rect' || tool === 'ellipse' || tool === 'line' || tool === 'underline' || tool === 'strikeout') && (
-          <div className="mt-2 flex flex-wrap items-center gap-3 border-t pt-2">
+        {/* ink options — always mounted with reserved height so switching
+            tools NEVER shifts the page under the user's cursor (a live jump
+            here made whiteout/link drags land off-target) */}
+        <div
+          className={cn(
+            'mt-2 flex min-h-[41px] flex-wrap items-center gap-3 border-t pt-2',
+            !(tool === 'text' || tool === 'rect' || tool === 'ellipse' || tool === 'line' || tool === 'underline' || tool === 'strikeout') && 'invisible',
+          )}
+          aria-hidden={!(tool === 'text' || tool === 'rect' || tool === 'ellipse' || tool === 'line' || tool === 'underline' || tool === 'strikeout')}
+        >
             {tool === 'text' ? (
               <label className="flex items-center gap-2 text-sm text-muted-foreground">
                 Size
@@ -793,8 +813,7 @@ export function EditorShell({
                 />
               ))}
             </div>
-          </div>
-        )}
+        </div>
       </div>
 
       {/* ---------- canvas + rail ---------- */}
