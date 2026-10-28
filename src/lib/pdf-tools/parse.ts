@@ -12,7 +12,7 @@ export function parsePageSelection(sel: string, pageCount: number): number[] {
   for (const part of s.split(',')) {
     const p = part.trim()
     if (!p) continue
-    const m = /^(\d+)(?:-(\d+)?)?$/.exec(p)
+    const m = p.match(/^(\d+)(?:-(\d+)?)?$/)
     if (!m) throw new Error(`Invalid page range: "${p}"`)
     const from = parseInt(m[1], 10)
     const to = m[2] === undefined ? from : m[2] === '' ? pageCount : parseInt(m[2], 10)

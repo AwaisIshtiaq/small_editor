@@ -974,12 +974,15 @@ export function EditorShell({
             aria-label="Link URL"
             className="select-text"
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && linkDraft && linkUrl.trim() && linkUrl.trim() !== 'https://') {
-                commitOp({ kind: 'link', ...linkDraft, url: normalizeLinkUrl(linkUrl), rotate: curRot() })
+              if (e.key === 'Enter' && linkDraft) {
+                const u = normalizeLinkUrl(linkUrl)
+                if (!u) return
+                commitOp({ kind: 'link', ...linkDraft, url: u, rotate: curRot() })
                 setLinkDraft(null)
               }
             }}
           />
+          <p className="text-xs text-muted-foreground">Web links (http/https) and mailto: are supported.</p>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => setLinkDraft(null)}>
               Cancel
@@ -989,7 +992,9 @@ export function EditorShell({
               disabled={!linkUrl.trim() || linkUrl.trim() === 'https://'}
               onClick={() => {
                 if (!linkDraft) return
-                commitOp({ kind: 'link', ...linkDraft, url: normalizeLinkUrl(linkUrl), rotate: curRot() })
+                const u = normalizeLinkUrl(linkUrl)
+                if (!u) return
+                commitOp({ kind: 'link', ...linkDraft, url: u, rotate: curRot() })
                 setLinkDraft(null)
               }}
             >
@@ -1028,12 +1033,15 @@ function translateLive(op: OverlayOp, dx: number, dy: number): OverlayOp {
 }
 
 // Links without a scheme ("www.acme.com", pasted from anywhere) produce dead
-// URI actions in PDF viewers — default them to https://.
+// URI actions in PDF viewers — default them to https://. Schemes outside the
+// allow-list (javascript:, file:, data:…) return "" so the caller refuses —
+// mirrors safeLinkUrl() on the server; this is UX + defense in depth.
 function normalizeLinkUrl(raw: string): string {
   const url = raw.trim()
-  if (!url || url === 'https://') return url
-  if (/^[a-z][a-z0-9+.-]*:/i.test(url)) return url // already has mailto:, https:, …
-  return `https://${url}`
+  if (!url || url === 'https://') return ''
+  const m = url.match(/^([a-z][a-z0-9+.-]*):/i)
+  if (!m) return `https://${url}` // no scheme — treat as a web address
+  return /^(https?|mailto)$/i.test(m[1]) ? url : ''
 }
 
 // Display-space height (pt) an image will occupy when placed at the default

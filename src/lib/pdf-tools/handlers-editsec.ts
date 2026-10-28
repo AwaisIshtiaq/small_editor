@@ -19,6 +19,7 @@ import { extractTextPages } from './pdfjs-server'
 import { convertHandlers, firstInput, hexToRgb, winAnsi } from './handlers-convert'
 import { coreHandlers } from './handlers-core'
 import { mapEllipse, mapImageAnchor, mapPoint, mapRect, mapTextAnchor, normRot } from './editor-geometry'
+import { safeLinkUrl } from './link-url'
 
 const PDF_MIME = 'application/pdf'
 
@@ -204,6 +205,7 @@ const pdfEditor: TaskHandler = async (ctx) => {
         break
       }
       case 'link': {
+        const uri = safeLinkUrl(op.url)
         const b = mapRect(op.x, op.y, op.width, op.height, r, W, H)
         const annot = doc.context.register(
           doc.context.obj({
@@ -211,7 +213,7 @@ const pdfEditor: TaskHandler = async (ctx) => {
             Subtype: 'Link',
             Rect: [b.x, b.y, b.x + b.width, b.y + b.height],
             Border: [0, 0, 0],
-            A: { Type: 'Action', S: 'URI', URI: PDFString.of(op.url) },
+            A: { Type: 'Action', S: 'URI', URI: PDFString.of(uri) },
           }),
         )
         page.node.addAnnot(annot)

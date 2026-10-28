@@ -53,7 +53,9 @@ server.log
 # Skills directory
 /skills/
 # agent scratch / reference material (not app code)
-upload/
+# NOTE: anchored on purpose — a bare `upload/` here once ignored
+# src/app/api/upload/ and the route got wiped on sandbox resets.
+/upload/
 tool-results/
 worklog.md
 download/
