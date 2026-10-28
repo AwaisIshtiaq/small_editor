@@ -4,6 +4,10 @@ import type { NextConfig } from "next";
 // CSP notes: Next.js requires inline bootstrap/hydration scripts, so
 // script-src keeps 'unsafe-inline'; everything else is locked to 'self'
 // (blob:/data: only where the PDF/image pipeline needs it).
+// Framing: the app is shown inside the z.ai preview iframe, so
+// frame-ancestors whitelists the preview hosts instead of 'none'.
+// X-Frame-Options is omitted on purpose (no multi-origin support;
+// frame-ancestors below governs framing in all modern browsers).
 const securityHeaders = [
   {
     key: "Content-Security-Policy",
@@ -19,10 +23,9 @@ const securityHeaders = [
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
-      "frame-ancestors 'none'",
+      "frame-ancestors 'self' https://*.z.ai https://z.ai https://*.space-z.ai http://localhost:* https://localhost:*",
     ].join("; "),
   },
-  { key: "X-Frame-Options", value: "DENY" },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   {
