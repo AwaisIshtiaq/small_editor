@@ -80,7 +80,7 @@ export type EditorOp =
   | { kind: 'rect'; page: number; x: number; y: number; width: number; height: number; color: string; opacity?: number; rotate?: 0 | 90 | 180 | 270 }
   | { kind: 'ellipse'; page: number; x: number; y: number; width: number; height: number; color: string; opacity?: number; filled: boolean; rotate?: 0 | 90 | 180 | 270 }
   | { kind: 'line'; page: number; x1: number; y1: number; x2: number; y2: number; color: string; thickness: number; rotate?: 0 | 90 | 180 | 270 }
-  | { kind: 'image'; page: number; x: number; y: number; width: number; imageDataId: string; rotate?: 0 | 90 | 180 | 270 }
+  | { kind: 'image'; page: number; x: number; y: number; width: number; height?: number; imageDataId: string; rotate?: 0 | 90 | 180 | 270 }
   | { kind: 'link'; page: number; x: number; y: number; width: number; height: number; url: string; rotate?: 0 | 90 | 180 | 270 }
   | { kind: 'form-text'; page: number; x: number; y: number; width: number; height: number; name: string; rotate?: 0 | 90 | 180 | 270 }
   | { kind: 'form-check'; page: number; x: number; y: number; size: number; name: string; rotate?: 0 | 90 | 180 | 270 }

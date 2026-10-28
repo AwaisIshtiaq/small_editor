@@ -57,7 +57,7 @@ const FONT_SIZES = [10, 12, 14, 16, 18, 22, 28, 36]
 const uid = () => `o${Math.random().toString(36).slice(2, 10)}${Date.now().toString(36).slice(-4)}`
 
 type Preview = { dataUrl: string; dispW: number; dispH: number }
-type PendingImage = { imageDataId: string; url: string }
+type PendingImage = { imageDataId: string; url: string; dispH?: number }
 
 export function EditorShell({
   bytes,
@@ -164,7 +164,7 @@ export function EditorShell({
     return () => {
       cancelled = true
     }
-  }, [bytes, curSlot?.id, curSlot?.src, curSlot?.userRot, zoom, origRots]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [bytes, curSlot?.id, curSlot?.src, curSlot?.userRot, zoom, origRots])
 
   // ---- thumbnails ----------------------------------------------------------
   useEffect(() => {
@@ -192,7 +192,7 @@ export function EditorShell({
     return () => {
       cancelled = true
     }
-  }, [showThumbs, slots, slots0, origRots, bytes, thumbs]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [showThumbs, slots, slots0, origRots, bytes, thumbs])
 
   // ---- history helpers -----------------------------------------------------
   const push = useCallback((item: History) => setHistory((h) => [...h, item]), [])
@@ -266,6 +266,19 @@ export function EditorShell({
     return { x: (e.clientX - rect.left) / zoom, y: (e.clientY - rect.top) / zoom }
   }
 
+  // Abort any in-flight drag/move cleanly (browser canceled the pointer — e.g.
+  // a native selection drag, touch scroll or element removal fired
+  // pointercancel). Without this the drag preview froze on screen and EVERY
+  // later drag tool (whiteout / links / shapes) silently stopped working
+  // until a reload.
+  const abortPointerGestures = useCallback(() => {
+    dragRef.current = null
+    moveRef.current = null
+    setDragPreview(null)
+    setLinePreview(null)
+    setMoveLive(null)
+  }, [])
+
   const commitDraft = () => {
     if (draft && draft.value.trim() && curSlot) {
       commitOp({
@@ -292,7 +305,7 @@ export function EditorShell({
       seq.current += 1
       commitOp({ kind: 'form-check', x: p.x, y: p.y, size: 18, name: `check_${seq.current}`, rotate: rot })
     } else if ((tool === 'image' || tool === 'sign') && pending) {
-      commitOp({ kind: 'image', x: p.x, y: p.y, width: 140, imageDataId: pending.imageDataId, rotate: rot })
+      commitOp({ kind: 'image', x: p.x, y: p.y, width: 140, height: pending.dispH, imageDataId: pending.imageDataId, rotate: rot })
       setPending(null)
       setTool('select')
     }
@@ -338,6 +351,12 @@ export function EditorShell({
 
   const onCanvasPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (e.button !== 0 || !curSlot) return
+    // A live text selection anywhere on the page (page counter, labels, text
+    // outside the editor…) turns the next canvas drag into a native
+    // "drag the selection" gesture: the browser fires pointercancel and the
+    // drag never completes. Drop any selection the moment a canvas drag or
+    // click starts so drawing always wins.
+    window.getSelection()?.removeAllRanges()
     const p = ptOf(e)
     if (DRAG_TOOLS.has(tool)) {
       dragRef.current = { x0: p.x, y0: p.y, x1: p.x, y1: p.y }
@@ -350,6 +369,10 @@ export function EditorShell({
       setSelected(null)
     }
   }
+
+  const onCanvasPointerCancel = useCallback(() => {
+    abortPointerGestures()
+  }, [abortPointerGestures])
 
   const onCanvasPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (dragRef.current) {
@@ -400,7 +423,12 @@ export function EditorShell({
   const startMove = (e: React.PointerEvent<HTMLDivElement>, id: string) => {
     if (e.button !== 0) return
     e.stopPropagation()
+    window.getSelection()?.removeAllRanges()
     moveRef.current = { id, startX: e.clientX, startY: e.clientY, dx: 0, dy: 0, moved: false }
+    // Capture the pointer on the overlay so fast drags and releases OUTSIDE
+    // the canvas still deliver pointermove/pointerup — without it, dropping
+    // the item off-canvas left the item stuck in "moving" state.
+    ;(e.currentTarget as Element).setPointerCapture?.(e.pointerId)
     setSelected(id)
   }
 
@@ -424,7 +452,7 @@ export function EditorShell({
     if (!f) return
     const id = await uploadBlob(f, f.name)
     if (id) {
-      setPending({ imageDataId: id, url: URL.createObjectURL(f) })
+      setPending({ imageDataId: id, url: URL.createObjectURL(f), dispH: await placedHeight(f) })
       setTool('image')
     }
   }
@@ -652,7 +680,10 @@ export function EditorShell({
   })
 
   return (
-    <div className="flex flex-col gap-3">
+    <div
+      className="flex flex-col gap-3 select-none"
+      onDragStart={(e) => e.preventDefault()}
+    >
       <input
         ref={fileInputRef}
         type="file"
@@ -826,7 +857,7 @@ export function EditorShell({
           <div className="slim-scroll max-h-[72vh] flex-1 overflow-auto rounded-xl border bg-muted/40 p-4">
             <div className="mx-auto w-fit">
               <div
-                className="relative bg-white shadow-lg ring-1 ring-black/5 select-none"
+                className="relative touch-none bg-white shadow-lg ring-1 ring-black/5 select-none"
                 style={{
                   width: dispW * z || 200,
                   height: dispH * z || 260,
@@ -837,6 +868,7 @@ export function EditorShell({
                 onPointerDown={onCanvasPointerDown}
                 onPointerMove={onCanvasPointerMove}
                 onPointerUp={onCanvasPointerUp}
+                onPointerCancel={onCanvasPointerCancel}
               >
                 {curSlot?.src != null && preview ? (
                   <img
@@ -887,6 +919,7 @@ export function EditorShell({
                     rows={1}
                     onClick={(e) => e.stopPropagation()}
                     onPointerDown={(e) => e.stopPropagation()}
+                    className="absolute min-w-32 resize-none select-text rounded-sm border border-primary bg-white/95 px-1 py-0.5 text-foreground shadow-sm outline-none"
                     onChange={(e) => setDraft({ ...draft, value: e.target.value })}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && !e.shiftKey) {
@@ -896,7 +929,6 @@ export function EditorShell({
                       if (e.key === 'Escape') setDraft(null)
                     }}
                     onBlur={commitDraft}
-                    className="absolute min-w-32 resize-none rounded-sm border border-primary bg-white/95 px-1 py-0.5 text-foreground shadow-sm outline-none"
                     style={{ left: draft.x * z, top: draft.y * z, fontSize: fontSize * z, color: inkColor, lineHeight: 1.25 }}
                   />
                 ) : null}
@@ -928,20 +960,22 @@ export function EditorShell({
 
       {/* ---------- dialogs ---------- */}
       <Dialog open={linkDraft != null} onOpenChange={(v) => !v && setLinkDraft(null)}>
-        <DialogContent className="sm:max-w-sm">
+        <DialogContent className="flex flex-col gap-4 sm:max-w-sm">
           <DialogHeader>
             <DialogTitle>Add link</DialogTitle>
           </DialogHeader>
           <Input
             autoFocus
-            type="url"
+            type="text"
+            inputMode="url"
             value={linkUrl}
             onChange={(e) => setLinkUrl(e.target.value)}
             placeholder="https://example.com"
             aria-label="Link URL"
+            className="select-text"
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && linkDraft) {
-                commitOp({ kind: 'link', ...linkDraft, url: linkUrl, rotate: curRot() })
+              if (e.key === 'Enter' && linkDraft && linkUrl.trim() && linkUrl.trim() !== 'https://') {
+                commitOp({ kind: 'link', ...linkDraft, url: normalizeLinkUrl(linkUrl), rotate: curRot() })
                 setLinkDraft(null)
               }
             }}
@@ -952,10 +986,10 @@ export function EditorShell({
             </Button>
             <Button
               type="button"
-              disabled={!linkUrl.trim() || linkUrl === 'https://'}
+              disabled={!linkUrl.trim() || linkUrl.trim() === 'https://'}
               onClick={() => {
                 if (!linkDraft) return
-                commitOp({ kind: 'link', ...linkDraft, url: linkUrl.trim(), rotate: curRot() })
+                commitOp({ kind: 'link', ...linkDraft, url: normalizeLinkUrl(linkUrl), rotate: curRot() })
                 setLinkDraft(null)
               }}
             >
@@ -976,7 +1010,7 @@ export function EditorShell({
               if (!blob) return
               const id = await uploadBlob(blob, 'signature.png')
               if (id) {
-                setPending({ imageDataId: id, url: URL.createObjectURL(blob) })
+                setPending({ imageDataId: id, url: URL.createObjectURL(blob), dispH: await placedHeight(blob) })
                 setTool('sign')
               }
             }}
@@ -991,6 +1025,29 @@ export function EditorShell({
 function translateLive(op: OverlayOp, dx: number, dy: number): OverlayOp {
   if (op.kind === 'line') return { ...op, x1: op.x1 + dx, y1: op.y1 + dy, x2: op.x2 + dx, y2: op.y2 + dy }
   return { ...op, x: op.x + dx, y: op.y + dy }
+}
+
+// Links without a scheme ("www.acme.com", pasted from anywhere) produce dead
+// URI actions in PDF viewers — default them to https://.
+function normalizeLinkUrl(raw: string): string {
+  const url = raw.trim()
+  if (!url || url === 'https://') return url
+  if (/^[a-z][a-z0-9+.-]*:/i.test(url)) return url // already has mailto:, https:, …
+  return `https://${url}`
+}
+
+// Display-space height (pt) an image will occupy when placed at the default
+// 140pt width — captured at upload so page rotations can re-anchor it exactly.
+const PLACE_WIDTH_PT = 140
+async function placedHeight(blob: Blob): Promise<number | undefined> {
+  try {
+    const bmp = await createImageBitmap(blob)
+    const h = (PLACE_WIDTH_PT * bmp.height) / bmp.width
+    bmp.close?.()
+    return Number.isFinite(h) ? h : undefined
+  } catch {
+    return undefined
+  }
 }
 
 function ChevronDown_h() {

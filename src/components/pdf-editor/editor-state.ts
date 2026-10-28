@@ -22,7 +22,7 @@ export type OverlayOp =
   | { kind: 'rect'; x: number; y: number; width: number; height: number; color: string; opacity?: number; rotate: Rot }
   | { kind: 'ellipse'; x: number; y: number; width: number; height: number; color: string; opacity?: number; filled: boolean; rotate: Rot }
   | { kind: 'line'; x1: number; y1: number; x2: number; y2: number; color: string; thickness: number; rotate: Rot }
-  | { kind: 'image'; x: number; y: number; width: number; imageDataId: string; rotate: Rot }
+  | { kind: 'image'; x: number; y: number; width: number; height?: number; imageDataId: string; rotate: Rot }
   | { kind: 'link'; x: number; y: number; width: number; height: number; url: string; rotate: Rot }
   | { kind: 'form-text'; x: number; y: number; width: number; height: number; name: string; rotate: Rot }
   | { kind: 'form-check'; x: number; y: number; size: number; name: string; rotate: Rot }
@@ -73,7 +73,22 @@ export function transformOpDisplay(op: OverlayOp, fromRot: Rot, toRot: Rot, W: n
     const [a] = pts([op.x], [op.y])
     return { ...op, x: a.x, y: a.y, rotate: toRot }
   }
-  const [tl, br] = pts([op.x, op.x + op.width], [op.y, op.y + op.height])
+  if (op.kind === 'form-check') {
+    // square checkbox: width === height === size
+    const [tl, br] = pts([op.x, op.x + op.size], [op.y, op.y + op.size])
+    return {
+      ...op,
+      x: Math.min(tl.x, br.x),
+      y: Math.min(tl.y, br.y),
+      size: Math.abs(br.x - tl.x),
+      rotate: toRot,
+    }
+  }
+  // Remaining bbox kinds: rect | ellipse | link | form-text | image.
+  // Images may not know their display height (aspect lives in the file) —
+  // fall back to a square so the transform still lands on the right anchor.
+  const boxH = op.kind === 'image' ? (op.height ?? op.width) : op.height
+  const [tl, br] = pts([op.x, op.x + op.width], [op.y, op.y + boxH])
   return {
     ...op,
     x: Math.min(tl.x, br.x),

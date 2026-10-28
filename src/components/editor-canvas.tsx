@@ -195,16 +195,19 @@ export function EditorCanvas({
 
   const shownOps: { key: string; label: string; remove: () => void }[] =
     slug === 'pdf-editor'
-      ? ops.map((op, i) => ({
-          key: `op-${i}`,
-          label:
-            op.kind === 'text'
-              ? `p${op.page} Text: ${op.text.slice(0, 24)}`
-              : op.kind === 'rect'
-                ? `p${op.page} White-out ${Math.round(op.width)}×${Math.round(op.height)}pt`
-                : `p${op.page} Image`,
-          remove: () => setOps((prev) => prev.filter((_, j) => j !== i)),
-        }))
+      ? ops
+          // rotate-page / insert-page carry no overlay label
+          .filter((op): op is Extract<EditorOp, { page: number }> => 'page' in op)
+          .map((op, i) => ({
+            key: `op-${i}`,
+            label:
+              op.kind === 'text'
+                ? `p${op.page} Text: ${op.text.slice(0, 24)}`
+                : op.kind === 'rect'
+                  ? `p${op.page} White-out ${Math.round(op.width)}×${Math.round(op.height)}pt`
+                  : `p${op.page} Image`,
+            remove: () => setOps((prev) => prev.filter((_, j) => j !== i)),
+          }))
       : slug === 'pdf-forms'
         ? formOps.map((op, i) => ({
             key: `field-${i}`,
