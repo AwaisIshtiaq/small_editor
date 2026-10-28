@@ -68,6 +68,35 @@ export async function renderThumb(
   return { dataUrl, width: base.width, height: base.height }
 }
 
+/**
+ * Render one page at an arbitrary total rotation for the editor canvas.
+ * `rotation` is the DISPLAY rotation in degrees (page.rotate + user turns).
+ * Returns the rendered JPEG plus the page's DISPLAY size in PDF points at
+ * scale 1 (what overlay math uses).
+ */
+export async function renderEditorPage(
+  bytes: Uint8Array,
+  pageNum: number,
+  zoom: number,
+  rotation = 0,
+): Promise<{ dataUrl: string; dispW: number; dispH: number }> {
+  const doc = await loadPdf(bytes)
+  const page = await doc.getPage(pageNum)
+  const base = page.getViewport({ scale: 1, rotation })
+  const viewport = page.getViewport({ scale: zoom, rotation })
+  const canvas = document.createElement('canvas')
+  canvas.width = Math.max(1, Math.floor(viewport.width))
+  canvas.height = Math.max(1, Math.floor(viewport.height))
+  const ctx = canvas.getContext('2d')
+  if (!ctx) throw new Error('Canvas 2D context unavailable')
+  ctx.fillStyle = '#ffffff'
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
+  await page.render({ canvas, canvasContext: ctx, viewport }).promise
+  const dataUrl = canvas.toDataURL('image/jpeg', 0.88)
+  page.cleanup()
+  return { dataUrl, dispW: base.width, dispH: base.height }
+}
+
 export async function renderPageJpeg(
   bytes: Uint8Array,
   pageNum: number,

@@ -12,8 +12,16 @@ import { handlers } from '@/lib/pdf-tools/handlers'
 import { TaskError } from '@/lib/pdf-tools/errors'
 import { tasklog } from '@/lib/pdf-tools/tasklog'
 
+// Cap request bodies: params arrive as one JSON blob and a runaway body
+// would buffer fully into memory (DoS). Chunked uploads without a
+// content-length header slip past this check — the per-field caps in
+// tasks.ts (MAX_OPS / strLen) are the second layer.
+const MAX_BODY_BYTES = 2 * 1024 * 1024
+
 export async function POST(req: NextRequest) {
   try {
+    const bodyLen = Number(req.headers.get('content-length') ?? '0')
+    if (bodyLen > MAX_BODY_BYTES) throw new TaskError('BAD_REQUEST', 'Request body too large (max 2 MB)')
     const body = await req.json()
     const type = String(body.type ?? '')
     const fileIds: string[] = Array.isArray(body.fileIds) ? body.fileIds.map(String) : []
