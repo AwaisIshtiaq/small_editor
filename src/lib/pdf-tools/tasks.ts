@@ -114,8 +114,15 @@ const PARAM_CHECKS: Record<string, (p: Dict) => void> = {
       const k = op.kind
       if (k === 'text') { req(op, 'page', 'number'); req(op, 'x', 'number'); req(op, 'y', 'number'); req(op, 'text', 'string'); req(op, 'fontSize', 'number'); req(op, 'color', 'string') }
       else if (k === 'rect') { req(op, 'page', 'number'); req(op, 'x', 'number'); req(op, 'y', 'number'); req(op, 'width', 'number'); req(op, 'height', 'number'); req(op, 'color', 'string') }
+      else if (k === 'ellipse') { req(op, 'page', 'number'); req(op, 'x', 'number'); req(op, 'y', 'number'); req(op, 'width', 'number'); req(op, 'height', 'number'); req(op, 'color', 'string'); req(op, 'filled', 'boolean') }
+      else if (k === 'line') { req(op, 'page', 'number'); req(op, 'x1', 'number'); req(op, 'y1', 'number'); req(op, 'x2', 'number'); req(op, 'y2', 'number'); req(op, 'color', 'string'); req(op, 'thickness', 'number') }
       else if (k === 'image') { req(op, 'page', 'number'); req(op, 'x', 'number'); req(op, 'y', 'number'); req(op, 'width', 'number'); req(op, 'imageDataId', 'string') }
-      else bad('pdf-editor.op.kind must be text|rect|image')
+      else if (k === 'link') { req(op, 'page', 'number'); req(op, 'x', 'number'); req(op, 'y', 'number'); req(op, 'width', 'number'); req(op, 'height', 'number'); req(op, 'url', 'string') }
+      else if (k === 'form-text') { req(op, 'page', 'number'); req(op, 'x', 'number'); req(op, 'y', 'number'); req(op, 'width', 'number'); req(op, 'height', 'number'); req(op, 'name', 'string') }
+      else if (k === 'form-check') { req(op, 'page', 'number'); req(op, 'x', 'number'); req(op, 'y', 'number'); req(op, 'size', 'number'); req(op, 'name', 'string') }
+      else if (k === 'rotate-page') { req(op, 'page', 'number'); req(op, 'delta', 'number'); if (![90, -90, 180].includes(op.delta as number)) bad('rotate-page.delta must be 90|-90|180') }
+      else if (k === 'insert-page') { req(op, 'afterPage', 'number') }
+      else bad('pdf-editor.op.kind must be text|rect|ellipse|line|image|link|form-text|form-check|rotate-page|insert-page')
     }
   },
   'pdf-forms': (p) => {

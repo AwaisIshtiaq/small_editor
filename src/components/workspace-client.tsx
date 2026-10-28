@@ -19,6 +19,7 @@ import { ToolIcon } from '@/components/tool-icon'
 import { ToolOptions } from '@/components/tool-options'
 import { PageGrid } from '@/components/page-grid'
 import { EditorCanvas } from '@/components/editor-canvas'
+import { EditorShell } from '@/components/pdf-editor/editor-shell'
 import { WorkflowBuilder } from '@/components/workflow-builder'
 import { DownloadPanel, fmtSize, type OutputItem } from '@/components/download-panel'
 import { pageCount, renderPageJpeg } from '@/lib/pdfjs-client'
@@ -370,7 +371,15 @@ export function WorkspaceClient({ tool }: { tool: ToolDef }) {
           </div>
         </div>
 
-        {tool.slug === 'sign' || tool.slug === 'pdf-editor' || tool.slug === 'pdf-forms' ? (
+        {tool.slug === 'pdf-editor' ? (
+          pdfBytes ? (
+            <EditorShell bytes={pdfBytes} busy={busy} onRun={(params) => void startTask(params)} />
+          ) : (
+            <div className="flex justify-center py-10">
+              <Loader2 className="size-6 animate-spin text-muted-foreground" aria-hidden="true" />
+            </div>
+          )
+        ) : tool.slug === 'sign' || tool.slug === 'pdf-forms' ? (
           pdfBytes ? (
             <EditorCanvas
               slug={tool.slug}

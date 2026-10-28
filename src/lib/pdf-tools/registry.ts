@@ -69,10 +69,23 @@ export type ToolParams = {
   workflows: { steps: { type: ChainSlug; params: Record<string, unknown> }[] }
 }
 
+// Editor ops: one drag/click in the canvas = one op. Coordinates are page
+// points with a TOP-LEFT origin in the page's DISPLAY space (what the user
+// sees, including any /Rotate). `rotate` records the display rotation at
+// placement time so the server can map back to unrotated user space.
+// `rotate-page`/`insert-page` mutate the document and are applied in order;
+// overlay ops reference the page ordinal as it exists at that point.
 export type EditorOp =
-  | { kind: 'text'; page: number; x: number; y: number; text: string; fontSize: number; color: string }
-  | { kind: 'rect'; page: number; x: number; y: number; width: number; height: number; color: string }
-  | { kind: 'image'; page: number; x: number; y: number; width: number; imageDataId: string }
+  | { kind: 'text'; page: number; x: number; y: number; text: string; fontSize: number; color: string; rotate?: 0 | 90 | 180 | 270 }
+  | { kind: 'rect'; page: number; x: number; y: number; width: number; height: number; color: string; opacity?: number; rotate?: 0 | 90 | 180 | 270 }
+  | { kind: 'ellipse'; page: number; x: number; y: number; width: number; height: number; color: string; opacity?: number; filled: boolean; rotate?: 0 | 90 | 180 | 270 }
+  | { kind: 'line'; page: number; x1: number; y1: number; x2: number; y2: number; color: string; thickness: number; rotate?: 0 | 90 | 180 | 270 }
+  | { kind: 'image'; page: number; x: number; y: number; width: number; imageDataId: string; rotate?: 0 | 90 | 180 | 270 }
+  | { kind: 'link'; page: number; x: number; y: number; width: number; height: number; url: string; rotate?: 0 | 90 | 180 | 270 }
+  | { kind: 'form-text'; page: number; x: number; y: number; width: number; height: number; name: string; rotate?: 0 | 90 | 180 | 270 }
+  | { kind: 'form-check'; page: number; x: number; y: number; size: number; name: string; rotate?: 0 | 90 | 180 | 270 }
+  | { kind: 'rotate-page'; page: number; delta: 90 | -90 | 180 }
+  | { kind: 'insert-page'; afterPage: number } // 0 = before the first page
 
 export type FormOp = { kind: 'textfield'; page: number; x: number; y: number; width: number; name: string }
 
