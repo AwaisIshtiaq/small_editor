@@ -4,6 +4,7 @@
 // files carry name/mime/pages so a process restart can rebuild the index.
 
 import { randomUUID } from 'crypto'
+import { readFileSync } from 'fs'
 
 export const TTL_MS = 2 * 60 * 60 * 1000
 
@@ -52,6 +53,24 @@ function pathFor(id: string): string {
   return `${workRoot()}/${id}`
 }
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+// Rebuild one index entry from its sidecar meta file after a process restart
+// or dev-server hot reload (the in-memory Map is per-process). Only
+// uuid-shaped ids ever reach the filesystem.
+function hydrate(id: string): StoredMeta | undefined {
+  if (!UUID_RE.test(id)) return undefined
+  try {
+    const meta = JSON.parse(readFileSync(`${pathFor(id)}.meta.json`, 'utf8')) as StoredMeta
+    if (!meta || meta.id !== id || meta.expiresAt <= Date.now()) return undefined
+    index.set(id, meta)
+    ensureJanitor()
+    return meta
+  } catch {
+    return undefined
+  }
+}
+
 async function ensureRoot(): Promise<void> {
   const { mkdir } = await import('fs/promises')
   await mkdir(workRoot(), { recursive: true })
@@ -71,11 +90,11 @@ export async function putFile(buf: Buffer, name: string, mime: string, pages = 0
 }
 
 export function getMeta(id: string): StoredMeta | undefined {
-  return index.get(id)
+  return index.get(id) ?? hydrate(id)
 }
 
 export async function readFileBuf(id: string): Promise<Buffer | null> {
-  const meta = index.get(id)
+  const meta = getMeta(id)
   if (!meta || meta.expiresAt <= Date.now()) return null
   const { readFile } = await import('fs/promises')
   try {

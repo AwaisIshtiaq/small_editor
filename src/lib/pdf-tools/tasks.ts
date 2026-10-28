@@ -6,6 +6,7 @@ import { getTool } from './registry'
 import { TaskError } from './errors'
 import { LIMITS, LIMITS_ENFORCED } from './ratelimit'
 import type { StoredMeta } from './store'
+import { safeLinkUrl } from './link-url'
 
 type Dict = Record<string, unknown>
 
@@ -38,6 +39,19 @@ function opt(p: Dict, key: string, type: 'string' | 'number' | 'boolean'): unkno
     typeof v === 'boolean'
   if (!ok) bad(`Invalid "${key}" (expected ${type})`)
   return v
+}
+
+// Bounds for client-supplied strings/arrays. Without them a runaway body
+// (or an ops array with a million entries) turns into memory/CPU exhaustion
+// on the server even though every individual field type-checks.
+const MAX_OPS = 5000
+const MAX_TEXT_LEN = 4096
+const MAX_URL_LEN = 2048
+const MAX_NAME_LEN = 256
+
+function strLen(p: Dict, key: string, max: number, label: string): void {
+  const v = p[key]
+  if (typeof v !== 'string' || !v.length || v.length > max) bad(`"${label}" must be 1-${max} characters`)
 }
 
 // ---- per-slug param validators (type-level only; semantics live in handlers)
@@ -109,20 +123,29 @@ const PARAM_CHECKS: Record<string, (p: Dict) => void> = {
   },
   'pdf-editor': (p) => {
     const ops = req(p, 'ops', 'array') as unknown[]
+    if (ops.length > MAX_OPS) bad(`pdf-editor.ops too large (max ${MAX_OPS} entries)`)
     for (const op of ops) {
       if (!isObj(op)) bad('pdf-editor.ops entries must be objects')
       const k = op.kind
-      if (k === 'text') { req(op, 'page', 'number'); req(op, 'x', 'number'); req(op, 'y', 'number'); req(op, 'text', 'string'); req(op, 'fontSize', 'number'); req(op, 'color', 'string') }
+      if (k === 'text') { req(op, 'page', 'number'); req(op, 'x', 'number'); req(op, 'y', 'number'); req(op, 'text', 'string'); req(op, 'fontSize', 'number'); req(op, 'color', 'string'); strLen(op, 'text', MAX_TEXT_LEN, 'text'); if (!((op.fontSize as number) > 0) || (op.fontSize as number) > 2000) bad('pdf-editor.fontSize must be 1-2000') }
       else if (k === 'rect') { req(op, 'page', 'number'); req(op, 'x', 'number'); req(op, 'y', 'number'); req(op, 'width', 'number'); req(op, 'height', 'number'); req(op, 'color', 'string') }
+      else if (k === 'ellipse') { req(op, 'page', 'number'); req(op, 'x', 'number'); req(op, 'y', 'number'); req(op, 'width', 'number'); req(op, 'height', 'number'); req(op, 'color', 'string'); req(op, 'filled', 'boolean') }
+      else if (k === 'line') { req(op, 'page', 'number'); req(op, 'x1', 'number'); req(op, 'y1', 'number'); req(op, 'x2', 'number'); req(op, 'y2', 'number'); req(op, 'color', 'string'); req(op, 'thickness', 'number') }
       else if (k === 'image') { req(op, 'page', 'number'); req(op, 'x', 'number'); req(op, 'y', 'number'); req(op, 'width', 'number'); req(op, 'imageDataId', 'string') }
-      else bad('pdf-editor.op.kind must be text|rect|image')
+      else if (k === 'link') { req(op, 'page', 'number'); req(op, 'x', 'number'); req(op, 'y', 'number'); req(op, 'width', 'number'); req(op, 'height', 'number'); req(op, 'url', 'string'); strLen(op, 'url', MAX_URL_LEN, 'url'); try { safeLinkUrl(op.url as string) } catch (e) { bad(e instanceof Error ? e.message : 'invalid link url') } }
+      else if (k === 'form-text') { req(op, 'page', 'number'); req(op, 'x', 'number'); req(op, 'y', 'number'); req(op, 'width', 'number'); req(op, 'height', 'number'); req(op, 'name', 'string'); strLen(op, 'name', MAX_NAME_LEN, 'name') }
+      else if (k === 'form-check') { req(op, 'page', 'number'); req(op, 'x', 'number'); req(op, 'y', 'number'); req(op, 'size', 'number'); req(op, 'name', 'string'); strLen(op, 'name', MAX_NAME_LEN, 'name') }
+      else if (k === 'rotate-page') { req(op, 'page', 'number'); req(op, 'delta', 'number'); if (![90, -90, 180].includes(op.delta as number)) bad('rotate-page.delta must be 90|-90|180') }
+      else if (k === 'insert-page') { req(op, 'afterPage', 'number') }
+      else bad('pdf-editor.op.kind must be text|rect|ellipse|line|image|link|form-text|form-check|rotate-page|insert-page')
     }
   },
   'pdf-forms': (p) => {
     const ops = req(p, 'ops', 'array') as unknown[]
+    if (ops.length > MAX_OPS) bad(`pdf-forms.ops too large (max ${MAX_OPS} entries)`)
     for (const op of ops) {
       if (!isObj(op) || op.kind !== 'textfield') bad('pdf-forms.op.kind must be textfield')
-      req(op, 'page', 'number'); req(op, 'x', 'number'); req(op, 'y', 'number'); req(op, 'width', 'number'); req(op, 'name', 'string')
+      req(op, 'page', 'number'); req(op, 'x', 'number'); req(op, 'y', 'number'); req(op, 'width', 'number'); req(op, 'name', 'string'); strLen(op, 'name', MAX_NAME_LEN, 'name')
     }
   },
   watermark: (p) => {
@@ -165,7 +188,8 @@ const PARAM_CHECKS: Record<string, (p: Dict) => void> = {
   'edit-metadata': (p) => { opt(p, 'title', 'string'); opt(p, 'author', 'string'); opt(p, 'subject', 'string'); opt(p, 'keywords', 'string'); req(p, 'removeAll', 'boolean') },
   'edit-bookmarks': (p) => {
     const es = req(p, 'entries', 'array') as unknown[]
-    for (const e of es) { if (!isObj(e)) bad('edit-bookmarks.entries must be objects'); req(e, 'title', 'string'); req(e, 'page', 'number'); req(e, 'level', 'number') }
+    if (es.length > 10000) bad('edit-bookmarks.entries too large (max 10000)')
+    for (const e of es) { if (!isObj(e)) bad('edit-bookmarks.entries must be objects'); req(e, 'title', 'string'); req(e, 'page', 'number'); req(e, 'level', 'number'); strLen(e, 'title', 512, 'title') }
   },
   rename: (p) => { req(p, 'renamePattern', 'string'); req(p, 'areaY', 'number'); req(p, 'areaHeight', 'number') },
   'remove-annotations': (p) => { const t = req(p, 'annotationTypes', 'array') as unknown[]; if (!t.every((s) => typeof s === 'string')) bad('annotationTypes must be strings') },
@@ -185,6 +209,7 @@ const PARAM_CHECKS: Record<string, (p: Dict) => void> = {
   repair: () => {},
   workflows: (p) => {
     const steps = req(p, 'steps', 'array') as unknown[]
+    if (steps.length > 20) bad('workflows.steps too many (max 20)')
     for (const s of steps) { if (!isObj(s)) bad('workflows.steps must be objects'); req(s, 'type', 'string'); if (!isObj(s.params)) bad('workflows.step.params must be object') }
   },
 }

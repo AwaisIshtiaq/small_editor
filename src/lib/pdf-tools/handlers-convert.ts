@@ -38,7 +38,7 @@ export function winAnsi(text: string): string {
 }
 
 export function hexToRgb(hex: string): { r: number; g: number; b: number } {
-  const m = /^#?([0-9a-f]{6})$/i.exec((hex ?? '').trim())
+  const m = (hex ?? '').trim().match(/^#?([0-9a-f]{6})$/i)
   const n = m ? parseInt(m[1], 16) : 0
   return { r: ((n >> 16) & 255) / 255, g: ((n >> 8) & 255) / 255, b: (n & 255) / 255 }
 }
