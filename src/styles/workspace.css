@@ -1,0 +1,99 @@
+/* ============================================================
+   Workspace / tool-page styles - ported 1:1 from the reference
+   prototype (tools.html). Shared design tokens, nav and footer
+   styles live in landing.css; this file only adds the tool-page
+   layer stack, upload zone, options, result, guides and CTA band.
+   ============================================================ */
+.stars{font-size:clamp(20px,3vw,32px);letter-spacing:4px;background:linear-gradient(90deg,var(--v) 90%,var(--hair) 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
+:root{--demoimg:url(/assets/demo-grayscale.jpg)}
+.ch{padding:140px 0 0;text-align:center}.ch h1{font-size:clamp(36px,5vw,62px);margin:0 0 8px}.ch p{font-size:clamp(18px,2vw,24px);color:var(--mu)}
+.zone{position:relative;margin-top:40px;padding:110px 0 120px;text-align:center;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 420' preserveAspectRatio='none'%3E%3Cpath fill='%23FF5A09' fill-opacity='.07' d='M0 110C260 30 520 20 760 40s520 70 680 20v280c-220 60-470 70-720 50S260 360 0 400z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.zone.drag{filter:drop-shadow(0 0 40px rgba(255,90,9,.35))}
+.upw{position:relative;display:inline-block}
+.upb{display:inline-flex;align-items:center;gap:0;border-radius:14px;background:var(--v);color:#fff;font-size:24px;font-weight:700;letter-spacing:-.02em;box-shadow:0 6px 0 #be4f0c,0 30px 60px -26px rgba(255,90,9,.7);transition:transform .6s var(--ease),box-shadow .6s var(--ease)}
+.upb>button,.upb>label{display:flex;align-items:center;gap:14px;padding:18px 26px;cursor:pointer;color:inherit;font:inherit}.upb svg{width:30px;height:30px;fill:none;stroke:#fff;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.upb .cv{padding:18px 20px 18px 8px;border-left:0}.upb .cv svg{width:14px;height:14px;stroke-width:2.4}
+.upb:hover{transform:translateY(2px);box-shadow:0 4px 0 #be4f0c,0 20px 40px -20px rgba(255,90,9,.7)}.upb:active{transform:translateY(5px);box-shadow:0 1px 0 #be4f0c}
+.ddm{position:absolute;left:50%;top:calc(100% + 16px);transform:translate(-50%,-8px);min-width:260px;padding:8px;border-radius:16px;border:1px solid var(--hair);background:color-mix(in srgb,var(--card) 96%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 30px 60px -20px rgba(0,0,0,.5);text-align:left;opacity:0;pointer-events:none;transition:all .5s var(--ease);z-index:5}
+.ddm.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.ddm button,.ddm label{display:block;width:100%;padding:12px 14px;border-radius:10px;font-size:15px;cursor:pointer;color:var(--tx);text-align:left}.ddm button:hover,.ddm label:hover{background:var(--g)}
+.fine{margin-top:44px;color:var(--mu);line-height:1.9;font-size:17px}.fine small{display:block;margin-top:12px;font-size:13px}.fine a{text-decoration:underline;text-underline-offset:3px}
+.off{display:flex;justify-content:center;margin:34px 0 10px}.off a{display:inline-flex;align-items:center;gap:12px;padding:8px 18px 8px 8px;border-radius:99px;background:var(--g);border:1px solid var(--hair);color:var(--v);font-weight:500;transition:transform .5s var(--ease)}.off a:hover{transform:translateY(-2px)}
+.off b{background:var(--v);color:#fff;font-size:10px;letter-spacing:.06em;padding:4px 9px;border-radius:99px}
+.opt{max-width:640px;margin:36px auto 0;text-align:center}.opt .sel{color:var(--mu);margin-bottom:34px;font-size:16px}.opt .sel b{color:var(--tx);font-weight:500}
+.orow{margin-bottom:22px}.orow>b{display:block;margin-bottom:10px;font-size:17px;font-weight:800;letter-spacing:-.01em}.orow .exp{font-style:normal;font-weight:500;font-size:12px;padding:3px 9px;border-radius:6px;background:rgba(255,180,50,.2);color:#e8a317;margin-left:6px}
+.seg{display:inline-flex;border:1px solid var(--hair);border-radius:10px;overflow:hidden;background:var(--card);flex-wrap:wrap;justify-content:center}
+.seg button{padding:11px 16px;font-size:15px;color:var(--mu);border-right:1px solid var(--hair);display:inline-flex;align-items:center;gap:8px;transition:background .4s var(--ease),color .4s}.seg button:last-child{border:0}
+.seg button:hover{background:var(--g);color:var(--tx)}.seg button.on{background:rgba(255,90,9,.16);color:var(--tx);box-shadow:inset 0 0 0 1.5px var(--v)}
+.qm{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;border:1px solid currentColor;font-size:10px;opacity:.6;cursor:help}
+.acts{display:flex;gap:12px;justify-content:center;align-items:center;margin-top:44px;flex-wrap:wrap}
+.pbtn{padding:14px 26px;border-radius:12px;background:var(--v);color:#fff;font-weight:800;font-size:17px;box-shadow:0 4px 0 #be4f0c;transition:transform .5s var(--ease),box-shadow .5s}.pbtn:hover{transform:translateY(2px);box-shadow:0 2px 0 #be4f0c}.pbtn:disabled{opacity:.5}
+.sbtn{padding:14px 22px;border-radius:12px;background:var(--g);border:1px solid var(--hair);color:var(--v);font-weight:500;transition:background .4s}.sbtn:hover{background:var(--hair)}
+.more{overflow:hidden;max-height:0;opacity:0;transition:max-height .7s var(--ease),opacity .5s}.more.on{max-height:300px;opacity:1}
+.prog{max-width:420px;margin:50px auto 0}.prog .bar{height:10px;border-radius:99px;background:var(--hair);overflow:hidden}.prog .bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--v),var(--a));transition:width .4s var(--ease)}.prog p{margin-top:16px;color:var(--mu)}
+.done{max-width:560px;margin:40px auto 0;text-align:center}.done .big{display:flex;align-items:center;justify-content:center;gap:22px;font-size:clamp(26px,4vw,44px);font-weight:700;letter-spacing:-.04em}.done .big s{color:var(--mu);font-weight:500;opacity:.7}.done .big em{font-style:normal;color:var(--v)}
+.done .sv{display:inline-block;margin:18px 0 6px;padding:6px 16px;border-radius:99px;background:rgba(255,90,9,.16);color:var(--v);font-weight:700}.done p{color:var(--mu)}
+.gw{max-width:880px;margin:0 auto;padding:90px 20px 40px}.gw h2{text-align:center;font-size:clamp(28px,3.6vw,46px);margin:0 0 10px}.gw .sub{text-align:center;color:var(--mu);font-size:clamp(17px,2vw,22px);max-width:640px;margin:0 auto 60px}
+.gw ol.st{list-style:none;counter-reset:s;padding:0;display:flex;flex-direction:column;gap:46px}.gw ol.st>li{counter-increment:s;padding-left:54px;position:relative}
+.gw ol.st>li::before{content:counter(s);position:absolute;left:0;top:0;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:14px;background:rgba(255,90,9,.16);color:var(--v)}
+.gw h3{font-size:24px;letter-spacing:-.03em;margin:2px 0 16px}.gw p{color:var(--mu);line-height:1.7;margin-bottom:12px}.gw p b{color:var(--tx);font-weight:600}.gw a{color:var(--v);text-decoration:underline;text-underline-offset:3px}
+.tip{padding:20px 24px;border-radius:14px;background:var(--g);border:1px solid var(--hair);margin:18px 0;line-height:1.65;color:var(--tx)}
+.gw ol.al{padding-left:22px;color:var(--mu);display:flex;flex-direction:column;gap:6px;margin-bottom:10px}.gw ol.al li::marker{color:var(--v);font-weight:700}
+.mk{margin:24px auto;max-width:640px;border:1px solid var(--hair);border-radius:18px;background:var(--card);padding:30px 24px 34px;text-align:center;pointer-events:none;user-select:none}
+.mk h4{font-size:30px;letter-spacing:-.04em}.mk .s2{color:var(--mu);margin:2px 0 22px}.mk .sel{color:var(--mu);font-size:14px;margin-bottom:22px}
+.mk .orow{margin-bottom:12px}.mk .orow>b{font-size:14px;margin-bottom:6px}.mk .seg button{padding:7px 12px;font-size:13px}
+.mk .orow.hlr{position:relative}.mk .orow.hlr::after{content:"";position:absolute;inset:-6px calc(50% - 170px);border:3px solid #ff9f2e;border-radius:6px;pointer-events:none}
+.mk .bt{display:flex;gap:12px;justify-content:center;align-items:center;margin-top:20px}.mk .bt span{padding:9px 16px;border-radius:8px;background:var(--v);color:#fff;font-weight:800;font-size:14px}.mk .bt u{color:var(--v);font-size:13px}
+.demo{position:relative;aspect-ratio:2.2/1;border-radius:16px;overflow:hidden;margin:20px 0;border:1px solid var(--hair);background:#000;--p:var(--demoimg)}
+.demo::before,.demo::after{content:"";position:absolute;inset:0;background:var(--p) center 62%/cover no-repeat}
+.demo::after{filter:grayscale(1);clip-path:inset(0 50% 0 0)}
+.cta2{text-align:center;padding:80px 0 100px;background:var(--g);border-block:1px solid var(--hair);margin-top:60px}.cta2 h3{font-size:26px;margin-bottom:26px;color:var(--mu);font-weight:700}
+.toast2{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:30;transform:translate(-50%,30px);opacity:0;padding:12px 20px;border-radius:99px;background:var(--tx);color:var(--bg);font-size:13px;font-weight:600;pointer-events:none;transition:all .7s var(--ease);max-width:calc(100% - 32px)}.toast2.on{transform:translate(-50%,0);opacity:1}
+@media (max-width:700px){.zone{padding:80px 12px 90px}.upb{font-size:19px}.gw ol.st>li{padding-left:44px}.mk .orow.hlr::after{inset:-6px 0}.done .big{flex-direction:column;gap:6px}}
+@media (prefers-reduced-motion:reduce){.more,.ddm,.prog .bar i{transition:none}}
+.tbg{position:absolute;inset:0 0 auto 0;height:760px;overflow:hidden;pointer-events:none;-webkit-mask-image:linear-gradient(#000 62%,transparent);mask-image:linear-gradient(#000 62%,transparent);z-index:0}
+.ly{position:absolute;left:50%;top:0;width:max(1200px,100%);height:auto;max-width:none;transform:translate3d(calc(-50% + var(--mx,0)*var(--d)*1px),calc(var(--my,0)*var(--d)*.55px),0);transition:transform 1.1s var(--ease)}
+.ly{-webkit-mask-image:linear-gradient(#000 66%,transparent);mask-image:linear-gradient(#000 66%,transparent)}
+.thero{position:relative}.thero>*:not(.tbg){position:relative;z-index:1}
+.ch h1 .bdg{font-size:11px;letter-spacing:.12em;padding:4px 10px;border-radius:99px;background:var(--v);color:#fff;vertical-align:middle;margin-left:10px;font-weight:700}
+.pre{display:inline-block;margin-top:14px;padding:7px 16px;border-radius:99px;background:var(--g);border:1px solid var(--hair);color:var(--mu);font-size:14px}
+.fld{width:min(420px,92%);padding:13px 16px;border-radius:12px;background:var(--bg);border:1px solid var(--hair);color:var(--tx);font:500 16px "Plus Jakarta Sans",sans-serif;outline:0;text-align:center}.fld:focus{border-color:var(--v)}
+.fr{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.fr .fld{width:96px;padding:11px}.fr label{display:block;font-size:12px;color:var(--mu);margin-bottom:5px}
+.flist{max-width:520px;margin:0 auto 26px;display:flex;flex-direction:column;gap:8px;text-align:left}
+.flist div{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;border:1px solid var(--hair);background:var(--card)}.flist span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.flist small{color:var(--mu)}
+.flist button{width:30px;height:30px;border-radius:8px;color:var(--mu)}.flist button:hover{background:var(--g);color:var(--tx)}
+.note2{max-width:520px;margin:0 auto 20px;padding:16px 20px;border-radius:14px;background:var(--g);border:1px solid var(--hair);color:var(--mu);line-height:1.6;font-size:15px}
+.gw .np{padding-left:54px}.gw .np::before{display:none}.gw ol.st>li.np{counter-increment:none}
+.gw ul.al{padding-left:22px;color:var(--mu);display:flex;flex-direction:column;gap:6px;margin-bottom:10px}.gw ul.al li::marker{color:var(--v)}
+.gw .gcta{margin:34px 0 0;display:flex;gap:16px;align-items:center;flex-wrap:wrap}.gw .gcta b{color:var(--tx);font-size:18px}
+.gsep{height:1px;background:var(--hair);max-width:760px;margin:70px auto}
+.dirh{padding:140px 0 20px;text-align:center}
+.code{margin:12px 0;padding:18px 20px;border-radius:14px;background:var(--bg2);border:1px solid var(--hair);color:var(--tx);font:13px/1.6 ui-monospace,Menlo,Consolas,monospace;overflow-x:auto;white-space:pre}
+.rule{max-width:840px;margin:6px auto 0}
+@media (max-width:760px){.tbg{height:620px}.ly{width:max(900px,100%)}}
+@media (prefers-reduced-motion:reduce){.ly{transition:none}}
+/* --- Scoped restyle: make the app's existing option controls
+   (shadcn Input/Select/Button/Checkbox inside the options view)
+   match the prototype's .fld / .seg visuals without touching
+   their logic. --- */
+.opt input[data-slot="input"],.opt input,.opt textarea{width:min(420px,92%);padding:13px 16px;border-radius:12px;background:var(--bg);border:1px solid var(--hair);color:var(--tx);font:500 16px var(--font-jakarta),sans-serif;outline:0;text-align:center;transition:border-color .4s var(--ease)}
+.opt input:focus,.opt textarea:focus{border-color:var(--v)}
+.opt textarea{text-align:left;min-height:110px}
+.opt button[data-slot="select-trigger"],.opt [data-slot="select-trigger"]{width:min(420px,92%);padding:13px 16px;border-radius:12px;background:var(--bg);border:1px solid var(--hair);color:var(--tx);font:500 15px var(--font-jakarta),sans-serif}
+.opt [data-slot="select-trigger"] [data-slot="select-value"]{color:var(--tx)}
+.opt [data-slot="popover-content"],.opt [data-radix-popper-content-wrapper]>*{background:var(--card)!important;border:1px solid var(--hair)!important;color:var(--tx)!important}
+.opt label{color:var(--mu);font-size:14px}
+
+/* Run button inside the options view — prototype .pbtn look */
+.opt button.pbtn-run{padding:14px 26px;border-radius:12px;background:var(--v);color:#fff;font-weight:800;font-size:17px;box-shadow:0 4px 0 #be4f0c;transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+.opt button.pbtn-run:hover{transform:translateY(2px);box-shadow:0 2px 0 #be4f0c}
+.opt button.pbtn-run:disabled{opacity:.5}
+
+/* Boolean checkbox rows inside the options view — keep them on one
+   horizontal line, centered, instead of the narrow squeezed stack. */
+.opt .grid.sm\:grid-cols-2{display:flex;flex-direction:column;align-items:center;gap:12px}
+.opt .grid.sm\:grid-cols-2>.flex{display:flex!important;flex-direction:row!important;align-items:center;justify-content:center;gap:10px;width:auto}
+.opt .grid.sm\:grid-cols-2 label{font-size:15px;color:var(--mu)}
+.opt button[role="checkbox"]{border-color:var(--mu);transition:background .3s var(--ease),border-color .3s var(--ease)}
+.opt button[role="checkbox"]:hover{border-color:var(--v)}
+.opt button[role="checkbox"][data-state="checked"]{background:var(--v);border-color:var(--v);color:#fff}
