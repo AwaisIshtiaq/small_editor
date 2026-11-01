@@ -1125,10 +1125,12 @@ export function optionError(slug: string, params: Params): string | null {
 export function ToolOptions({
   slug,
   onRun,
+  onReset,
   running,
 }: {
   slug: string
   onRun: (params: Params) => void
+  onReset?: () => void
   running: boolean
 }) {
   const [params, setParams] = useState<Params>(() => ({ ...PARAM_DEFAULTS[slug] }))
@@ -1142,10 +1144,23 @@ export function ToolOptions({
           {error}
         </p>
       ) : null}
-      <Button className="pbtn-run" onClick={() => onRun(params)} disabled={running || !!error}>
-        {running ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : <Play className="size-4" aria-hidden="true" />}
-        Apply changes
-      </Button>
+      {/* Prototype .acts row: primary action + Start over side by side. */}
+      <div className="acts">
+        <Button className="pbtn-run" onClick={() => onRun(params)} disabled={running || !!error}>
+          {running ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : <Play className="size-4" aria-hidden="true" />}
+          Apply changes
+        </Button>
+        {onReset ? (
+          <button
+            type="button"
+            className="sbtn"
+            style={{ background: 'none' }}
+            onClick={onReset}
+          >
+            Start over
+          </button>
+        ) : null}
+      </div>
     </div>
   )
 }

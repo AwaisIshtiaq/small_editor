@@ -301,7 +301,7 @@ export function ToolPage({ tool, info }: { tool: ToolDef; info?: ToolInfo }) {
   const pi = words.findIndex((w) => /^PDF$/i.test(w))
   const si = pi >= 0 ? pi : words.length - 1
   const h1 = words.map((w, i) =>
-    /^PDF$/i.test(w) || (pi < 0 && i === si) ? (
+    /^PDF$/i.test(w) || (pi < 0 && i === si && words.length > 1) ? (
       <span key={i} className="serif">
         {w}
       </span>
@@ -327,7 +327,7 @@ export function ToolPage({ tool, info }: { tool: ToolDef; info?: ToolInfo }) {
       <div className="thero" id="thero" ref={theroRef} onPointerMove={onMove} onPointerLeave={onLeave}>
         <div className="tbg" aria-hidden="true">
           {BG_LAYERS.map((l) => (
-            // eslint-disable-next-line @next/next/no-img-element
+             
             <img key={l.src} className="ly" style={{ ['--d' as string]: l.depth }} alt="" src={l.src} />
           ))}
         </div>
@@ -525,13 +525,14 @@ export function ToolPage({ tool, info }: { tool: ToolDef; info?: ToolInfo }) {
                   <ToolOptions
                     slug={tool.slug}
                     running={busy}
+                    onReset={reset}
                     onRun={(params) =>
                       tool.slug === 'pdf-to-jpg' ? void runClientJpg(params) : void startTask(params)
                     }
                   />
                 )}
 
-                {tool.slug !== 'workflows' && tool.slug !== 'organize' ? (
+                {(tool.slug === 'sign' || tool.slug === 'pdf-editor' || tool.slug === 'pdf-forms') ? (
                   <div className="acts">
                     <button className="sbtn" onClick={reset}>
                       Start over
@@ -599,7 +600,7 @@ export function ToolPage({ tool, info }: { tool: ToolDef; info?: ToolInfo }) {
       {guides.map((g, i) => (
         <div key={i}>
           {i ? <div className="gsep" /> : null}
-          <GuideView guide={g} slug={tool.slug} />
+          <GuideView guide={g} slug={tool.slug} toolName={tool.name} />
         </div>
       ))}
 

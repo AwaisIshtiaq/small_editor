@@ -120,7 +120,15 @@ function Step({ st, slug }: { st: GuideStep; slug: string }) {
   )
 }
 
-export function GuideView({ guide, slug }: { guide: Guide; slug: string }) {
+export function GuideView({
+  guide,
+  slug,
+  toolName,
+}: {
+  guide: Guide
+  slug: string
+  toolName: string
+}) {
   if (!guide.steps.length) return null
   const words = guide.h.split(/(PDF)/)
   return (
@@ -148,7 +156,7 @@ export function GuideView({ guide, slug }: { guide: Guide; slug: string }) {
         <p className="gcta">
           <b>{guide.cta}</b>
           <Link className="pill" href={`#thero`}>
-            Start now<b>›</b>
+            {toolName} online<b>›</b>
           </Link>
         </p>
       ) : null}
