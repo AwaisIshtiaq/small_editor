@@ -4,6 +4,8 @@ import type { NextConfig } from "next";
 // CSP notes: Next.js requires inline bootstrap/hydration scripts, so
 // script-src keeps 'unsafe-inline'; everything else is locked to 'self'
 // (blob:/data: only where the PDF/image pipeline needs it).
+// frame-ancestors allows our own preview gateway (*.space-z.ai) to embed
+// the app; everything else is still blocked from framing it.
 const securityHeaders = [
   {
     key: "Content-Security-Policy",
@@ -19,10 +21,11 @@ const securityHeaders = [
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
-      "frame-ancestors 'none'",
+      "frame-ancestors 'self' https://*.space-z.ai",
     ].join("; "),
   },
-  { key: "X-Frame-Options", value: "DENY" },
+  // X-Frame-Options intentionally omitted: CSP frame-ancestors above is the
+  // modern mechanism and DENY would also block the preview gateway iframe.
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   {
