@@ -5,7 +5,7 @@
 
 import { readFile, writeFile } from 'fs/promises'
 import path from 'path'
-import { PDFArray, PDFDict, PDFDocument, PDFHexString, PDFName, PDFNumber, PDFRef, StandardFonts, degrees, rgb } from '@cantoo/pdf-lib'
+import { PDFArray, PDFDict, PDFDocument, PDFHexString, PDFName, PDFNumber, PDFRef, PDFString, StandardFonts, degrees, rgb } from '@cantoo/pdf-lib'
 import type { PDFFont, PDFImage, PDFPage } from '@cantoo/pdf-lib'
 import { TaskError } from './errors'
 import { baseName } from './mime'
@@ -18,6 +18,8 @@ import { pdfToImages, tesseractRun } from './bin'
 import { extractTextPages } from './pdfjs-server'
 import { convertHandlers, firstInput, hexToRgb, winAnsi } from './handlers-convert'
 import { coreHandlers } from './handlers-core'
+import { mapEllipse, mapImageAnchor, mapPoint, mapRect, mapTextAnchor, normRot } from './editor-geometry'
+import { safeLinkUrl } from './link-url'
 
 const PDF_MIME = 'application/pdf'
 
@@ -32,6 +34,19 @@ type Pos = { v: 'top' | 'bottom'; h: 'left' | 'center' | 'right' }
 
 async function pickFont(doc: PDFDocument, name: FontName): Promise<PDFFont> {
   return doc.embedFont(FONTS[name] ?? StandardFonts.Helvetica)
+}
+
+// Embed a raster in whatever format the browser/OS handed us. pdf-lib only
+// parses PNG and JPEG natively — anything else (WebP, BMP, …) is transcoded
+// to PNG with sharp first. The editor UI accepts png/jpeg/webp uploads.
+async function embedImageAuto(doc: PDFDocument, buf: Buffer): Promise<PDFImage> {
+  const isPng = buf.length > 8 && buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47
+  const isJpg = buf.length > 3 && buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff
+  if (isPng) return doc.embedPng(buf)
+  if (isJpg) return doc.embedJpg(buf)
+  const { default: sharp } = await import('sharp')
+  const png = await sharp(buf).png().toBuffer()
+  return doc.embedPng(png)
 }
 
 // "bottom-center" | "header-left" | "top-right" … → { v, h } (header=top, footer=bottom)
@@ -71,7 +86,7 @@ const sign: TaskHandler = async (ctx) => {
     throw new TaskError('INVALID_PARAMS', `Page ${p.pageNumber} is outside this document (1-${pageCount})`)
   }
   const page = doc.getPages()[p.pageNumber - 1]
-  const img = await doc.embedPng(imgBuf)
+  const img = await embedImageAuto(doc, imgBuf)
   const height = p.width * (img.height / img.width)
   // UI y is top-left; pdf-lib draws from bottom-left
   page.drawImage(img, { x: p.x, y: page.getHeight() - p.y - height, width: p.width, height })
@@ -83,7 +98,6 @@ const pdfEditor: TaskHandler = async (ctx) => {
   const p = ctx.params as ToolParams['pdf-editor']
   const { file, buf } = await firstInput(ctx)
   const doc = await PDFDocument.load(buf)
-  const pages = doc.getPages()
   const helv = await doc.embedFont(StandardFonts.Helvetica)
 
   const images = new Map<string, PDFImage>()
@@ -91,27 +105,134 @@ const pdfEditor: TaskHandler = async (ctx) => {
     if (op.kind !== 'image' || images.has(op.imageDataId)) continue
     const imgBuf = await ctx.readBuf(op.imageDataId)
     if (!imgBuf) throw new TaskError('INVALID_PARAMS', `Editor image ${op.imageDataId} not found`)
-    images.set(op.imageDataId, await doc.embedPng(imgBuf))
+    images.set(op.imageDataId, await embedImageAuto(doc, imgBuf))
   }
 
-  for (const op of p.ops) {
+  // Ops apply in chronological order: insert/rotate mutate the page list,
+  // overlay ops resolve `page` against the list as it exists at that point.
+  // Overlay coordinates arrive in DISPLAY space (top-left, rotated) — mapped
+  // back to user space with the rotation recorded at placement time.
+  const total = p.ops.length
+  for (let i = 0; i < total; i++) {
+    const op = p.ops[i]
+    const pages = doc.getPages()
+
+    if (op.kind === 'insert-page') {
+      if (op.afterPage < 0 || op.afterPage > pages.length) {
+        throw new TaskError('INVALID_PARAMS', `Insert position ${op.afterPage} is outside this document (0-${pages.length})`)
+      }
+      const size = pages[op.afterPage >= 1 ? op.afterPage - 1 : 0]?.getSize() ?? { width: 595.28, height: 841.89 }
+      doc.insertPage(op.afterPage, [size.width, size.height])
+      continue
+    }
+
+    if (op.kind === 'rotate-page') {
+      if (op.page < 1 || op.page > pages.length) {
+        throw new TaskError('INVALID_PARAMS', `Page ${op.page} is outside this document (1-${pages.length})`)
+      }
+      const page = pages[op.page - 1]
+      page.setRotation(degrees((((page.getRotation().angle + op.delta) % 360) + 360) % 360))
+      continue
+    }
+
     if (op.page < 1 || op.page > pages.length) {
       throw new TaskError('INVALID_PARAMS', `Page ${op.page} is outside this document (1-${pages.length})`)
     }
     const page = pages[op.page - 1]
+    const W = page.getWidth()
     const H = page.getHeight()
-    if (op.kind === 'text') {
-      const c = hexToRgb(op.color)
-      page.drawText(winAnsi(op.text), { x: op.x, y: H - op.y - op.fontSize, size: op.fontSize, font: helv, color: rgb(c.r, c.g, c.b) })
-    } else if (op.kind === 'rect') {
-      const c = hexToRgb(op.color)
-      page.drawRectangle({ x: op.x, y: H - op.y - op.height, width: op.width, height: op.height, color: rgb(c.r, c.g, c.b) })
-    } else {
-      const img = images.get(op.imageDataId)
-      if (!img) continue
-      const height = op.width * (img.height / img.width)
-      page.drawImage(img, { x: op.x, y: H - op.y - height, width: op.width, height })
+    const r = normRot(op.rotate ?? 0)
+
+    switch (op.kind) {
+      case 'text': {
+        const c = hexToRgb(op.color)
+        const a = mapTextAnchor(op.x, op.y, op.fontSize, r, W, H)
+        page.drawText(winAnsi(op.text), {
+          x: a.x,
+          y: a.y,
+          size: op.fontSize,
+          font: helv,
+          color: rgb(c.r, c.g, c.b),
+          rotate: degrees(a.rotate),
+        })
+        break
+      }
+      case 'rect': {
+        const b = mapRect(op.x, op.y, op.width, op.height, r, W, H)
+        const c = hexToRgb(op.color)
+        page.drawRectangle({
+          x: b.x,
+          y: b.y,
+          width: b.width,
+          height: b.height,
+          color: rgb(c.r, c.g, c.b),
+          opacity: op.opacity ?? 1,
+        })
+        break
+      }
+      case 'ellipse': {
+        const e = mapEllipse(op.x, op.y, op.width, op.height, r, W, H)
+        const c = hexToRgb(op.color)
+        page.drawEllipse({
+          x: e.cx,
+          y: e.cy,
+          xScale: Math.max(0.5, e.xScale),
+          yScale: Math.max(0.5, e.yScale),
+          ...(op.filled
+            ? { color: rgb(c.r, c.g, c.b), opacity: op.opacity ?? 1 }
+            : { borderColor: rgb(c.r, c.g, c.b), borderWidth: 1.5 }),
+        })
+        break
+      }
+      case 'line': {
+        const s = mapPoint(op.x1, op.y1, r, W, H)
+        const e = mapPoint(op.x2, op.y2, r, W, H)
+        const c = hexToRgb(op.color)
+        page.drawLine({
+          start: { x: s.x, y: s.y },
+          end: { x: e.x, y: e.y },
+          color: rgb(c.r, c.g, c.b),
+          thickness: Math.max(0.5, op.thickness),
+        })
+        break
+      }
+      case 'image': {
+        const img = images.get(op.imageDataId)
+        if (!img) continue
+        const dispH = op.width * (img.height / img.width)
+        const a = mapImageAnchor(op.x, op.y, dispH, r, W, H)
+        page.drawImage(img, { x: a.x, y: a.y, width: op.width, height: dispH, rotate: degrees(a.rotate) })
+        break
+      }
+      case 'link': {
+        const uri = safeLinkUrl(op.url)
+        const b = mapRect(op.x, op.y, op.width, op.height, r, W, H)
+        const annot = doc.context.register(
+          doc.context.obj({
+            Type: 'Annot',
+            Subtype: 'Link',
+            Rect: [b.x, b.y, b.x + b.width, b.y + b.height],
+            Border: [0, 0, 0],
+            A: { Type: 'Action', S: 'URI', URI: PDFString.of(uri) },
+          }),
+        )
+        page.node.addAnnot(annot)
+        break
+      }
+      case 'form-text': {
+        const b = mapRect(op.x, op.y, op.width, op.height, r, W, H)
+        const field = doc.getForm().createTextField(op.name)
+        field.addToPage(page, { x: b.x, y: b.y, width: b.width, height: b.height, font: helv })
+        break
+      }
+      case 'form-check': {
+        const b = mapRect(op.x, op.y, op.size, op.size, r, W, H)
+        const field = doc.getForm().createCheckBox(op.name)
+        field.addToPage(page, { x: b.x, y: b.y, width: b.width, height: b.height })
+        break
+      }
     }
+    if (i % 20 === 0) ctx.progress(10 + (i / Math.max(1, total)) * 80)
   }
   ctx.progress(90)
   return { outputs: [await ctx.putOutput(Buffer.from(await doc.save()), `${baseName(file.name)}-edited.pdf`, PDF_MIME)] }

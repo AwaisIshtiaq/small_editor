@@ -13,12 +13,26 @@ export const LIMITS = {
 type Bucket = { count: number; windowStart: number }
 const buckets = new Map<string, Bucket>()
 
+// clientKey comes from x-forwarded-for (spoofable), so an attacker could
+// mint unlimited keys and balloon the Map. Cap it: at the cap, drop every
+// bucket from an earlier hour-window (they are stale by definition).
+const MAX_BUCKETS = 10_000
+
 function hourWindowStart(now = Date.now()): number {
   return Math.floor(now / 3_600_000) * 3_600_000
 }
 
+function pruneBuckets(): void {
+  const start = hourWindowStart()
+  for (const [k, b] of buckets) {
+    if (b.windowStart !== start) buckets.delete(k)
+    if (buckets.size < MAX_BUCKETS) return
+  }
+}
+
 export function checkTaskRate(clientKey: string): { allowed: boolean; retryAfterSec: number } {
   if (!LIMITS_ENFORCED) return { allowed: true, retryAfterSec: 0 }
+  if (buckets.size >= MAX_BUCKETS) pruneBuckets()
   const start = hourWindowStart()
   const b = buckets.get(clientKey)
   if (!b || b.windowStart !== start) {

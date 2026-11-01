@@ -4,16 +4,16 @@ import type { NextConfig } from "next";
 // CSP notes: Next.js requires inline bootstrap/hydration scripts, so
 // script-src keeps 'unsafe-inline'; everything else is locked to 'self'
 // (blob:/data: only where the PDF/image pipeline needs it).
-// frame-ancestors is open ('*'): the sandbox preview is embedded by the
-// chat platform UI whose origin we cannot enumerate from here (z.ai /
-// chatglm.cn family). The app is a stateless client-side PDF tool demo
-// with no authenticated actions, so clickjacking risk is negligible.
+// Framing: the app is shown inside the z.ai preview iframe, so
+// frame-ancestors whitelists the preview hosts instead of 'none'.
+// X-Frame-Options is omitted on purpose (no multi-origin support;
+// frame-ancestors below governs framing in all modern browsers).
 const securityHeaders = [
   {
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'",
+      "script-src 'self' 'unsafe-inline'",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' blob: data:",
       "media-src 'self' blob:",
@@ -23,11 +23,9 @@ const securityHeaders = [
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
-      "frame-ancestors *",
+      "frame-ancestors 'self' https://*.z.ai https://z.ai https://*.space-z.ai http://localhost:* https://localhost:*",
     ].join("; "),
   },
-  // X-Frame-Options intentionally omitted: CSP frame-ancestors above is the
-  // modern mechanism and DENY would also block the preview gateway iframe.
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   {
