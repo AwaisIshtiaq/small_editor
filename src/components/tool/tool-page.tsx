@@ -338,6 +338,11 @@ export function ToolPage({ tool, info }: { tool: ToolDef; info?: ToolInfo }) {
               {info?.badge ? <span className="bdg">{info.badge.toUpperCase()}</span> : null}
             </h1>
             <p>{info?.sub ?? tool.description}</p>
+            {(info?.pre ?? []).map((p) => (
+              <span key={p} className="pre">
+                {p}
+              </span>
+            ))}
           </div>
         </header>
 

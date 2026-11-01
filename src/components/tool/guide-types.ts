@@ -23,6 +23,9 @@ export type ToolInfo = {
   sub: string
   badge: string
   free: string
+  // Optional pill lines under the hero sub (prototype "pre" field,
+  // e.g. "or start with a blank document" on the PDF editor page).
+  pre?: string[]
   guides: Guide[]
 }
 
