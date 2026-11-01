@@ -1142,9 +1142,9 @@ export function ToolOptions({
           {error}
         </p>
       ) : null}
-      <Button onClick={() => onRun(params)} disabled={running || !!error}>
+      <Button className="pbtn-run" onClick={() => onRun(params)} disabled={running || !!error}>
         {running ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : <Play className="size-4" aria-hidden="true" />}
-        Run
+        Apply changes
       </Button>
     </div>
   )
